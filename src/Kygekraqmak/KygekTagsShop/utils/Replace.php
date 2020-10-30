@@ -30,13 +30,7 @@ namespace Kygekraqmak\KygekTagsShop\utils;
 use pocketmine\Player;
 use Kygekraqmak\KygekTagsShop\TagsShop;
 
-class Replace implements Instanceable {
-
-    private static $instance;
-
-    public function __construct() {
-        self::$instance = $this;
-    }
+class Replace {
 
     public static function replaceGeneric(Player $player, string $text) : string {
         $replace = [
@@ -61,10 +55,6 @@ class Replace implements Instanceable {
         ];
 
         return strtr($text, $replace);
-    }
-
-    public static function getInstance() : self {
-        return self::$instance;
     }
 
 }

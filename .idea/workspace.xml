@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ec35fa4-be7c-4cfe-97f6-4fed034e6c5d" name="Default Changelist" comment="Added files">
-      <change afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Kygekraqmak/KygekTagsShop/TagsShop.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Kygekraqmak/KygekTagsShop/TagsShop.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,6 +63,7 @@
       <workItem from="1604028868744" duration="626000" />
       <workItem from="1604030456000" duration="349000" />
       <workItem from="1604030878705" duration="13279000" />
+      <workItem from="1604057460745" duration="627000" />
     </task>
     <task id="LOCAL-00001" summary="Added files">
       <created>1604055874068</created>
@@ -76,6 +77,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added files" />
