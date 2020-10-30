@@ -1,0 +1,59 @@
+---
+#
+#  PLUGIN BY:
+#   _    __                  _                                     _
+#  | |  / /                 | |                                   | |
+#  | | / /                  | |                                   | |
+#  | |/ / _   _  ____   ____| | ______ ____   _____ ______   ____ | | __
+#  | |\ \| | | |/ __ \ / __ \ |/ /  __/ __ \ / __  | _  _ \ / __ \| |/ /
+#  | | \ \ \_| | <__> |  ___/   <| / | <__> | <__| | |\ |\ | <__> |   <
+#  |_|  \_\__  |\___  |\____|_|\_\_|  \____^_\___  |_||_||_|\____^_\|\_\
+#            | |    | |                          | |
+#         ___/ | ___/ |                          | |
+#        |____/ |____/                           |_|
+#
+# A PocketMine-MP plugin to buy tags with money
+# Copyright (C) 2020 Kygekraqmak
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# he Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+
+config-version: "1.0"
+
+command-desc: ""
+command-aliases: []
+
+main-title: "KygekTagsShop"
+main-content: "You can change this in config.yml"
+main-buy-button: "Buy a Tag"
+main-sell-button: "Sell Your Tag"
+main-exit-button: "Exit from KygekTagsShop"
+
+buy-title: "KygekTagsShop - Buy Tag"
+buy-content: "What tag do you want to buy? You can only have 1 tag at a time!"
+buy-dropdown: "Select tags"
+buy-confirm-title: "KygekTagsShop - Confirmation"
+buy-confirm-content: "Are you sure you want to buy tag for {price}?"
+buy-confirm-agree-button: "Yes"
+buy-confirm-disagree-button: "No"
+
+sell-title: "KygekTagsShop - Sell Tag"
+sell-content: "Do you want to sell your current tag for {price}?"
+sell-button: "Yes"
+
+no-tag-title: "KygekTagsShop - Warning"
+no-tag-content: "You do not have any tag to sell"
+no-tag-button: "Back"
+
+# Whether to return to previous form when the (X) button is pressed (at the top right corner)
+return-when-closed: true
+
+# Format: "DisplayTag:Price"
+tags:
+- "[Tag1]:10000"
+- "[Tag2]:20000"
+- "[Tag3]:50000"
+...
