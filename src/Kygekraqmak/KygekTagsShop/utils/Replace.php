@@ -44,14 +44,14 @@ class Replace {
     public static function replaceTag(Player $player, int $tagid, string $text) : string {
         $tagsshop = TagsShop::getPlugin();
         $currency = $tagsshop->economyAPI->getMonetaryUnit();
-        $price = $tagsshop->economyEnabled ? $currency . $tagsshop->getAPI()->getTagPrice($tagid) : "free";
+        $price = $tagsshop->economyEnabled ? $currency . TagsShop::getAPI()->getTagPrice($tagid) : "free";
         $name = $tagsshop->getAPI()->getTagName($tagid);
 
         $replace = [
             "{player}" => $player->getName(),
             "&" => "§",
-            "{price}" => $price,
-            "{tag}" => $name
+            "{tagprice}" => $price,
+            "{tagname}" => $name
         ];
 
         return strtr($text, $replace);
