@@ -36,7 +36,6 @@ use pocketmine\utils\Config;
 
 class TagsShop extends PluginBase implements Listener {
 
-    public const PREFIX = TF::GREEN . "[KygekTagsShop] " . TF::RESET;
     public const INFO = TF::GREEN;
     public const WARNING = TF::RED;
 
@@ -58,10 +57,10 @@ class TagsShop extends PluginBase implements Listener {
 
     // TODO: Add languages support in future version(s)
     /** @var string[] */
-    public $warning = [
-        "kygektagsshop.warning.filemissing" => self::PREFIX . self::WARNING . "Config and/or data file cannot be found, please restart the server!",
-        "kygektagsshop.warning.notplayer" => self::PREFIX . self::WARNING . "You can only execute this command in-game!",
-        "kygektagsshop.warning.nopermission" => self::PREFIX . self::WARNING . "You do not have permission to use this command!",
+    public $messages = [
+        "kygektagsshop.warning.filemissing" => self::WARNING . "Config and/or data file cannot be found, please restart the server!",
+        "kygektagsshop.warning.notplayer" => self::WARNING . "You can only execute this command in-game!",
+        "kygektagsshop.warning.nopermission" => self::WARNING . "You do not have permission to use this command!",
         "kygektagsshop.notice.outdatedconfig" => "Your configuration file is outdated, updating the config.yml...",
         "kygektagsshop.notice.oldconfiginfo" => "The old configuration file can be found at config_old.yml"
     ];
@@ -108,7 +107,7 @@ class TagsShop extends PluginBase implements Listener {
         $player = $event->getPlayer();
 
         if (!$this->fileExists()) {
-            $player->sendMessage($this->warning["kygektagsshop.warning.filemissing"]);
+            $player->sendMessage($this->messages["kygektagsshop.warning.filemissing"]);
             return;
         }
 
@@ -120,8 +119,8 @@ class TagsShop extends PluginBase implements Listener {
 
     public function checkConfig() {
         if ($this->config["config-version"] !== "1.0") {
-            $this->getLogger()->notice($this->warning["kygektagsshop.notice.outdatedconfig"]);
-            $this->getLogger()->notice($this->warning["kygektagsshop.notice.oldconfiginfo"]);
+            $this->getLogger()->notice($this->messages["kygektagsshop.notice.outdatedconfig"]);
+            $this->getLogger()->notice($this->messages["kygektagsshop.notice.oldconfiginfo"]);
             rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");
             $this->saveResource("config.yml");
         }

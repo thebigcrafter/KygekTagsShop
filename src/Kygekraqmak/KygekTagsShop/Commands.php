@@ -54,17 +54,17 @@ class Commands extends PluginCommand {
 
     public function execute(CommandSender $sender, string $commandLabel, array $args) : bool {
         if (!$sender instanceof Player) {
-            $sender->sendMessage($this->getMain()->warning["kygektagsshop.warning.notplayer"]);
+            $sender->sendMessage($this->getMain()->messages["kygektagsshop.warning.notplayer"]);
             return true;
         }
 
         if (!$sender->hasPermission("kygektagsshop.tags")) {
-            $sender->sendMessage($this->getMain()->warning["kygektagsshop.warning.nopermission"]);
+            $sender->sendMessage($this->getMain()->messages["kygektagsshop.warning.nopermission"]);
             return true;
         }
 
         if (!$this->getMain()->fileExists()) {
-            $sender->sendMessage($this->getMain()->warning["kygektagsshop.warning.filemissing"]);
+            $sender->sendMessage($this->getMain()->messages["kygektagsshop.warning.filemissing"]);
             return true;
         }
 
