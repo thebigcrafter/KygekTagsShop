@@ -4,6 +4,7 @@
     <list default="true" id="5ec35fa4-be7c-4cfe-97f6-4fed034e6c5d" name="Default Changelist" comment="Added files">
       <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Kygekraqmak/KygekTagsShop/Commands.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Kygekraqmak/KygekTagsShop/Commands.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Kygekraqmak/KygekTagsShop/TagsShop.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Kygekraqmak/KygekTagsShop/TagsShop.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -37,7 +38,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -63,7 +64,8 @@
       <workItem from="1604028868744" duration="626000" />
       <workItem from="1604030456000" duration="349000" />
       <workItem from="1604030878705" duration="13279000" />
-      <workItem from="1604057460745" duration="627000" />
+      <workItem from="1604057460745" duration="2938000" />
+      <workItem from="1604118166596" duration="2870000" />
     </task>
     <task id="LOCAL-00001" summary="Added files">
       <created>1604055874068</created>
@@ -72,7 +74,14 @@
       <option name="project" value="LOCAL" />
       <updated>1604055874068</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Code improvements">
+      <created>1604058461649</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1604058461649</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -88,9 +97,11 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added files" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added files" />
+    <MESSAGE value="Code improvements" />
+    <option name="LAST_COMMIT_MESSAGE" value="Code improvements" />
   </component>
 </project>

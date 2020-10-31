@@ -27,45 +27,44 @@ declare(strict_types=1);
 
 namespace Kygekraqmak\KygekTagsShop;
 
-use pocketmine\Player;
+use Kygekraqmak\KygekTagsShop\form\MenuForm;
 use pocketmine\command\CommandSender;
 use pocketmine\command\PluginCommand;
-
-use Kygekraqmak\KygekTagsShop\form\MenuForm;
+use pocketmine\Player;
 
 class Commands extends PluginCommand {
 
     /** @var TagsShop */
-    private $plugin;
+    private $main;
 
-    public function __construct(TagsShop $plugin, string $desc, array $aliases) {
-        $this->plugin = $plugin;
-        $desc = ($desc == null) ? "Buy and sell your tags using money" : $desc;
+    public function __construct(TagsShop $main, string $desc, array $aliases) {
+        $this->main = $main;
+        $desc = (empty($desc)) ? "Buy and sell your tags using money" : $desc;
 
-        parent::__construct("tagsshop", $plugin);
+        parent::__construct("tagsshop", $main);
         $this->setPermission("kygektagsshop.tags");
         $this->setAliases($aliases);
         $this->setUsage("/tagsshop");
         $this->setDescription($desc);
     }
 
-    public function getPlugin() : TagsShop {
-        return $this->plugin;
+    public function getMain() : TagsShop {
+        return $this->main;
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args) : bool {
         if (!$sender instanceof Player) {
-            $sender->sendMessage($this->getPlugin()->warning["kygektagsshop.warning.notplayer"]);
+            $sender->sendMessage($this->getMain()->warning["kygektagsshop.warning.notplayer"]);
             return true;
         }
 
         if (!$sender->hasPermission("kygektagsshop.tags")) {
-            $sender->sendMessage($this->getPlugin()->warning["kygektagsshop.warning.nopermission"]);
+            $sender->sendMessage($this->getMain()->warning["kygektagsshop.warning.nopermission"]);
             return true;
         }
 
-        if (!$this->getPlugin()->fileExists()) {
-            $sender->sendMessage($this->getPlugin()->warning["kygektagsshop.warning.filemissing"]);
+        if (!$this->getMain()->fileExists()) {
+            $sender->sendMessage($this->getMain()->warning["kygektagsshop.warning.filemissing"]);
             return true;
         }
 

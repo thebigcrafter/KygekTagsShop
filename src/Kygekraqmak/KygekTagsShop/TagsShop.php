@@ -98,7 +98,7 @@ class TagsShop extends PluginBase implements Listener {
         $this->config = $this->getConfig()->getAll();
         $this->data = new Config($this->getDataFolder()."data.yml", Config::YAML);
 
-        $cmddesc = ($this->config == null) ? "Buy tags here!" : $this->config["command-desc"];
+        $cmddesc = (empty($this->config)) ? "Buy tags here!" : $this->config["command-desc"];
         $cmdalias = $this->config["command-aliases"];
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->getServer()->getCommandMap()->register("KygekTagsShop", new Commands($this, $cmddesc, $cmdalias));
