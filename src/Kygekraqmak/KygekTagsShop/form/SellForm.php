@@ -35,7 +35,6 @@ use pocketmine\Player;
 class SellForm extends MenuForm {
 
     public static function sellTagForm(Player $player, int $tagid) {
-        // TODO: Change all to ModalForm
         $form = new ModalForm(function (Player $player, bool $data = null) {
             if ($data === null) {
                 if (parent::getMain()->config["return-to-main"]) parent::menuForm($player);
@@ -60,7 +59,11 @@ class SellForm extends MenuForm {
 
     public static function noTagForm(Player $player) {
         $form = new SimpleForm(function (Player $player, int $data = null) {
-
+            if ($data === null) {
+                if (parent::getMain()->config["return-to-main"]) parent::menuForm($player);
+                return true;
+            }
+            if ($data === 0) parent::menuForm($player);
         });
         $form->setTitle(Replace::replaceGeneric($player, parent::getMain()->config["no-tag-title"]));
         $form->setContent(Replace::replaceGeneric($player, parent::getMain()->config["no-tag-content"]));
