@@ -52,8 +52,8 @@ class SellForm extends MenuForm {
 
         $form->setTitle(Replace::replaceGeneric($player, parent::getMain()->config["sell-title"]));
         $form->setContent(Replace::replaceTag($player, $tagid, parent::getMain()->config["sell-content"]));
-        $form->setButton1(Replace::replaceGeneric($player, parent::getMain()->config["sell-button"]));
-        $form->setButton2(Replace::replaceGeneric($player, parent::getMain()->config["return-button"]));
+        $form->setButton1(Replace::replaceGeneric($player, parent::getMain()->config["sell-agree-button"]));
+        $form->setButton2(Replace::replaceGeneric($player, parent::getMain()->config["sell-disagree-button"]));
         $player->sendForm($form);
     }
 
