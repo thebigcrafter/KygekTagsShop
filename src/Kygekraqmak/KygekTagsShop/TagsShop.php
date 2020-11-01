@@ -84,8 +84,8 @@ class TagsShop extends PluginBase implements Listener {
     }
 
     public function onEnable() {
-        $plugin = $this->getServer()->getPluginManager()->getPlugin("EconomyAPI");
-        if ($plugin === null xor !$plugin->isEnabled()) {
+        $economyapi = $this->getServer()->getPluginManager()->getPlugin("EconomyAPI");
+        if ($economyapi === null xor !$economyapi->isEnabled()) {
             $this->economyEnabled = false;
             $this->getLogger()->notice("EconomyAPI plugin is not installed or enabled, all tags will be free");
         } else {
@@ -96,6 +96,11 @@ class TagsShop extends PluginBase implements Listener {
         $this->checkConfig();
         $this->config = $this->getConfig()->getAll();
         $this->data = new Config($this->getDataFolder()."data.yml", Config::YAML);
+
+        if (empty($this->config["tags"])) {
+            $this->getLogger()->error("Tags cannot be empty, disabling plugin...");
+            $this->getServer()->getPluginManager()->disablePlugin($this);
+        }
 
         $cmddesc = (empty($this->config)) ? "Buy tags here!" : $this->config["command-desc"];
         $cmdalias = $this->config["command-aliases"];
@@ -117,7 +122,7 @@ class TagsShop extends PluginBase implements Listener {
         }
     }
 
-    public function checkConfig() {
+    private function checkConfig() {
         if ($this->config["config-version"] !== "1.0") {
             $this->getLogger()->notice($this->messages["kygektagsshop.notice.outdatedconfig"]);
             $this->getLogger()->notice($this->messages["kygektagsshop.notice.oldconfiginfo"]);
