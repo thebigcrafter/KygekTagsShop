@@ -12,48 +12,70 @@
 #         ___/ | ___/ |                          | |
 #        |____/ |____/                           |_|
 #
-# A PocketMine-MP plugin to buy tags with money
-# Copyright (C) 2020 Kygekraqmak
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# he Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+# KygekTagsShop configuration file
+# KygekTagsShop is included with API for plugin developers
+# See https://github.com/Kygekraqmak/KygekTagsShop/wiki for API documentation
 #
 
-config-version: "1.0"
-
+##### COMMAND SETTINGS #####
+# Change the command description that will be shown in help pages and command suggestions
+# Leave empty to use the default command description
 command-desc: ""
+# Add command aliases for /tagsshop command (Leave empty if you don't want to add command aliases)
+# Do not use "/" in front of the commands!
 command-aliases: []
+#############################
 
-main-title: "KygekTagsShop"
+##### FORM SETTINGS #####
+# Whether to return to previous form when the (X) button is pressed (at the top right corner)
+return-when-closed: true
+
+# KygekTagsShop main form
+# Use "{player}" to display the player name, "&" as formatting codes, "\n" to break new line
+main-title: "KygekTagsShop - Menu"
 main-content: "You can change this in config.yml"
 main-buy-button: "Buy a Tag"
 main-sell-button: "Sell Your Tag"
 main-exit-button: "Exit from KygekTagsShop"
 
+# KygekTagsShop buy tags form
+# Use "{player}" to display the player name, "&" as formatting codes, "\n" to break new line
 buy-title: "KygekTagsShop - Buy Tag"
 buy-content: "What tag do you want to buy? You can only have 1 tag at a time!"
-buy-dropdown: "Select tags"
+buy-dropdown: "Select tag you want to buy"
 buy-confirm-title: "KygekTagsShop - Confirmation"
-buy-confirm-content: "Are you sure you want to buy tag for {price}?"
+# You can use "{tagname}" to display tag name and "{tagprice}" to display tag price in buy-confirm-content
+buy-confirm-content: "Are you sure you want to buy the tag {tagname} for {tagprice}?"
 buy-confirm-agree-button: "Yes"
 buy-confirm-disagree-button: "No"
 
+# KygekTagsShop sell tags form
+# Use "{player}" to display the player name, "&" as formatting codes, "\n" to break new line
 sell-title: "KygekTagsShop - Sell Tag"
-sell-content: "Do you want to sell your current tag for {price}?"
-sell-button: "Yes"
-
+# You can use "{tagname}" to display tag name and "{tagprice}" to display tag price in sell-content
+sell-content: "Are you sure you want to sell your current tag ({tagname}) for {tagprice}?"
+sell-agree-button: "Yes"
+sell-disagree-button: "No"
 no-tag-title: "KygekTagsShop - Warning"
 no-tag-content: "You do not have any tag to sell"
 no-tag-button: "Back"
+#########################
 
-# Whether to return to previous form when the (X) button is pressed (at the top right corner)
-return-when-closed: true
-
+##### TAGS SETTINGS #####
+# List of KygekTagsShop tags
+#
 # Format: "DisplayTag:Price"
+#
+# All tags price will be free if EconomyAPI plugin is not enabled
+# If empty, the plugin will be disabled automatically to prevent errors
 tags:
 - "[Tag1]:10000"
 - "[Tag2]:20000"
 - "[Tag3]:50000"
+#########################
+
+##### DANGER ZONE #####
+# Do not change this (Only for internal use)!
+config-version: "1.0"
+#######################
 ...
