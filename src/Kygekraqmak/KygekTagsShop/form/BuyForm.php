@@ -29,6 +29,7 @@ namespace Kygekraqmak\KygekTagsShop\form;
 
 use jojoe77777\FormAPI\ModalForm;
 use jojoe77777\FormAPI\CustomForm;
+use Kygekraqmak\KygekTagsShop\TagsShop;
 use Kygekraqmak\KygekTagsShop\utils\Replace;
 use pocketmine\Player;
 
@@ -36,7 +37,7 @@ class BuyForm extends MenuForm {
 
     public static function tagsListForm(Player $player) {
         $tagdisplay = [];
-        foreach (parent::getMain()->getAPI()->getAllTags() as $tags) {
+        foreach (TagsShop::getAPI()->getAllTags() as $tags) {
             $tagdisplay[] = array_keys($tags)[0];
         }
 
@@ -45,7 +46,7 @@ class BuyForm extends MenuForm {
                 if (parent::getMain()->config["return-to-main"]) parent::menuForm($player);
                 return true;
             }
-            // TODO: Pass the selected tag to comfirm buy form
+            self::confirmBuyForm($player, $data);
         });
 
         $form->setTitle(Replace::replaceGeneric($player, parent::getMain()->config["buy-title"]));
@@ -54,15 +55,15 @@ class BuyForm extends MenuForm {
         $player->sendForm($form);
     }
 
-    public static function confimBuyForm(Player $player) {
-        $form = new ModalForm(function (Player $player, bool $data = null) {
+    public static function confirmBuyForm(Player $player, int $tagid) {
+        $form = new ModalForm(function (Player $player, bool $data = null) use ($tagid) {
             if ($data === null) {
                 if (parent::getMain()->config["return-to-main"]) self::tagsListForm($player);
                 return true;
             }
             switch ($data) {
                 case true:
-                    // TODO: Set tag to player
+                    TagsShop::getAPI()->setPlayerTag($player, $tagid);
                     break;
                 case false:
                     self::tagsListForm($player);
@@ -71,7 +72,7 @@ class BuyForm extends MenuForm {
         });
 
         $form->setTitle(Replace::replaceGeneric($player, parent::getMain()->config["buy-confirm-title"]));
-        $form->setContent(Replace::replaceGeneric($player, parent::getMain()->config["buy-confirm-content"]));
+        $form->setContent(Replace::replaceTag($player, $tagid, parent::getMain()->config["buy-confirm-content"]));
         $form->setButton1(Replace::replaceGeneric($player, parent::getMain()->config["buy-confirm-agree-button"]));
         $form->setButton2(Replace::replaceGeneric($player, parent::getMain()->config["buy-confirm-disagree-button"]));
         $player->sendForm($form);
