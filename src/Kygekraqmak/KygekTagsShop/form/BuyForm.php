@@ -46,7 +46,7 @@ class BuyForm extends MenuForm {
                 if (parent::getMain()->config["return-to-main"]) parent::menuForm($player);
                 return true;
             }
-            self::confirmBuyForm($player, $data);
+            self::confirmBuyForm($player, $data[0]);
         });
 
         $form->setTitle(Replace::replaceGeneric($player, parent::getMain()->config["buy-title"]));
