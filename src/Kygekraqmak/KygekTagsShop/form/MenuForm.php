@@ -39,7 +39,7 @@ class MenuForm {
     }
 
     public static function menuForm(Player $player) {
-        $form = new SimpleForm(function (Player $player, int $data = null) {
+        $form = new SimpleForm(function (Player $player, $data = null) {
             if ($data === null) return true;
             switch ($data) {
                 case 0:

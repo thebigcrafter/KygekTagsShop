@@ -27,7 +27,6 @@ declare(strict_types=1);
 
 namespace Kygekraqmak\KygekTagsShop\form;
 
-use jojoe77777\FormAPI\ModalForm;
 use jojoe77777\FormAPI\SimpleForm;
 use Kygekraqmak\KygekTagsShop\utils\Replace;
 use pocketmine\Player;
@@ -35,16 +34,16 @@ use pocketmine\Player;
 class SellForm extends MenuForm {
 
     public static function sellTagForm(Player $player, int $tagid) {
-        $form = new ModalForm(function (Player $player, bool $data = null) {
+        $form = new SimpleForm(function (Player $player, $data = null) {
             if ($data === null) {
                 if (parent::getMain()->config["return-to-main"]) parent::menuForm($player);
                 return true;
             }
             switch ($data) {
-                case true:
+                case 0:
                     parent::getMain()->getAPI()->unsetPlayerTag($player);
                 break;
-                case false:
+                case 1:
                     parent::menuForm($player);
                 break;
             }
@@ -52,13 +51,13 @@ class SellForm extends MenuForm {
 
         $form->setTitle(Replace::replaceGeneric($player, parent::getMain()->config["sell-title"]));
         $form->setContent(Replace::replaceTag($player, $tagid, parent::getMain()->config["sell-content"]));
-        $form->setButton1(Replace::replaceGeneric($player, parent::getMain()->config["sell-agree-button"]));
-        $form->setButton2(Replace::replaceGeneric($player, parent::getMain()->config["sell-disagree-button"]));
+        $form->addButton(Replace::replaceGeneric($player, parent::getMain()->config["sell-agree-button"]));
+        $form->addButton(Replace::replaceGeneric($player, parent::getMain()->config["sell-disagree-button"]));
         $player->sendForm($form);
     }
 
     public static function noTagForm(Player $player) {
-        $form = new SimpleForm(function (Player $player, int $data = null) {
+        $form = new SimpleForm(function (Player $player, $data = null) {
             if ($data === null) {
                 if (parent::getMain()->config["return-to-main"]) parent::menuForm($player);
                 return true;
