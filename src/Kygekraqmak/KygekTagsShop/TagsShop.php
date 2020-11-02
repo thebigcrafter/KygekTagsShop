@@ -88,6 +88,7 @@ class TagsShop extends PluginBase implements Listener {
         if ($economyapi === null xor !$economyapi->isEnabled()) {
             $this->economyEnabled = false;
             $this->getLogger()->notice("EconomyAPI plugin is not installed or enabled, all tags will be free");
+            $this->economyAPI = null;
         } else {
             $this->economyAPI = EconomyAPI::getInstance();
         }
