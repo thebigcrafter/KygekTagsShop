@@ -27,7 +27,6 @@ declare(strict_types=1);
 
 namespace Kygekraqmak\KygekTagsShop;
 
-use onebone\economyapi\EconomyAPI;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\plugin\PluginBase;
@@ -47,7 +46,7 @@ class TagsShop extends PluginBase implements Listener {
     /** @var bool */
     public $economyEnabled = true;
 
-    /** @var EconomyAPI */
+    /** @var onebone\economyapi\EconomyAPI|null */
     public $economyAPI;
 
     /** @var TagsActions */
