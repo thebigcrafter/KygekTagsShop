@@ -29,6 +29,7 @@ namespace Kygekraqmak\KygekTagsShop;
 
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat as TF;
 use pocketmine\utils\Config;
@@ -46,7 +47,7 @@ class TagsShop extends PluginBase implements Listener {
     /** @var bool */
     public $economyEnabled = true;
 
-    /** @var onebone\economyapi\EconomyAPI|null */
+    /** @var Plugin|null */
     public $economyAPI;
 
     /** @var TagsActions */
@@ -89,7 +90,7 @@ class TagsShop extends PluginBase implements Listener {
             $this->getLogger()->notice("EconomyAPI plugin is not installed or enabled, all tags will be free");
             $this->economyAPI = null;
         } else {
-            $this->economyAPI = EconomyAPI::getInstance();
+            $this->economyAPI = $economyapi;
         }
 
         $this->saveResource("config.yml");

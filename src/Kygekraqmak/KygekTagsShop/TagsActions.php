@@ -28,6 +28,7 @@ declare(strict_types=1);
 namespace Kygekraqmak\KygekTagsShop;
 
 use pocketmine\Player;
+use pocketmine\plugin\Plugin;
 
 /**
  * Class TagsActions
@@ -49,7 +50,7 @@ class TagsActions {
 
     /** @var bool */
     private $economyEnabled;
-    /** @var onebone\economyapi\EconomyAPI|null */
+    /** @var Plugin|null */
     private $economyAPI;
 
     public function __construct() {
