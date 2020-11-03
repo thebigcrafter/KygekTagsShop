@@ -43,6 +43,9 @@ class TagsActions {
     /** @var array */
     private $tags = [];
 
+    /** @var TagsShop */
+    private $plugin;
+
     /** @var array */
     private $config;
     /** @var array */
@@ -54,10 +57,11 @@ class TagsActions {
     private $economyAPI;
 
     public function __construct() {
-        $this->config = TagsShop::getPlugin()->config;
-        $this->data = TagsShop::getPlugin()->data;
-        $this->economyEnabled = TagsShop::getPlugin()->economyEnabled;
-        $this->economyAPI = TagsShop::getPlugin()->economyAPI;
+        $this->plugin = TagsShop::getPlugin();
+        $this->config = $this->plugin->config;
+        $this->data = $this->plugin->data;
+        $this->economyEnabled = $this->plugin->economyEnabled;
+        $this->economyAPI = $this->plugin->economyAPI;
     }
 
     /**
@@ -142,7 +146,7 @@ class TagsActions {
      */
     public function unsetPlayerTag(Player $player) {
         if (!$this->playerHasTag($player)) {
-            $player->sendMessage(TagsShop::WARNING . "You cannot buy tags because you haven't owned a tag!");
+            $player->sendMessage($this->plugin->messages["kygektagsshop.warning.playerhasnotag"]);
             return;
         }
 
@@ -150,8 +154,13 @@ class TagsActions {
         $player->setDisplayName($player->getName());
 
         if ($this->economyEnabled) {
-            $this->economyAPI->addMoney($player, $this->getTagPrice($this->getPlayerTag($player)));
+            $tagprice = $this->getTagPrice($this->getPlayerTag($player));
+            $this->economyAPI->addMoney($player, $tagprice);
+            $player->sendMessage(str_replace("{price}", $tagprice, $this->plugin->messages["kygektagsshop.info.economyselltagsuccess"]));
+            return;
         }
+
+        $player->sendMessage($this->plugin->messages["kygektagsshop.info.freeselltagsuccess"]);
     }
 
     /**
@@ -163,29 +172,30 @@ class TagsActions {
     public function setPlayerTag(Player $player, int $tagid) {
 
         if ($this->playerHasTag($player)) {
-            $player->sendMessage(TagsShop::WARNING . "You cannot buy tags because you have owned a tag!");
+            $player->sendMessage($this->plugin->messages["kygektagsshop.warning.playerhastag"]);
             return;
         }
 
-        $playermoney = $this->economyAPI->myMoney($player);
-        $tagprice = $this->getTagPrice($tagid);
-        $currency = $this->economyAPI->getMonetaryUnit();
-
         if ($this->economyEnabled) {
+            $playermoney = $this->economyAPI->myMoney($player);
+            $tagprice = $this->getTagPrice($tagid);
+            $currency = $this->economyAPI->getMonetaryUnit();
+            $money = $currency . $tagprice - $playermoney;
+
             if ($playermoney < $tagprice) {
-                $player->sendMessage(TagsShop::WARNING . "You need " . $currency . $tagprice - $playermoney . "to buy this tag!");
+                $player->sendMessage(str_replace("{price}", $money, $this->plugin->messages["kygektagsshop.warning.notenoughmoney"]));
                 return;
             }
 
             $this->setData($player, $tagid);
             $player->setDisplayName($player->getDisplayName() . " " . $this->getTagName($tagid));
-            $player->sendMessage(TagsShop::INFO . "Successfully set your tag to " . $this->getTagName($tagid) . " for " . $currency . $tagprice);
+            $player->sendMessage(str_replace("{price}", $tagprice, $this->plugin->messages["kygektagsshop.info.economybuytagsuccess"]));
             return;
         }
 
         $this->setData($player, $tagid);
         $player->setDisplayName($player->getName() . " " . $this->getTagName($tagid));
-        $player->sendMessage(TagsShop::INFO . "Successfully set your tag to " . $this->getTagName($tagid));
+        $player->sendMessage($this->plugin->messages["kygektagsshop.info.freebuytagsuccess"]);
     }
 
     /**
