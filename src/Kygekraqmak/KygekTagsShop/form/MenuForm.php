@@ -35,7 +35,7 @@ use pocketmine\Player;
 class MenuForm {
 
     protected static function getMain() : TagsShop {
-        return TagsShop::getPlugin();
+        return TagsShop::getInstance();
     }
 
     public static function menuForm(Player $player) {
@@ -43,10 +43,14 @@ class MenuForm {
             if ($data === null) return true;
             switch ($data) {
                 case 0:
-                    BuyForm::tagsListForm($player);
+                    if (TagsShop::getAPI()->playerHasTag($player)) {
+                        BuyForm::tagExistsForm($player);
+                    } else {
+                        BuyForm::tagsListForm($player);
+                    }
                     break;
                 case 1:
-                    $tagid = self::getMain()->getAPI()->getPlayerTag($player);
+                    $tagid = TagsShop::getAPI()->getPlayerTag($player);
                     if ($tagid === null) {
                         SellForm::noTagForm($player);
                     } else {

@@ -43,10 +43,10 @@ class BuyForm extends MenuForm {
 
         $form = new CustomForm(function (Player $player, $data = null) {
             if ($data === null) {
-                if (parent::getMain()->config["return-to-main"]) parent::menuForm($player);
+                if (parent::getMain()->config["return-when-closed"]) parent::menuForm($player);
                 return true;
             }
-            self::confirmBuyForm($player, $data[0]);
+            self::confirmBuyForm($player, $data[1]);
         });
 
         $form->setTitle(Replace::replaceGeneric($player, parent::getMain()->config["buy-title"]));
@@ -55,10 +55,24 @@ class BuyForm extends MenuForm {
         $player->sendForm($form);
     }
 
+    public static function tagExistsForm(Player $player) {
+        $form = new SimpleForm(function (Player $player, $data = null) {
+            if ($data === null) {
+                if (parent::getMain()->config["return-when-closed"]) self::tagsListForm($player);
+                return true;
+            }
+            if ($data === 0) parent::menuForm($player);
+        });
+        $form->setTitle(Replace::replaceGeneric($player, parent::getMain()->config["tag-exists-title"]));
+        $form->setContent(Replace::replaceGeneric($player, parent::getMain()->config["tag-exists-content"]));
+        $form->addButton(Replace::replaceGeneric($player, parent::getMain()->config["tag-exists-button"]));
+        $player->sendForm($form);
+    }
+
     public static function confirmBuyForm(Player $player, int $tagid) {
         $form = new SimpleForm(function (Player $player, $data = null) use ($tagid) {
             if ($data === null) {
-                if (parent::getMain()->config["return-to-main"]) self::tagsListForm($player);
+                if (parent::getMain()->config["return-when-closed"]) self::tagsListForm($player);
                 return true;
             }
             switch ($data) {

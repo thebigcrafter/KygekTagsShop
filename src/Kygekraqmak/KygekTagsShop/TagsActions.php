@@ -40,9 +40,6 @@ class TagsActions {
 
     public const API_VERSION = 1.0;
 
-    /** @var array */
-    private $tags = [];
-
     /** @var TagsShop */
     private $plugin;
 
@@ -57,7 +54,7 @@ class TagsActions {
     private $economyAPI;
 
     public function __construct() {
-        $this->plugin = TagsShop::getPlugin();
+        $this->plugin = TagsShop::getInstance();
         $this->config = $this->plugin->config;
         $this->data = $this->plugin->data;
         $this->economyEnabled = $this->plugin->economyEnabled;
@@ -72,12 +69,13 @@ class TagsActions {
      * @return array
      */
     public function getAllTags() : array {
+        $alltags = [];
         foreach ($this->config["tags"] as $tag) {
             $tag = explode(":", $tag);
-            $this->tags[][$tag[0]] = $tag[1];
+            $alltags[][$tag[0]] = $tag[1];
         }
 
-        return $this->tags;
+        return $alltags;
     }
 
     /**
@@ -150,16 +148,18 @@ class TagsActions {
             return;
         }
 
-        $this->removeData($player);
-        $player->setDisplayName($player->getName());
-
         if ($this->economyEnabled) {
             $tagprice = $this->getTagPrice($this->getPlayerTag($player));
+            $currency = $this->economyAPI->getMonetaryUnit();
             $this->economyAPI->addMoney($player, $tagprice);
-            $player->sendMessage(str_replace("{price}", $tagprice, $this->plugin->messages["kygektagsshop.info.economyselltagsuccess"]));
+            $player->sendMessage(str_replace("{price}", $currency . $tagprice, $this->plugin->messages["kygektagsshop.info.economyselltagsuccess"]));
+            $this->removeData($player);
+            $player->setDisplayName($player->getName());
             return;
         }
 
+        $this->removeData($player);
+        $player->setDisplayName($player->getName());
         $player->sendMessage($this->plugin->messages["kygektagsshop.info.freeselltagsuccess"]);
     }
 
@@ -180,7 +180,7 @@ class TagsActions {
             $playermoney = $this->economyAPI->myMoney($player);
             $tagprice = $this->getTagPrice($tagid);
             $currency = $this->economyAPI->getMonetaryUnit();
-            $money = $currency . $tagprice - $playermoney;
+            $money = $currency . ($tagprice - $playermoney);
 
             if ($playermoney < $tagprice) {
                 $player->sendMessage(str_replace("{price}", $money, $this->plugin->messages["kygektagsshop.warning.notenoughmoney"]));
@@ -188,8 +188,9 @@ class TagsActions {
             }
 
             $this->setData($player, $tagid);
+            $this->economyAPI->reduceMoney($player, $tagprice);
             $player->setDisplayName($player->getDisplayName() . " " . $this->getTagName($tagid));
-            $player->sendMessage(str_replace("{price}", $tagprice, $this->plugin->messages["kygektagsshop.info.economybuytagsuccess"]));
+            $player->sendMessage(str_replace("{price}", $currency . $tagprice, $this->plugin->messages["kygektagsshop.info.economybuytagsuccess"]));
             return;
         }
 
@@ -270,7 +271,7 @@ class TagsActions {
      * @return string
      */
     public function getDataLocation() : string {
-        return TagsShop::getPlugin()->getDataFolder() . "data.yml";
+        return $this->plugin->getDataFolder() . "data.yml";
     }
 
 }

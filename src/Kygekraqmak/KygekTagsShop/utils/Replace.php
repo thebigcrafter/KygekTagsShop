@@ -42,10 +42,11 @@ class Replace {
     }
 
     public static function replaceTag(Player $player, int $tagid, string $text) : string {
-        $tagsshop = TagsShop::getPlugin();
-        $currency = $tagsshop->economyAPI->getMonetaryUnit();
-        $price = $tagsshop->economyEnabled ? $currency . TagsShop::getAPI()->getTagPrice($tagid) : "free";
-        $name = $tagsshop->getAPI()->getTagName($tagid);
+        $tagsshop = TagsShop::getInstance();
+        $api = TagsShop::getAPI();
+        $currency = $tagsshop->economyEnabled ? $tagsshop->economyAPI->getMonetaryUnit() : "";
+        $price = ($tagsshop->economyEnabled and $api->tagExists($tagid)) ? $currency . $api->getTagPrice($tagid) : "free";
+        $name = $api->getTagName($tagid) ?? "Unknown tag";
 
         $replace = [
             "{player}" => $player->getName(),

@@ -37,6 +37,7 @@ use pocketmine\utils\Config;
 class TagsShop extends PluginBase implements Listener {
 
     private const ROOT = "kygektagsshop";
+    private const PREFIX = "§a[KygekTagsShop] §r";
     public const INFO = TF::GREEN;
     public const WARNING = TF::RED;
 
@@ -54,21 +55,21 @@ class TagsShop extends PluginBase implements Listener {
     /** @var TagsActions */
     private static $api;
     /** @var TagsShop */
-    private static $plugin;
+    private static $instance = null;
 
     // TODO: Add languages support in future version(s)
     /** @var string[] */
     public $messages = [
-        self::ROOT . ".warning.filemissing" => self::WARNING . "Config and/or data file cannot be found, please restart the server!",
-        self::ROOT . ".warning.notplayer" => self::WARNING . "You can only execute this command in-game!",
-        self::ROOT . ".warning.nopermission" => self::WARNING . "You do not have permission to use this command!",
-        self::ROOT . ".warning.playerhastag" => self::WARNING . "You cannot buy tags because you have owned a tag!",
-        self::ROOT . ".warning.playerhasnotag" => self::WARNING . "You cannot buy tags because you haven't owned a tag!",
-        self::ROOT . ".warning.notenoughmoney" => self::WARNING . "You need {price} more to buy this tag!",
-        self::ROOT . ".info.economybuytagsuccess" => self::INFO . "Successfully set your tag for {price}",
-        self::ROOT . ".info.freebuytagsuccess" => self::INFO . "Successfully set your tag",
-        self::ROOT . ".info.economyselltagsuccess" => self::INFO . "Successfully sold your tag for {price}",
-        self::ROOT . ".info.freeselltagsuccess" => self::INFO . "Successfully sold your tag",
+        self::ROOT . ".warning.filemissing" => self::PREFIX . self::WARNING . "Config and/or data file cannot be found, please restart the server!",
+        self::ROOT . ".warning.notplayer" => self::PREFIX . self::WARNING . "You can only execute this command in-game!",
+        self::ROOT . ".warning.nopermission" => self::PREFIX . self::WARNING . "You do not have permission to use this command!",
+        self::ROOT . ".warning.playerhastag" => self::PREFIX . self::WARNING . "You cannot buy tags because you have owned a tag!",
+        self::ROOT . ".warning.playerhasnotag" => self::PREFIX . self::WARNING . "You cannot buy tags because you haven't owned a tag!",
+        self::ROOT . ".warning.notenoughmoney" => self::PREFIX . self::WARNING . "You need {price} more to buy this tag!",
+        self::ROOT . ".info.economybuytagsuccess" => self::PREFIX . self::INFO . "Successfully set your tag for {price}",
+        self::ROOT . ".info.freebuytagsuccess" => self::PREFIX . self::INFO . "Successfully set your tag",
+        self::ROOT . ".info.economyselltagsuccess" => self::PREFIX . self::INFO . "Successfully sold your tag for {price}",
+        self::ROOT . ".info.freeselltagsuccess" => self::PREFIX . self::INFO . "Successfully sold your tag",
         self::ROOT . ".notice.outdatedconfig" => "Your configuration file is outdated, updating the config.yml...",
         self::ROOT . ".notice.oldconfiginfo" => "The old configuration file can be found at config_old.yml",
         self::ROOT . ".notice.noeconomyapi" => "EconomyAPI plugin is not installed or enabled, all tags will be free",
@@ -84,18 +85,14 @@ class TagsShop extends PluginBase implements Listener {
         return self::$api;
     }
 
-    public static function getPlugin() : self {
-        return self::$plugin;
-    }
-
-    public function onLoad() {
-        self::$api = new TagsActions();
-        self::$plugin = $this;
+    public static function getInstance() {
+        return self::$instance;
     }
 
     public function onEnable() {
+        self::$instance = $this;
         $economyapi = $this->getServer()->getPluginManager()->getPlugin("EconomyAPI");
-        if ($economyapi === null xor !$economyapi->isEnabled()) {
+        if ($economyapi === null) {
             $this->economyEnabled = false;
             $this->getLogger()->notice($this->messages["kygektagsshop.notice.noeconomyapi"]);
             $this->economyAPI = null;
@@ -104,8 +101,8 @@ class TagsShop extends PluginBase implements Listener {
         }
 
         $this->saveResource("config.yml");
-        $this->checkConfig();
         $this->config = $this->getConfig()->getAll();
+        $this->checkConfig();
         $this->data = new Config($this->getDataFolder()."data.yml", Config::YAML);
 
         if (empty($this->config["tags"])) {
@@ -117,6 +114,7 @@ class TagsShop extends PluginBase implements Listener {
         $cmdalias = $this->config["command-aliases"];
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->getServer()->getCommandMap()->register("KygekTagsShop", new Commands($this, $cmddesc, $cmdalias));
+        self::$api = new TagsActions();
     }
 
     public function onJoin(PlayerJoinEvent $event) {
@@ -128,8 +126,12 @@ class TagsShop extends PluginBase implements Listener {
         }
 
         if (self::getAPI()->playerHasTag($player)) {
-            $tagid = $this->getAPI()->getPlayerTag($player);
-            $player->setNameTag($player->getName() . $this->getAPI()->getTagName($tagid));
+            $tagid = self::getAPI()->getPlayerTag($player);
+            if (self::getAPI()->tagExists($tagid)) {
+                $player->setDisplayName($player->getName() . " " . $this->getAPI()->getTagName($tagid));
+            } else {
+                self::getAPI()->unsetPlayerTag($player);
+            }
         }
     }
 
@@ -147,6 +149,5 @@ class TagsShop extends PluginBase implements Listener {
         $data = $this->getDataFolder() . "data.yml";
         return file_exists($config) or file_exists($data);
     }
-
 
 }

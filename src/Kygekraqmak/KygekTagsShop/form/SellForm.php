@@ -36,7 +36,7 @@ class SellForm extends MenuForm {
     public static function sellTagForm(Player $player, int $tagid) {
         $form = new SimpleForm(function (Player $player, $data = null) {
             if ($data === null) {
-                if (parent::getMain()->config["return-to-main"]) parent::menuForm($player);
+                if (parent::getMain()->config["return-when-closed"]) parent::menuForm($player);
                 return true;
             }
             switch ($data) {
@@ -59,7 +59,7 @@ class SellForm extends MenuForm {
     public static function noTagForm(Player $player) {
         $form = new SimpleForm(function (Player $player, $data = null) {
             if ($data === null) {
-                if (parent::getMain()->config["return-to-main"]) parent::menuForm($player);
+                if (parent::getMain()->config["return-when-closed"]) parent::menuForm($player);
                 return true;
             }
             if ($data === 0) parent::menuForm($player);
