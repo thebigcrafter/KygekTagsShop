@@ -27,7 +27,6 @@ main: Kygekraqmak\KygekTagsShop\TagsShop
 api: 3.0.0
 author: Kygekraqmak
 softdepend: EconomyAPI
-prefix: "§a[KygekTagsShop] §r"
 
 permissions:
   kygektagsshop.tags:
