@@ -77,6 +77,9 @@ tags:
 - "[Tag3]:50000"
 #########################
 
+# Whether to check for plugin updates (Recommended)
+check-updates: true
+
 ##### DANGER ZONE #####
 # Do not change this (Only for internal use)!
 config-version: "1.0"

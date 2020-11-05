@@ -27,6 +27,7 @@ declare(strict_types=1);
 
 namespace Kygekraqmak\KygekTagsShop;
 
+use JackMD\UpdateNotifier\UpdateNotifier;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\plugin\Plugin;
@@ -115,6 +116,10 @@ class TagsShop extends PluginBase implements Listener {
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->getServer()->getCommandMap()->register("KygekTagsShop", new Commands($this, $cmddesc, $cmdalias));
         self::$api = new TagsActions();
+
+        if ($this->getConfig()->get("check-updates", true)) {
+            UpdateNotifier::checkUpdate($this->getDescription()->getName(), $this->getDescription()->getVersion());
+        }
     }
 
     public function onJoin(PlayerJoinEvent $event) {
