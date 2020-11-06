@@ -109,6 +109,7 @@ class TagsShop extends PluginBase implements Listener {
         if (empty($this->config["tags"])) {
             $this->getLogger()->error($this->messages["kygektagsshop.error.notags"]);
             $this->getServer()->getPluginManager()->disablePlugin($this);
+            return;
         }
 
         $cmddesc = (empty($this->config)) ? "Buy tags here!" : $this->config["command-desc"];
