@@ -63,13 +63,15 @@ class TagsActions {
 
     /**
      * Get tags in config file
-     * Returns an multidimensional associative array (ID => [tag => price])
+     * Returns an multidimensional associative array (ID => [tag => price]) or null if there are no tags
      * ID always starts from 0 and is ordered as that of in config file
      *
-     * @return array
+     * @return null|array
      */
-    public function getAllTags() : array {
+    public function getAllTags() : ?array {
         $alltags = [];
+        if (empty($this->config["tags"])) return null;
+
         foreach ($this->config["tags"] as $tag) {
             $tag = explode(":", $tag);
             $alltags[][$tag[0]] = $tag[1];
