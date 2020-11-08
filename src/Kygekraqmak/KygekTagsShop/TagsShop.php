@@ -104,7 +104,7 @@ class TagsShop extends PluginBase implements Listener {
         $this->saveResource("config.yml");
         $this->config = $this->getConfig()->getAll();
         $this->checkConfig();
-        $this->data = new Config($this->getDataFolder()."data.yml", Config::YAML);
+        $this->data = new Config($this->getDataFolder()."data.json", Config::JSON);
 
         if (empty($this->config["tags"])) {
             $this->getLogger()->error($this->messages["kygektagsshop.error.notags"]);
@@ -152,7 +152,7 @@ class TagsShop extends PluginBase implements Listener {
 
     public function fileExists() : bool {
         $config = $this->getDataFolder() . "config.yml";
-        $data = $this->getDataFolder() . "data.yml";
+        $data = $this->getDataFolder() . "data.json";
         return file_exists($config) or file_exists($data);
     }
 

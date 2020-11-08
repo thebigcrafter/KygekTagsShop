@@ -273,7 +273,7 @@ class TagsActions {
      * @return string
      */
     public function getDataLocation() : string {
-        return $this->plugin->getDataFolder() . "data.yml";
+        return $this->plugin->getDataFolder() . "data.json";
     }
 
 }
