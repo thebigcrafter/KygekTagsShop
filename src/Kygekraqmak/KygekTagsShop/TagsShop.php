@@ -38,7 +38,7 @@ use pocketmine\utils\Config;
 class TagsShop extends PluginBase implements Listener {
 
     private const ROOT = "kygektagsshop";
-    private const PREFIX = "§a[KygekTagsShop] §r";
+    private const PREFIX = TF::YELLOW . "[KygekTagsShop] " . TF::RESET;
     public const INFO = TF::GREEN;
     public const WARNING = TF::RED;
 
@@ -135,8 +135,6 @@ class TagsShop extends PluginBase implements Listener {
             $tagid = self::getAPI()->getPlayerTag($player);
             if (self::getAPI()->tagExists($tagid)) {
                 $player->setDisplayName($player->getName() . " " . $this->getAPI()->getTagName($tagid));
-            } else {
-                self::getAPI()->unsetPlayerTag($player);
             }
         }
     }
@@ -147,6 +145,7 @@ class TagsShop extends PluginBase implements Listener {
             $this->getLogger()->notice($this->messages["kygektagsshop.notice.oldconfiginfo"]);
             rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");
             $this->saveResource("config.yml");
+            $this->getConfig()->reload();
         }
     }
 
