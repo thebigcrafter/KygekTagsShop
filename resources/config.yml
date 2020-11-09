@@ -69,6 +69,7 @@ no-tag-button: "Back"
 #
 # Format: "DisplayTag:Price"
 #
+# Use "&" as formatting codes for DisplayTag
 # All tags price will be free if EconomyAPI plugin is not enabled
 # If empty, the plugin will be disabled automatically to prevent errors
 tags:

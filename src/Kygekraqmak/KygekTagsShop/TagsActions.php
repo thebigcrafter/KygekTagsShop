@@ -75,7 +75,7 @@ class TagsActions {
 
         foreach ($this->config["tags"] as $tag) {
             $tag = explode(":", $tag);
-            $alltags[][$tag[0]] = $tag[1];
+            $alltags[][str_replace("&", "§", $tag[0] . "&r")] = $tag[1];
         }
 
         return $alltags;
