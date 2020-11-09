@@ -2,11 +2,14 @@
 
 [![Discord](https://img.shields.io/discord/735439472992321587.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/CXtqUZv)
 
+![KygekTagsShop](https://github.com/Kygekraqmak/KygekTagsShop/blob/master/images/KygekTagsShop.png?raw=true)
+
 Allow players to use tags that they can show to other players by using this plugin! 
 
 # Features
 
 - EconomyAPI support for tags prices
+- Compatible with PureChat
 - Unlimited tags
 - Forms to buy and sell tags
 - Highly customizeable forms
@@ -59,3 +62,5 @@ Please visit [here](https://github.com/Kygekraqmak/KygekTagsShop/wiki) for more 
 - Join the Discord [here](https://discord.gg/CXtqUZv) for latest updates from Kygekraqmak.
 - If you found bugs or want to give suggestions, please visit [here](https://github.com/Kygekraqmak/KygekTagsShop/issues) or DM KygekDev#6415 via Discord.
 - We accept any contributions! If you want to contribute please make a pull request in [here](https://github.com/Kygekraqmak/KygekTagsShop/pulls).
+
+<!-- Icons made by <a href="https://www.flaticon.com/authors/kirill-kazachek" title="Kirill Kazachek">Kirill Kazachek</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a> -->
