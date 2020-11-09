@@ -31,7 +31,6 @@ use pocketmine\Player;
 use pocketmine\plugin\Plugin;
 
 /**
- * Class TagsActions
  * KygekTagsShop API class
  *
  * @package Kygekraqmak\KygekTagsShop
@@ -61,8 +60,10 @@ class TagsActions {
         $this->economyAPI = $this->plugin->economyAPI;
     }
 
+
     /**
      * Get tags in config file
+     *
      * Returns an multidimensional associative array (ID => [tag => price]) or null if there are no tags
      * ID always starts from 0 and is ordered as that of in config file
      *
@@ -80,8 +81,10 @@ class TagsActions {
         return $alltags;
     }
 
+
     /**
      * Get price of a tag
+     *
      * Returns null if:
      * - EconomyAPI plugin is not installed or enabled, and/or
      * - tag ID doesn't exists
@@ -95,8 +98,10 @@ class TagsActions {
         return (int) array_values($this->getAllTags()[$tagid])[0];
     }
 
+
     /**
      * Get tag display
+     *
      * Returns null if tag ID doesn't exists
      *
      * @param int $tagid
@@ -108,6 +113,7 @@ class TagsActions {
         return array_keys($this->getAllTags()[$tagid])[0];
     }
 
+
     /**
      * Checks if tag exists in config
      *
@@ -118,6 +124,7 @@ class TagsActions {
         return isset($this->getAllTags()[$tagid]);
     }
 
+
     /**
      * Checks if player has tag
      *
@@ -127,8 +134,12 @@ class TagsActions {
     public function playerHasTag(Player $player) : bool {
         return isset($this->getAllData()[$player->getLowercaseName()]);
     }
+
+
     /**
-     * Gets player's tag (ID) from config
+     * Gets player's tag ID from database
+     *
+     * Returns null if player doesn't have tag
      *
      * @param Player $player
      * @return null|int
@@ -136,11 +147,14 @@ class TagsActions {
     public function getPlayerTag(Player $player) : ?int {
         if (!$this->playerHasTag($player)) return null;
 
-        return $this->getAllData()[$player->getLowercaseName()];
+        return $this->getData($player);
     }
 
+
     /**
-     * Unsets the player's tag
+     * Removes tag from player
+     *
+     * Sends a warning message if player doesn't have a tag
      *
      * @param Player $player
      */
@@ -165,8 +179,11 @@ class TagsActions {
         $player->sendMessage($this->plugin->messages["kygektagsshop.info.freeselltagsuccess"]);
     }
 
+
     /**
      * Sets a tag to player
+     *
+     * Sends a warning message if player have a tag or player doesn't have enough money
      *
      * @param Player $player
      * @param int $tagid
@@ -201,6 +218,7 @@ class TagsActions {
         $player->sendMessage($this->plugin->messages["kygektagsshop.info.freebuytagsuccess"]);
     }
 
+
     /**
      * Gets KygekTagsShop API version
      *
@@ -210,8 +228,11 @@ class TagsActions {
         return self::API_VERSION;
     }
 
+
     /**
      * Gets the tag ID of a player from KygekTagsShop database
+     *
+     * Not recommended, use getPlayerTag(Player $player) instead
      *
      * @param Player $player
      * @return int
@@ -220,8 +241,11 @@ class TagsActions {
         return $this->data->get($player->getLowercaseName());
     }
 
+
     /**
      * Sets tag ID to a player inside KygekTagsShop database
+     *
+     * Not recommended, use setPlayerTag(Player $player, int $tagid) instead
      *
      * @param Player $player
      * @param int $tagid
@@ -232,8 +256,11 @@ class TagsActions {
         $this->reloadData();
     }
 
+
     /**
      * Removes player tag ID from KygekTagsShop database
+     *
+     * Not recommended, use unsetPlayerTag(Player $player) instead
      *
      * @param Player $player
      */
@@ -242,6 +269,7 @@ class TagsActions {
         $this->saveData();
         $this->reloadData();
     }
+
 
     /**
      * Gets all KygekTagsShop database contents
@@ -253,6 +281,7 @@ class TagsActions {
         return $this->data->getAll($keys);
     }
 
+
     /**
      * Reloads the KygekTagsShop database
      */
@@ -260,12 +289,14 @@ class TagsActions {
         $this->data->reload();
     }
 
+
     /**
      * Saves the KygekTagsShop database
      */
     public function saveData() {
         $this->data->save();
     }
+
 
     /**
      * Gets the KygekTagsShop database location

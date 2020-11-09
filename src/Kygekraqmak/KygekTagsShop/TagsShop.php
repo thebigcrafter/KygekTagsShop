@@ -151,7 +151,7 @@ class TagsShop extends PluginBase implements Listener {
 
     public function fileExists() : bool {
         $config = $this->getDataFolder() . "config.yml";
-        $data = $this->getDataFolder() . "data.json";
+        $data = self::getAPI()->getDataLocation();
         return file_exists($config) or file_exists($data);
     }
 
