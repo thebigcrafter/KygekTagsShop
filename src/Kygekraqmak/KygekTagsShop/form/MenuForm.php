@@ -13,7 +13,7 @@
  *         ___/ | ___/ |                          | |
  *        |____/ |____/                           |_|
  *
- * A PocketMine-MP plugin to buy tags with money
+ * A PocketMine-MP plugin that allows players to use tags
  * Copyright (C) 2020 Kygekraqmak
  *
  * This program is free software: you can redistribute it and/or modify
