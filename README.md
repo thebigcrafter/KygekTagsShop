@@ -23,7 +23,7 @@ Allow players to use tags that they can show to other players by using this plug
 - Automatic plugin updates checker
 - Missing config file detection
 - Empty tags detection
-- API for developers (visit [here](https://github.com/Kygekraqmak/KygekTagsShop/wiki) for API documentation)
+- API for developers (see **For Developers** tab)
 
 # How to Install
 
@@ -45,10 +45,12 @@ Command description can be changed in `config.yml`. You can also add command ali
 
 Use `-kygektagsshop.tags` to blacklist the `/tagsshop` command permission to groups/users in PurePerms.
 
-# API Documentation
+# For Developers
 
-We provide API for developers to write addons/plugins that depends with KygekTagsShop.
-Please visit [here](https://github.com/Kygekraqmak/KygekTagsShop/wiki) for more information and API documentation.
+We provide API for developers to write addons/plugins that depends with KygekTagsShop.\
+To access KygekTagsShop API class, you can use `Kygekraqmak\KygekTagsShop\TagsShop::getAPI()`.\
+API code can be seen [here](https://github.com/Kygekraqmak/KygekTagsShop/blob/master/src/Kygekraqmak/KygekTagsShop/TagsActions.php).\
+Please regularly check the changelogs for any changes in the API in future versions.
 
 # Upcoming Features
 
@@ -58,7 +60,7 @@ Please visit [here](https://github.com/Kygekraqmak/KygekTagsShop/wiki) for more 
 
 # Additional Notes
 
-- API documentation can be found [here](https://github.com/Kygekraqmak/KygekTagsShop/wiki).
+- See **For Developers** tab for API guide.
 - Join the Discord [here](https://discord.gg/CXtqUZv) for latest updates from Kygekraqmak.
 - If you found bugs or want to give suggestions, please visit [here](https://github.com/Kygekraqmak/KygekTagsShop/issues) or DM KygekDev#6415 via Discord.
 - We accept any contributions! If you want to contribute please make a pull request in [here](https://github.com/Kygekraqmak/KygekTagsShop/pulls).
