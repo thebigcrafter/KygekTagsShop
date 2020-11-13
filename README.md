@@ -48,7 +48,13 @@ Use `-kygektagsshop.tags` to blacklist the `/tagsshop` command permission to gro
 # For Developers
 
 We provide API for developers to write addons/plugins that depends with KygekTagsShop.\
-To access KygekTagsShop API class, you can use `Kygekraqmak\KygekTagsShop\TagsShop::getAPI()`.\
+To access KygekTagsShop API class, you can use `Kygekraqmak\KygekTagsShop\TagsShop::getAPI()`.
+
+Example:
+```php
+$tags = Kygekraqmak\KygekTagsShop\TagsShop::getAPI()->getAllTags(); // Get all tags from KygekTagsShop
+```
+
 API code can be seen [here](https://github.com/Kygekraqmak/KygekTagsShop/blob/master/src/Kygekraqmak/KygekTagsShop/TagsActions.php).\
 Please regularly check the changelogs for any changes in the API in future versions.
 
