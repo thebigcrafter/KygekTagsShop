@@ -28,9 +28,9 @@ declare(strict_types=1);
 namespace Kygekraqmak\KygekTagsShop;
 
 use JackMD\UpdateNotifier\UpdateNotifier;
+use onebone\economyapi\EconomyAPI;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
-use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat as TF;
 use pocketmine\utils\Config;
@@ -48,9 +48,9 @@ class TagsShop extends PluginBase implements Listener {
     public $data;
 
     /** @var bool */
-    public $economyEnabled = true;
+    public $economyEnabled = false;
 
-    /** @var Plugin|null */
+    /** @var EconomyAPI|null */
     public $economyAPI;
 
     /** @var TagsActions */
@@ -92,13 +92,13 @@ class TagsShop extends PluginBase implements Listener {
 
     public function onEnable() {
         self::$instance = $this;
-        $economyapi = $this->getServer()->getPluginManager()->getPlugin("EconomyAPI");
-        if ($economyapi === null) {
-            $this->economyEnabled = false;
+
+        if (!class_exists(EconomyAPI::class)) {
             $this->getLogger()->notice($this->messages["kygektagsshop.notice.noeconomyapi"]);
             $this->economyAPI = null;
         } else {
-            $this->economyAPI = $economyapi;
+            $this->economyEnabled = true;
+            $this->economyAPI = EconomyAPI::getInstance();
         }
 
         $this->saveResource("config.yml");
