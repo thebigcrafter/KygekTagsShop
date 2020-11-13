@@ -29,6 +29,7 @@ namespace Kygekraqmak\KygekTagsShop;
 
 use pocketmine\Player;
 use pocketmine\plugin\Plugin;
+use pocketmine\utils\Config;
 
 /**
  * KygekTagsShop API class
@@ -44,7 +45,7 @@ class TagsActions {
 
     /** @var array */
     private $config;
-    /** @var array */
+    /** @var Config */
     private $data;
 
     /** @var bool */
