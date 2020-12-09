@@ -1,0 +1,26 @@
+---
+# KygekTagsShop Indonesian Messages File
+# Translator: Kygekraqamak
+
+# Info Messages
+kygektagsshop.info.economybuytagsuccess: "Berhasil mengubah tag Anda sebesar {price}"
+kygektagsshop.info.freebuytagsuccess: "Berhasil mengubah tag Anda"
+kygektagsshop.info.economyselltagsuccess: "Berhasil menjual tag Anda sebesar {price}"
+kygektagsshop.info.freeselltagsuccess: "Berhasil menjual tag Anda"
+
+# Warning Messages
+kygektagsshop.warning.filemissing: "File konfigurasi dan/atau data tidak dapat ditemukan, mohon restart server!"
+kygektagsshop.warning.notplayer: "Anda hanya bisa menggunakan perintah ini di dalam game!"
+kygektagsshop.warning.nopermission: "Anda tidak memiliki izin untuk menggunakan perintah ini!"
+kygektagsshop.warning.playerhastag: "Anda tidak dapat membeli tag karena Anda sudah memiliki tag!"
+kygektagsshop.warning.playerhasnotag: "Anda tidak dapat menjual tag karena Anda belum memiliki tag!"
+kygektagsshop.warning.notenoughmoney: "Anda butuh uang {price} lebih untuk membeli tag ini!"
+
+# Console Notices
+kygektagsshop.notice.outdatedconfig: "File konfigurasi Anda sudah usang, memperbarui config.yml..."
+kygektagsshop.notice.oldconfiginfo: "File konfigurasi lama dapat ditemukan di config-old.yml"
+kygektagsshop.notice.noeconomyapi: "Plugin EconomyAPI belum dipasang atau diaktifkan, semua tags akan digratiskan"
+
+# Console Errors
+kygektagsshop.error.notags: "Tags tidak boleh kosong, menonaktifkan plugin..."
+...
