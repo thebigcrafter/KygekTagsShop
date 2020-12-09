@@ -17,6 +17,10 @@
 # See https://github.com/Kygekraqmak/KygekTagsShop#for-developers for API guide
 #
 
+# Language to be used for default messages
+# Available languages: en, id
+language: en
+
 ##### COMMAND SETTINGS #####
 # Change the command description that will be shown in help pages and command suggestions
 # Leave empty to use the default command description

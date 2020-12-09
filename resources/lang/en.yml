@@ -3,18 +3,20 @@
 # Translator: Kygekraqamak
 
 # Info Messages
-kygektagsshop.info.economybuytagsuccess: "Successfully set your tag for {price}"
-kygektagsshop.info.freebuytagsuccess: "Successfully set your tag"
-kygektagsshop.info.economyselltagsuccess: "Successfully sold your tag for {price}"
-kygektagsshop.info.freeselltagsuccess: "Successfully sold your tag"
+info:
+  kygektagsshop.info.economybuytagsuccess: "Successfully set your tag for {price}"
+  kygektagsshop.info.freebuytagsuccess: "Successfully set your tag"
+  kygektagsshop.info.economyselltagsuccess: "Successfully sold your tag for {price}"
+  kygektagsshop.info.freeselltagsuccess: "Successfully sold your tag"
 
 # Warning Messages
-kygektagsshop.warning.filemissing: "Config and/or data file cannot be found, please restart the server!"
-kygektagsshop.warning.notplayer: "You can only execute this command in-game!"
-kygektagsshop.warning.nopermission: "You do not have permission to use this command!"
-kygektagsshop.warning.playerhastag: "You cannot buy tags because you have owned a tag!"
-kygektagsshop.warning.playerhasnotag: "You cannot sell tags because you haven't owned a tag!"
-kygektagsshop.warning.notenoughmoney: "You need {price} more to buy this tag!"
+warning:
+  kygektagsshop.warning.filemissing: "Config and/or data file cannot be found, please restart the server!"
+  kygektagsshop.warning.notplayer: "You can only execute this command in-game!"
+  kygektagsshop.warning.nopermission: "You do not have permission to use this command!"
+  kygektagsshop.warning.playerhastag: "You cannot buy tags because you have owned a tag!"
+  kygektagsshop.warning.playerhasnotag: "You cannot sell tags because you haven't owned a tag!"
+  kygektagsshop.warning.notenoughmoney: "You need {price} more to buy this tag!"
 
 # Console Notices
 kygektagsshop.notice.outdatedconfig: "Your configuration file is outdated, updating the config.yml..."

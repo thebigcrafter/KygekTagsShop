@@ -58,9 +58,12 @@ class TagsShop extends PluginBase implements Listener {
     /** @var TagsShop */
     private static $instance = null;
 
-    // TODO: Add languages support in future version(s)
     /** @var string[] */
-    public $messages = [
+    private $lang = ["en", "id"];
+    /** @var string[] */
+    public $messages = [];
+    /** @var string[] */
+    public $defaultMessages = [
         self::ROOT . ".warning.filemissing" => self::PREFIX . self::WARNING . "Config and/or data file cannot be found, please restart the server!",
         self::ROOT . ".warning.notplayer" => self::PREFIX . self::WARNING . "You can only execute this command in-game!",
         self::ROOT . ".warning.nopermission" => self::PREFIX . self::WARNING . "You do not have permission to use this command!",
@@ -93,6 +96,12 @@ class TagsShop extends PluginBase implements Listener {
     public function onEnable() {
         self::$instance = $this;
 
+        $this->saveResource("config.yml");
+        $this->config = $this->getConfig()->getAll();
+        $this->checkConfig();
+        $this->data = new Config($this->getDataFolder()."data.json", Config::JSON);
+        $this->initializeLangs();
+
         if (!class_exists(EconomyAPI::class)) {
             $this->getLogger()->notice($this->messages["kygektagsshop.notice.noeconomyapi"]);
             $this->economyAPI = null;
@@ -100,11 +109,6 @@ class TagsShop extends PluginBase implements Listener {
             $this->economyEnabled = true;
             $this->economyAPI = EconomyAPI::getInstance();
         }
-
-        $this->saveResource("config.yml");
-        $this->config = $this->getConfig()->getAll();
-        $this->checkConfig();
-        $this->data = new Config($this->getDataFolder()."data.json", Config::JSON);
 
         if (empty($this->config["tags"])) {
             $this->getLogger()->error($this->messages["kygektagsshop.error.notags"]);
@@ -121,6 +125,37 @@ class TagsShop extends PluginBase implements Listener {
         if ($this->getConfig()->get("check-updates", true)) {
             UpdateNotifier::checkUpdate($this->getDescription()->getName(), $this->getDescription()->getVersion());
         }
+    }
+
+    private function initializeLangs() {
+        foreach ($this->lang as $lkey => $lang) {
+            $this->saveResource("lang/" . $lang . ".yml", true);
+            $langf = new Config($this->getDataFolder() . "lang/" . $lang . ".yml", Config::YAML);
+            var_dump($this->config["language"] !== $lang);
+            if ($this->config["language"] !== $lang) continue;
+
+            $langc = $langf->getAll();
+            array_walk($langc["info"], function (&$value) {
+                $value = self::PREFIX . self::INFO . $value;
+            });
+            array_walk($langc["warning"], function (&$value) {
+                $value = self::PREFIX . self::WARNING . $value;
+            });
+
+            $this->messages = array_merge($langc["info"], $langc["warning"]);
+            foreach ($langc as $key => $value) {
+                if (!is_array($value)) $this->messages[$key] = $value;
+            }
+
+            // Fixes language if some keys are missing
+            foreach ($this->defaultMessages as $key => $value) {
+                if (!isset($this->messages[$key])) $this->messages[$key] = $value;
+            }
+        }
+
+        if (!empty($this->messages)) return;
+        $this->getLogger()->warning("Unknown language in configuration file, using English...");
+        $this->messages = $this->defaultMessages;
     }
 
     public function onJoin(PlayerJoinEvent $event) {

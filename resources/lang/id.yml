@@ -3,18 +3,20 @@
 # Translator: Kygekraqamak
 
 # Info Messages
-kygektagsshop.info.economybuytagsuccess: "Berhasil mengubah tag Anda sebesar {price}"
-kygektagsshop.info.freebuytagsuccess: "Berhasil mengubah tag Anda"
-kygektagsshop.info.economyselltagsuccess: "Berhasil menjual tag Anda sebesar {price}"
-kygektagsshop.info.freeselltagsuccess: "Berhasil menjual tag Anda"
+info:
+  kygektagsshop.info.economybuytagsuccess: "Berhasil mengubah tag Anda sebesar {price}"
+  kygektagsshop.info.freebuytagsuccess: "Berhasil mengubah tag Anda"
+  kygektagsshop.info.economyselltagsuccess: "Berhasil menjual tag Anda sebesar {price}"
+  kygektagsshop.info.freeselltagsuccess: "Berhasil menjual tag Anda"
 
 # Warning Messages
-kygektagsshop.warning.filemissing: "File konfigurasi dan/atau data tidak dapat ditemukan, mohon restart server!"
-kygektagsshop.warning.notplayer: "Anda hanya bisa menggunakan perintah ini di dalam game!"
-kygektagsshop.warning.nopermission: "Anda tidak memiliki izin untuk menggunakan perintah ini!"
-kygektagsshop.warning.playerhastag: "Anda tidak dapat membeli tag karena Anda sudah memiliki tag!"
-kygektagsshop.warning.playerhasnotag: "Anda tidak dapat menjual tag karena Anda belum memiliki tag!"
-kygektagsshop.warning.notenoughmoney: "Anda butuh uang {price} lebih untuk membeli tag ini!"
+warning:
+  kygektagsshop.warning.filemissing: "File konfigurasi dan/atau data tidak dapat ditemukan, mohon restart server!"
+  kygektagsshop.warning.notplayer: "Anda hanya bisa menggunakan perintah ini di dalam game!"
+  kygektagsshop.warning.nopermission: "Anda tidak memiliki izin untuk menggunakan perintah ini!"
+  kygektagsshop.warning.playerhastag: "Anda tidak dapat membeli tag karena Anda sudah memiliki tag!"
+  kygektagsshop.warning.playerhasnotag: "Anda tidak dapat menjual tag karena Anda belum memiliki tag!"
+  kygektagsshop.warning.notenoughmoney: "Anda butuh uang {price} lebih untuk membeli tag ini!"
 
 # Console Notices
 kygektagsshop.notice.outdatedconfig: "File konfigurasi Anda sudah usang, memperbarui config.yml..."
