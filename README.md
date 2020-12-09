@@ -23,6 +23,7 @@ Allow players to use tags that they can show to other players by using this plug
 - Automatic plugin updates checker
 - Missing config file detection
 - Empty tags detection
+- Multiple languages support
 - API for developers (see **For Developers** tab)
 
 # How to Install
@@ -58,17 +59,22 @@ $tags = Kygekraqmak\KygekTagsShop\TagsShop::getAPI()->getAllTags(); // Get all t
 API code can be seen [here](https://github.com/Kygekraqmak/KygekTagsShop/blob/master/src/Kygekraqmak/KygekTagsShop/TagsActions.php).\
 Please regularly check the changelogs for any changes in the API in future versions.
 
+# Contributing
+
+Help us by contributing or translating KygekTagsShop plugin. To add translation, fork the KygekTagsShop plugin repo and copy the `en.yml` file inside `resources/lang` directory to the language code.
+
+Don't forget to create a [pull request](https://github.com/Kygekraqmak/KygekTagsShop/pulls)!
+
 # Upcoming Features
 
-- Multiple languages
 - Commands to buy and sell tags and more
 - And much more...
 
 # Additional Notes
 
 - See **For Developers** tab for API guide.
-- Join the Discord [here](https://discord.gg/CXtqUZv) for latest updates from Kygekraqmak.
-- If you found bugs or want to give suggestions, please visit [here](https://github.com/Kygekraqmak/KygekTagsShop/issues) or DM KygekDev#6415 via Discord.
-- We accept any contributions! If you want to contribute please make a pull request in [here](https://github.com/Kygekraqmak/KygekTagsShop/pulls).
+- Join our [Discord server](https://discord.gg/CXtqUZv) for latest updates from KygekTeam.
+- If you found bugs or want to give suggestions, please [create an issue](https://github.com/Kygekraqmak/KygekTagsShop/issues) or join our Discord server.
+- We accept all contributions! If you want to contribute, please [make a pull request](https://github.com/Kygekraqmak/KygekTagsShop/pulls).
 
 <!-- Icons made by <a href="https://www.flaticon.com/authors/kirill-kazachek" title="Kirill Kazachek">Kirill Kazachek</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a> -->
