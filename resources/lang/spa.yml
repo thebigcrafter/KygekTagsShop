@@ -1,0 +1,28 @@
+---
+# KygekTagsShop Spanish Messages File
+# Translator: UnEnanoMas
+
+# Info Messages
+info:
+  kygektagsshop.info.economybuytagsuccess: "Se ha cambiado exitosamente tu etiqueta por {price}"
+  kygektagsshop.info.freebuytagsuccess: "Se ha cambiado exitosamente tu etiqueta"
+  kygektagsshop.info.economyselltagsuccess: "Has vendido tu etiqueta con éxito por {price}"
+  kygektagsshop.info.freeselltagsuccess: "Has vendido tu etiqueta con éxito"
+
+# Warning Messages
+warning:
+  kygektagsshop.warning.filemissing: "No se puede encontrar el archivo de configuración y / o datos, reinicie el servidor!"
+  kygektagsshop.warning.notplayer: "Solo puedes ejecutar este comando en el juego!"
+  kygektagsshop.warning.nopermission: "No tienes permiso para usar este comando!"
+  kygektagsshop.warning.playerhastag: "No puede comprar etiquetas porque tienes una etiqueta ya!"
+  kygektagsshop.warning.playerhasnotag: "No puede vender etiquetas porque no tiene ninguna etiqueta!"
+  kygektagsshop.warning.notenoughmoney: "Necesitas {price} más para comprar esta etiqueta!"
+
+# Console Notices
+kygektagsshop.notice.outdatedconfig: "Su archivo de configuración está desactualizado, actualizando config.yml..."
+kygektagsshop.notice.oldconfiginfo: "El archivo de configuración anterior se puede encontrar en config_old.yml"
+kygektagsshop.notice.noeconomyapi: "El plugin EconomyAPI no está instalado o habilitado, todas las etiquetas serán gratuitas"
+
+# Console Errors
+kygektagsshop.error.notags: "Las etiquetas no pueden estar vacías, deshabilitando el plugin..."
+...
