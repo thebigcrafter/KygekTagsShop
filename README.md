@@ -23,7 +23,7 @@ Allow players to use tags that they can show to other players by using this plug
 - Automatic plugin updates checker
 - Missing config file detection
 - Empty tags detection
-- Multiple languages support
+- Multiple languages support (English, Indonesian)
 - API for developers (see **For Developers** tab)
 
 # How to Install
