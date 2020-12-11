@@ -131,7 +131,6 @@ class TagsShop extends PluginBase implements Listener {
         foreach ($this->lang as $lkey => $lang) {
             $this->saveResource("lang/" . $lang . ".yml", true);
             $langf = new Config($this->getDataFolder() . "lang/" . $lang . ".yml", Config::YAML);
-            var_dump($this->config["language"] !== $lang);
             if ($this->config["language"] !== $lang) continue;
 
             $langc = $langf->getAll();
