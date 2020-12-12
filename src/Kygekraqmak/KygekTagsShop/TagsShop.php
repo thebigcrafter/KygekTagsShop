@@ -63,7 +63,7 @@ class TagsShop extends PluginBase implements Listener {
     /** @var string[] */
     public $messages = [];
     /** @var string[] */
-    public $defaultMessages = [
+    private $defaultMessages = [
         self::ROOT . ".warning.filemissing" => self::PREFIX . self::WARNING . "Config and/or data file cannot be found, please restart the server!",
         self::ROOT . ".warning.notplayer" => self::PREFIX . self::WARNING . "You can only execute this command in-game!",
         self::ROOT . ".warning.nopermission" => self::PREFIX . self::WARNING . "You do not have permission to use this command!",
@@ -98,9 +98,9 @@ class TagsShop extends PluginBase implements Listener {
 
         $this->saveResource("config.yml");
         $this->config = $this->getConfig()->getAll();
-        $this->checkConfig();
         $this->data = new Config($this->getDataFolder()."data.json", Config::JSON);
         $this->initializeLangs();
+        $this->checkConfig();
 
         if (!class_exists(EconomyAPI::class)) {
             $this->getLogger()->notice($this->messages["kygektagsshop.notice.noeconomyapi"]);
