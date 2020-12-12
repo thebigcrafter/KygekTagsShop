@@ -18,6 +18,7 @@ Allow players to use tags that they can show to other players by using this plug
     - Supports `\n` to break new line in all forms
     - Supports `{tagname}` to display tag name and `{tagprice}` to display tag price in some forms
 - Command descrption can be changed
+- Customizeable message prefix
 - Supports command aliases
 - Enable/disable return to previous form when the (X) button is pressed
 - Automatic plugin updates checker

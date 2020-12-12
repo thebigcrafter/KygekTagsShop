@@ -60,7 +60,7 @@ class TagsShop extends PluginBase implements Listener {
     private static $instance = null;
 
     /** @var string[] */
-    private $lang = ["en", "id"];
+    private $lang = ["en", "es", "id"];
     /** @var string[] */
     public $messages = [];
     /** @var string[] */
@@ -133,7 +133,7 @@ class TagsShop extends PluginBase implements Listener {
     }
 
     private function initializeLangs() {
-        foreach ($this->lang as $lkey => $lang) {
+        foreach ($this->lang as $lang) {
             $this->saveResource("lang/" . $lang . ".yml", true);
             $langf = new Config($this->getDataFolder() . "lang/" . $lang . ".yml", Config::YAML);
             if ($this->config["language"] !== $lang) continue;
