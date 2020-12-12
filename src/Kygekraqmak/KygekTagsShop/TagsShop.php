@@ -38,7 +38,6 @@ use pocketmine\utils\Config;
 class TagsShop extends PluginBase implements Listener {
 
     private const ROOT = "kygektagsshop";
-    private const PREFIX = TF::YELLOW . "[KygekTagsShop] " . TF::RESET;
     public const INFO = TF::GREEN;
     public const WARNING = TF::RED;
 
@@ -46,6 +45,8 @@ class TagsShop extends PluginBase implements Listener {
     public $config;
     /** @var Config */
     public $data;
+    /** @var string */
+    private $prefix = TF::YELLOW . "[KygekTagsShop] " . TF::RESET;
 
     /** @var bool */
     public $economyEnabled = false;
@@ -63,22 +64,7 @@ class TagsShop extends PluginBase implements Listener {
     /** @var string[] */
     public $messages = [];
     /** @var string[] */
-    private $defaultMessages = [
-        self::ROOT . ".warning.filemissing" => self::PREFIX . self::WARNING . "Config and/or data file cannot be found, please restart the server!",
-        self::ROOT . ".warning.notplayer" => self::PREFIX . self::WARNING . "You can only execute this command in-game!",
-        self::ROOT . ".warning.nopermission" => self::PREFIX . self::WARNING . "You do not have permission to use this command!",
-        self::ROOT . ".warning.playerhastag" => self::PREFIX . self::WARNING . "You cannot buy tags because you have owned a tag!",
-        self::ROOT . ".warning.playerhasnotag" => self::PREFIX . self::WARNING . "You cannot buy tags because you haven't owned a tag!",
-        self::ROOT . ".warning.notenoughmoney" => self::PREFIX . self::WARNING . "You need {price} more to buy this tag!",
-        self::ROOT . ".info.economybuytagsuccess" => self::PREFIX . self::INFO . "Successfully set your tag for {price}",
-        self::ROOT . ".info.freebuytagsuccess" => self::PREFIX . self::INFO . "Successfully set your tag",
-        self::ROOT . ".info.economyselltagsuccess" => self::PREFIX . self::INFO . "Successfully sold your tag for {price}",
-        self::ROOT . ".info.freeselltagsuccess" => self::PREFIX . self::INFO . "Successfully sold your tag",
-        self::ROOT . ".notice.outdatedconfig" => "Your configuration file is outdated, updating the config.yml...",
-        self::ROOT . ".notice.oldconfiginfo" => "The old configuration file can be found at config_old.yml",
-        self::ROOT . ".notice.noeconomyapi" => "EconomyAPI plugin is not installed or enabled, all tags will be free",
-        self::ROOT . ".error.notags" => "Tags cannot be empty, disabling plugin..."
-    ];
+    private $defaultMessages = [];
 
     /**
      * Returns an instance of KygekTagsShop API
@@ -99,6 +85,25 @@ class TagsShop extends PluginBase implements Listener {
         $this->saveResource("config.yml");
         $this->config = $this->getConfig()->getAll();
         $this->data = new Config($this->getDataFolder()."data.json", Config::JSON);
+        $this->prefix = empty($this->config["prefix"]) ? TF::YELLOW . "[KygekTagsShop] " . TF::RESET : $this->config["prefix"];
+
+        $this->defaultMessages = [
+            self::ROOT . ".warning.filemissing" => $this->prefix . self::WARNING . "Config and/or data file cannot be found, please restart the server!",
+            self::ROOT . ".warning.notplayer" => $this->prefix . self::WARNING . "You can only execute this command in-game!",
+            self::ROOT . ".warning.nopermission" => $this->prefix . self::WARNING . "You do not have permission to use this command!",
+            self::ROOT . ".warning.playerhastag" => $this->prefix . self::WARNING . "You cannot buy tags because you have owned a tag!",
+            self::ROOT . ".warning.playerhasnotag" => $this->prefix . self::WARNING . "You cannot buy tags because you haven't owned a tag!",
+            self::ROOT . ".warning.notenoughmoney" => $this->prefix . self::WARNING . "You need {price} more to buy this tag!",
+            self::ROOT . ".info.economybuytagsuccess" => $this->prefix . self::INFO . "Successfully set your tag for {price}",
+            self::ROOT . ".info.freebuytagsuccess" => $this->prefix . self::INFO . "Successfully set your tag",
+            self::ROOT . ".info.economyselltagsuccess" => $this->prefix . self::INFO . "Successfully sold your tag for {price}",
+            self::ROOT . ".info.freeselltagsuccess" => $this->prefix . self::INFO . "Successfully sold your tag",
+            self::ROOT . ".notice.outdatedconfig" => "Your configuration file is outdated, updating the config.yml...",
+            self::ROOT . ".notice.oldconfiginfo" => "The old configuration file can be found at config_old.yml",
+            self::ROOT . ".notice.noeconomyapi" => "EconomyAPI plugin is not installed or enabled, all tags will be free",
+            self::ROOT . ".error.notags" => "Tags cannot be empty, disabling plugin..."
+        ];
+
         $this->initializeLangs();
         $this->checkConfig();
 
@@ -135,10 +140,10 @@ class TagsShop extends PluginBase implements Listener {
 
             $langc = $langf->getAll();
             array_walk($langc["info"], function (&$value) {
-                $value = self::PREFIX . self::INFO . $value;
+                $value = $this->prefix . self::INFO . $value;
             });
             array_walk($langc["warning"], function (&$value) {
-                $value = self::PREFIX . self::WARNING . $value;
+                $value = $this->prefix . self::WARNING . $value;
             });
 
             $this->messages = array_merge($langc["info"], $langc["warning"]);
@@ -174,7 +179,7 @@ class TagsShop extends PluginBase implements Listener {
     }
 
     private function checkConfig() {
-        if ($this->config["config-version"] !== "1.1") {
+        if ($this->config["config-version"] !== "1.3") {
             $this->getLogger()->notice($this->messages["kygektagsshop.notice.outdatedconfig"]);
             $this->getLogger()->notice($this->messages["kygektagsshop.notice.oldconfiginfo"]);
             rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");

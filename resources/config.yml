@@ -30,6 +30,12 @@ command-desc: ""
 command-aliases: []
 #############################
 
+##### GENERAL SETTINGS #####
+# Prefix to be used on messages
+# Leave empty to use default prefix
+prefix: ""
+############################
+
 ##### FORM SETTINGS #####
 # Whether to return to previous form when the (X) button is pressed (at the top right corner)
 return-when-closed: true
@@ -87,6 +93,6 @@ check-updates: true
 
 ##### DANGER ZONE #####
 # Do not change this (Only for internal use)!
-config-version: "1.1"
+config-version: "1.3"
 #######################
 ...
