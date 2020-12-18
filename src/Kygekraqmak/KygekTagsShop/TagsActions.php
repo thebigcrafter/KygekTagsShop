@@ -223,6 +223,9 @@ class TagsActions {
     /**
      * Gets KygekTagsShop API version
      *
+     * @deprecated Will be removed in future version(s)
+     * @see TagsActions::API_VERSION
+     *
      * @return float
      */
     public function getAPIVersion() : float {
@@ -233,7 +236,8 @@ class TagsActions {
     /**
      * Gets the tag ID of a player from KygekTagsShop database
      *
-     * Not recommended, use getPlayerTag(Player $player) instead
+     * Will be encapsulated to private in future version(s)
+     * @see TagsActions::getPlayerTag()
      *
      * @param Player $player
      * @return int
@@ -246,7 +250,8 @@ class TagsActions {
     /**
      * Sets tag ID to a player inside KygekTagsShop database
      *
-     * Not recommended, use setPlayerTag(Player $player, int $tagid) instead
+     * Will be encapsulated to private in future version(s)
+     * @see TagsActions::setPlayerTag()
      *
      * @param Player $player
      * @param int $tagid
@@ -261,7 +266,8 @@ class TagsActions {
     /**
      * Removes player tag ID from KygekTagsShop database
      *
-     * Not recommended, use unsetPlayerTag(Player $player) instead
+     * Will be encapsulated to private in future version(s)
+     * @see TagsActions::unsetPlayerTag()
      *
      * @param Player $player
      */
