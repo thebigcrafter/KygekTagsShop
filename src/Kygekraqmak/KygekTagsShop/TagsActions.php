@@ -53,12 +53,12 @@ class TagsActions {
     /** @var EconomyAPI|null */
     private $economyAPI;
 
-    public function __construct() {
-        $this->plugin = TagsShop::getInstance();
-        $this->config = $this->plugin->config;
-        $this->data = $this->plugin->data;
-        $this->economyEnabled = $this->plugin->economyEnabled;
-        $this->economyAPI = $this->plugin->economyAPI;
+    public function __construct(TagsShop $plugin, array $config, Config $data, bool $economyEnabled, ?EconomyAPI $economyAPI) {
+        $this->plugin = $plugin;
+        $this->config = $config;
+        $this->data = $data;
+        $this->economyEnabled = $economyEnabled;
+        $this->economyAPI = $economyAPI;
     }
 
 

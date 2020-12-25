@@ -125,7 +125,7 @@ class TagsShop extends PluginBase implements Listener {
         $cmdalias = $this->config["command-aliases"];
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->getServer()->getCommandMap()->register("KygekTagsShop", new Commands($this, $cmddesc, $cmdalias));
-        self::$api = new TagsActions();
+        self::$api = new TagsActions($this, $this->config, $this->data, $this->economyEnabled, $this->economyAPI);
 
         if ($this->getConfig()->get("check-updates", true)) {
             UpdateNotifier::checkUpdate($this->getDescription()->getName(), $this->getDescription()->getVersion());
