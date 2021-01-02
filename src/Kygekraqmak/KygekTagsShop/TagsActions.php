@@ -38,7 +38,7 @@ use pocketmine\utils\Config;
  */
 class TagsActions {
 
-    public const API_VERSION = 1.0;
+    public const API_VERSION = 1.1;
 
     /** @var TagsShop */
     private $plugin;
@@ -221,28 +221,12 @@ class TagsActions {
 
 
     /**
-     * Gets KygekTagsShop API version
-     *
-     * @deprecated Will be removed in future version(s)
-     * @see TagsActions::API_VERSION
-     *
-     * @return float
-     */
-    public function getAPIVersion() : float {
-        return self::API_VERSION;
-    }
-
-
-    /**
      * Gets the tag ID of a player from KygekTagsShop database
-     *
-     * Will be encapsulated to private in future version(s)
-     * @see TagsActions::getPlayerTag()
      *
      * @param Player $player
      * @return int
      */
-    public function getData(Player $player) : int {
+    private function getData(Player $player) : int {
         return $this->data->get($player->getLowercaseName());
     }
 
@@ -250,13 +234,10 @@ class TagsActions {
     /**
      * Sets tag ID to a player inside KygekTagsShop database
      *
-     * Will be encapsulated to private in future version(s)
-     * @see TagsActions::setPlayerTag()
-     *
      * @param Player $player
      * @param int $tagid
      */
-    public function setData(Player $player, int $tagid) {
+    private function setData(Player $player, int $tagid) {
         $this->data->set($player->getLowercaseName(), $tagid);
         $this->saveData();
         $this->reloadData();
@@ -266,12 +247,9 @@ class TagsActions {
     /**
      * Removes player tag ID from KygekTagsShop database
      *
-     * Will be encapsulated to private in future version(s)
-     * @see TagsActions::unsetPlayerTag()
-     *
      * @param Player $player
      */
-    public function removeData(Player $player) {
+    private function removeData(Player $player) {
         $this->data->remove($player->getLowercaseName());
         $this->saveData();
         $this->reloadData();
