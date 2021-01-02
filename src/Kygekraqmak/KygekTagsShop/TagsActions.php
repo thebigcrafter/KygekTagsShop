@@ -27,6 +27,8 @@ declare(strict_types=1);
 
 namespace Kygekraqmak\KygekTagsShop;
 
+use Kygekraqmak\KygekTagsShop\event\TagBuyEvent;
+use Kygekraqmak\KygekTagsShop\event\TagSellEvent;
 use onebone\economyapi\EconomyAPI;
 use pocketmine\Player;
 use pocketmine\utils\Config;
@@ -165,16 +167,20 @@ class TagsActions {
             return;
         }
 
+        $tagid = $this->getPlayerTag($player);
+
         if ($this->economyEnabled) {
             $tagprice = $this->getTagPrice($this->getPlayerTag($player));
             $currency = $this->economyAPI->getMonetaryUnit();
+            (new TagSellEvent($player, $tagid))->call();
             $this->economyAPI->addMoney($player, $tagprice);
-            $player->sendMessage(str_replace("{price}", $currency . $tagprice, $this->plugin->messages["kygektagsshop.info.economyselltagsuccess"]));
             $this->removeData($player);
             $player->setDisplayName($player->getName());
+            $player->sendMessage(str_replace("{price}", $currency . $tagprice, $this->plugin->messages["kygektagsshop.info.economyselltagsuccess"]));
             return;
         }
 
+        (new TagSellEvent($player, $tagid))->call();
         $this->removeData($player);
         $player->setDisplayName($player->getName());
         $player->sendMessage($this->plugin->messages["kygektagsshop.info.freeselltagsuccess"]);
@@ -207,6 +213,7 @@ class TagsActions {
                 return;
             }
 
+            (new TagBuyEvent($player, $tagid))->call();
             $this->setData($player, $tagid);
             $this->economyAPI->reduceMoney($player, $tagprice);
             $player->setDisplayName($player->getDisplayName() . " " . $this->getTagName($tagid));
@@ -214,6 +221,7 @@ class TagsActions {
             return;
         }
 
+        (new TagBuyEvent($player, $tagid))->call();
         $this->setData($player, $tagid);
         $player->setDisplayName($player->getName() . " " . $this->getTagName($tagid));
         $player->sendMessage($this->plugin->messages["kygektagsshop.info.freebuytagsuccess"]);
