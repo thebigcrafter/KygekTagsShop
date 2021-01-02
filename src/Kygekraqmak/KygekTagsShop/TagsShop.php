@@ -52,7 +52,7 @@ class TagsShop extends PluginBase implements Listener {
     public $economyEnabled = false;
 
     /** @var EconomyAPI|null */
-    public $economyAPI;
+    public $economyAPI = null;
 
     /** @var TagsActions */
     private static $api;
@@ -108,8 +108,10 @@ class TagsShop extends PluginBase implements Listener {
         $this->checkConfig();
 
         if (!class_exists(EconomyAPI::class)) {
-            $this->getLogger()->notice($this->messages["kygektagsshop.notice.noeconomyapi"]);
-            $this->economyAPI = null;
+            if (!file_exists($this->getDataFolder() . "internal.txt")) {
+                $this->getLogger()->notice($this->messages["kygektagsshop.notice.noeconomyapi"]);
+                file_put_contents($this->getDataFolder() . "internal.txt", "This file is generated automatically to only show EconomyAPI plugin not installed or enabled once. If deleted, this file will be regenerated and EconomyAPi warning will be shown once more.");
+            }
         } else {
             $this->economyEnabled = true;
             $this->economyAPI = EconomyAPI::getInstance();
