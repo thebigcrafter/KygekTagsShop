@@ -108,9 +108,8 @@ class TagsShop extends PluginBase implements Listener {
         $this->checkConfig();
 
         if (!class_exists(EconomyAPI::class)) {
-            if (!file_exists($this->getDataFolder() . "internal.txt")) {
+            if ($this->config["notify-no-economyapi"] === true) {
                 $this->getLogger()->notice($this->messages["kygektagsshop.notice.noeconomyapi"]);
-                file_put_contents($this->getDataFolder() . "internal.txt", "This file is generated automatically to only show EconomyAPI plugin not installed or enabled once. If deleted, this file will be regenerated and EconomyAPi warning will be shown once more.");
             }
         } else {
             $this->economyEnabled = true;
@@ -181,7 +180,7 @@ class TagsShop extends PluginBase implements Listener {
     }
 
     private function checkConfig() {
-        if ($this->config["config-version"] !== "1.3") {
+        if ($this->config["config-version"] !== "1.5") {
             $this->getLogger()->notice($this->messages["kygektagsshop.notice.outdatedconfig"]);
             $this->getLogger()->notice($this->messages["kygektagsshop.notice.oldconfiginfo"]);
             rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");

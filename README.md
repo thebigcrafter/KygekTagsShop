@@ -9,6 +9,7 @@ Allow players to use tags that they can show to other players by using this plug
 # Features
 
 - EconomyAPI support for tags prices
+    - Shows warning if EconomyAPI plugin is not installed or enabled (Can be disabled in `config.yml`)
 - Compatible with PureChat
 - Unlimited tags
 - Forms to buy and sell tags
@@ -26,6 +27,7 @@ Allow players to use tags that they can show to other players by using this plug
 - Empty tags detection
 - Multiple languages support (English, Indonesian)
 - API for developers (see **For Developers** tab)
+- Events (`TagBuyEvent` and `TagSellEvent`)
 
 # How to Install
 

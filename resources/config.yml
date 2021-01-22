@@ -34,6 +34,9 @@ command-aliases: []
 # Prefix to be used on messages
 # Leave empty to use default prefix
 prefix: ""
+
+# Whether to notify if EconomyAPI plugin is not installed or enabled
+notify-no-economyapi: true
 ############################
 
 ##### FORM SETTINGS #####
@@ -93,6 +96,6 @@ check-updates: true
 
 ##### DANGER ZONE #####
 # Do not change this (Only for internal use)!
-config-version: "1.3"
+config-version: "1.5"
 #######################
 ...
