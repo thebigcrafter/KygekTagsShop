@@ -27,21 +27,6 @@ declare(strict_types=1);
 
 namespace Kygekraqmak\KygekTagsShop\event;
 
-use pocketmine\event\player\PlayerEvent;
-use pocketmine\Player;
-
-class TagSellEvent extends PlayerEvent {
-
-    /** @var int */
-    protected $tagid;
-
-    public function __construct(Player $player, int $tagid) {
-        $this->player = $player;
-        $this->tagid = $tagid;
-    }
-
-    public function getTagID() : int {
-        return $this->tagid;
-    }
+class TagSellEvent extends TagEvent {
 
 }
