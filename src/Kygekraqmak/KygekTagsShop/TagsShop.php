@@ -60,7 +60,7 @@ class TagsShop extends PluginBase implements Listener {
     private static $instance = null;
 
     /** @var string[] */
-    private $lang = ["en", "es", "id"];
+    private $lang = ["de", "en", "es", "fr", "id", "ro"];
     /** @var string[] */
     public $messages = [];
     /** @var string[] */

@@ -1,0 +1,28 @@
+---
+# KygekTagsShop German Messages File
+# Translator: Gezou
+
+# Info Messages
+info:
+  kygektagsshop.info.economybuytagsuccess: "Setzen Sie Ihr Tag erfolgreich auf {price}"
+  kygektagsshop.info.freebuytagsuccess: "Tag erfolgreich gesetzt"
+  kygektagsshop.info.economyselltagsuccess: "Ihr Tag wurde erfolgreich für {price} verkauft"
+  kygektagsshop.info.freeselltagsuccess: "Dein Tag erfolgreich verkauft"
+
+# Warning Messages
+warning:
+  kygektagsshop.warning.filemissing: "Konfigurations- und/oder Datendatei kann nicht gefunden werden, bitte starten Sie den Server neu!"
+  kygektagsshop.warning.notplayer: "Du kannst diesen Befehl nur im Spiel ausführen!"
+  kygektagsshop.warning.nopermission: "Sie haben keine Berechtigung, diesen Befehl zu verwenden!"
+  kygektagsshop.warning.playerhastag: "Sie können keine Tags kaufen, weil Sie ein Tag besitzen!"
+  kygektagsshop.warning.playerhasnotag: "Sie können keine Tags verkaufen, weil Sie kein Tag besitzen!"
+  kygektagsshop.warning.notenoughmoney: "Du benötigst {price} mehr, um dieses Tag zu kaufen!"
+
+# Console Notices
+kygektagsshop.notice.outdatedconfig: "Ihre Konfigurationsdatei ist veraltet und aktualisiert die Datei config.yml..."
+kygektagsshop.notice.oldconfiginfo: "Die alte Konfigurationsdatei finden Sie unter config_old.yml"
+kygektagsshop.notice.noeconomyapi: "Das EconomyAPI-Plugin ist nicht installiert oder aktiviert, alle Tags sind kostenlos"
+
+# Console Errors
+kygektagsshop.error.notags: "Tags dürfen nicht leer sein, Plugin wird deaktiviert..."
+...
