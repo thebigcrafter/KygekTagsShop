@@ -27,7 +27,7 @@ declare(strict_types=1);
 
 namespace Kygekraqmak\KygekTagsShop;
 
-use JackMD\UpdateNotifier\UpdateNotifier;
+use KygekTeam\KtpmplCfs\KtpmplCfs;
 use onebone\economyapi\EconomyAPI;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
@@ -128,9 +128,7 @@ class TagsShop extends PluginBase implements Listener {
         $this->getServer()->getCommandMap()->register("KygekTagsShop", new Commands($this, $cmddesc, $cmdalias));
         self::$api = new TagsActions($this, $this->config, $this->data, $this->economyEnabled, $this->economyAPI);
 
-        if ($this->getConfig()->get("check-updates", true)) {
-            UpdateNotifier::checkUpdate($this->getDescription()->getName(), $this->getDescription()->getVersion());
-        }
+        KtpmplCfs::checkUpdates($this);
     }
 
     private function initializeLangs() {
