@@ -1,14 +1,14 @@
 # KygekTagsShop Romania Messages File
 # Translator: Gezou
 
-# Mesaje informative
+# Info Messages
 info:
   kygektagsshop.info.economybuytagsuccess: "Ti-ai setat tagul cu succes pentru pretul de {price}"
   kygektagsshop.info.freebuytagsuccess: "Ti-ai setat tagul cu succes"
   kygektagsshop.info.economyselltagsuccess: "Ti-ai vandut tagul cu succes pentru suma de  {price}"
   kygektagsshop.info.freeselltagsuccess: "Ti-ai vandut tagul cu succes"
 
-# Mesaje de avertizare
+# Warning Messages
 warning:
   kygektagsshop.warning.filemissing: "Fișierul de configurare și/sau de date nu poate fi găsit, reporniți serverul!"
   kygektagsshop.warning.notplayer: "Poti folosi aceasta comanda doar pe joc!"
@@ -17,11 +17,11 @@ warning:
   kygektagsshop.warning.playerhasnotag: "Nu puteti vinde un tag pentru ca nu aveti unu!"
   kygektagsshop.warning.notenoughmoney: "Mai ai nevoie de {price} pentru a putea cumpara!"
 
-# Notificări ale consolei
+# Console Notices
 kygektagsshop.notice.outdatedconfig: "Fișierul dvs. de configurare este neapdatat, actualizam config.yml..."
 kygektagsshop.notice.oldconfiginfo: "Vechiul fișier de configurare poate fi găsit la config_old.yml"
 kygektagsshop.notice.noeconomyapi: "Pluginul EconomyAPI nu este instalat sau activat, toate tagurile vor fi gratuite"
 
-# Avertizari consola
+# Console Errors
 kygektagsshop.error.notags: "Tagurile nu pot fi goale, dezactivam pluginul..."
 ...

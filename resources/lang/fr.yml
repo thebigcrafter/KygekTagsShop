@@ -1,14 +1,14 @@
 # KygekTagsShop French Messages File
 # Translator: Gezou
 
-# Messages informatifs
+# Info Messages
 info:
   kygektagsshop.info.economybuytagsuccess: "Vous avez défini avec succès votre balise pour le prix de {price}"
   kygektagsshop.info.freebuytagsuccess: "Vous avez correctement défini votre balise"
   kygektagsshop.info.economyselltagsuccess: "Vous avez vendu avec succès votre étiquette pour le montant de {price}"
   kygektagsshop.info.freeselltagsuccess: "Vous avez vendu votre étiquette avec succès"
 
-# Messages d'avertissement
+# Warning Messages
 warning:
   kygektagsshop.warning.filemissing: "Le fichier de configuration et/ou de données est introuvable, redémarrez le serveur!"
   kygektagsshop.warning.notplayer: "Vous ne pouvez utiliser cette commande que sur le jeu!"
@@ -17,11 +17,11 @@ warning:
   kygektagsshop.warning.playerhasnotag: "Vous ne pouvez pas vendre une étiquette parce que vous n'en avez pas!"
   kygektagsshop.warning.notenoughmoney: "Vous avez toujours besoin de {price} pour pouvoir acheter!"
 
-# Notifications de console
+# Console Notices
 kygektagsshop.notice.outdatedconfig: "Votre fichier de configuration est obsolète, nous mettons à jour config.yml..."
 kygektagsshop.notice.oldconfiginfo: "L'ancien fichier de configuration se trouve sur config_old.yml"
 kygektagsshop.notice.noeconomyapi: "Le plugin EconomyAPI n'est pas installé ou activé, tous les tags seront gratuits"
 
-# Avertissements de la console
+# Console Errors
 kygektagsshop.error.notags: "Les tags ne peuvent pas être vides, nous désactivons le plugin..."
 ...
