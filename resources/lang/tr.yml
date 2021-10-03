@@ -1,0 +1,28 @@
+---
+# KygekTagsShop Turkish Messages File
+# Translator: xAliTura01
+
+# Info Messages
+info:
+  kygektagsshop.info.economybuytagsuccess: "{price}TL vererek başarıyla etiket satın aldınız"
+  kygektagsshop.info.freebuytagsuccess: "Etiketi başarıyla bedavaya satın aldınız"
+  kygektagsshop.info.economyselltagsuccess: "Etiketinizi {price}TL karşılığında başarıyla sattınız"
+  kygektagsshop.info.freeselltagsuccess: "Etiketinizi başarıyla sattınız"
+
+# Warning Messages
+warning:
+  kygektagsshop.warning.filemissing: "Yapılandırma ve/veya veri dosyası bulunamadı, lütfen sunucuyu yeniden başlatın!"
+  kygektagsshop.warning.notplayer: "Bu komutu yalnızca oyun içinde çalıştırabilirsiniz!"
+  kygektagsshop.warning.nopermission: "Bu komutu kullanma izniniz yok!"
+  kygektagsshop.warning.playerhastag: "Bir etikete sahip olduğunuz için etiket satın alamazsınız!"
+  kygektagsshop.warning.playerhasnotag: "Etiket sahibi olmadığınız için etiket satamazsınız!"
+  kygektagsshop.warning.notenoughmoney: "Bu etiketi satın almak için {price}TL veya daha fazlasına ihtiyacınız var!"
+
+# Console Notices
+kygektagsshop.notice.outdatedconfig: "Yapılandırma dosyanız güncel değil, config.yml güncelleniyor..."
+kygektagsshop.notice.oldconfiginfo: "Eski yapılandırma dosyası config_old.yml adresinde bulunabilir"
+kygektagsshop.notice.noeconomyapi: "EconomyAPI eklentisi yüklü veya etkin değil, tüm etiketler ücretsiz olacak"
+
+# Console Errors
+kygektagsshop.error.notags: "Etiketler boş olamaz, eklenti devre dışı bırakılıyor..."
+...
