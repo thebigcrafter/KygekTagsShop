@@ -4,9 +4,9 @@
 
 # Info Messages
 info:
-  kygektagsshop.info.economybuytagsuccess: "{price}TL vererek başarıyla etiket satın aldınız"
+  kygektagsshop.info.economybuytagsuccess: "{price} vererek başarıyla etiket satın aldınız"
   kygektagsshop.info.freebuytagsuccess: "Etiketi başarıyla bedavaya satın aldınız"
-  kygektagsshop.info.economyselltagsuccess: "Etiketinizi {price}TL karşılığında başarıyla sattınız"
+  kygektagsshop.info.economyselltagsuccess: "Etiketinizi {price} karşılığında başarıyla sattınız"
   kygektagsshop.info.freeselltagsuccess: "Etiketinizi başarıyla sattınız"
 
 # Warning Messages
@@ -16,7 +16,7 @@ warning:
   kygektagsshop.warning.nopermission: "Bu komutu kullanma izniniz yok!"
   kygektagsshop.warning.playerhastag: "Bir etikete sahip olduğunuz için etiket satın alamazsınız!"
   kygektagsshop.warning.playerhasnotag: "Etiket sahibi olmadığınız için etiket satamazsınız!"
-  kygektagsshop.warning.notenoughmoney: "Bu etiketi satın almak için {price}TL veya daha fazlasına ihtiyacınız var!"
+  kygektagsshop.warning.notenoughmoney: "Bu etiketi satın almak için {price} veya daha fazlasına ihtiyacınız var!"
 
 # Console Notices
 kygektagsshop.notice.outdatedconfig: "Yapılandırma dosyanız güncel değil, config.yml güncelleniyor..."
