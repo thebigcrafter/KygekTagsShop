@@ -36,10 +36,12 @@ Allow players to use tags that they can show to other players by using this plug
 **WARNING: This plugin is in beta stage. It may contain bugs including its API.
 Please report [here](https://github.com/KygekTeam/KygekTagsShop/issues) if you found any bugs.**
 
-1. Download the latest version (It is recommended to always download the latest version for the best experience, except you're having compatibility issues).
+1. Download the latest version from [Poggit Releases](https://poggit.pmmp.io/p/KygekTagsShop) (It is recommended to always download the latest version for the best experience, except you're having compatibility issues).
 2. Place the `KygekTagsShop.phar` file into the plugins folder.
 3. Restart or start your server.
 4. Done!
+
+If you want to download the latest development build, which may contain the latest features that are currently in development, head over to [Poggit CI](https://poggit.pmmp.io/ci/KygekTeam/KygekTagsShop/~) and download the latest build. **Please note that development builds may be unstable because it may contain untested issues or bugs.**
 
 # Commands & Permissions
 
