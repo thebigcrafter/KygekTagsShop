@@ -66,6 +66,6 @@ class MenuForm {
         $form->addButton(Replace::replaceGeneric($player, self::getMain()->config["main-sell-button"]));
         $form->addButton(Replace::replaceGeneric($player, self::getMain()->config["main-exit-button"]));
         $player->sendForm($form);
-     }
+    }
 
 }

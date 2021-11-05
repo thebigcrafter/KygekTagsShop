@@ -42,10 +42,10 @@ class SellForm extends MenuForm {
             switch ($data) {
                 case 0:
                     parent::getMain()->getAPI()->unsetPlayerTag($player);
-                break;
+                    break;
                 case 1:
                     parent::menuForm($player);
-                break;
+                    break;
             }
         });
 

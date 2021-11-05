@@ -175,7 +175,7 @@ class TagsActions {
             (new TagSellEvent($player, $tagid))->call();
             $this->economyAPI->addMoney($player, $tagprice);
             $this->removeData($player);
-			// TODO: Set player display name to original display name after new database has been implemented
+            // TODO: Set player display name to original display name after new database has been implemented
             $player->setDisplayName($player->getName());
             $player->sendMessage(str_replace("{price}", $currency . $tagprice, $this->plugin->messages["kygektagsshop.info.economyselltagsuccess"]));
             return;
@@ -217,9 +217,9 @@ class TagsActions {
             (new TagBuyEvent($player, $tagid))->call();
             $this->setData($player, $tagid);
             $this->economyAPI->reduceMoney($player, $tagprice);
-			// TODO: Store original player display name in database after new database has been implemented (See line #178 for purpose)
-			$displayName = $player->getDisplayName();
-			$tag = $this->getTagName($tagid);
+            // TODO: Store original player display name in database after new database has been implemented (See line #178 for purpose)
+            $displayName = $player->getDisplayName();
+            $tag = $this->getTagName($tagid);
             $player->setDisplayName(str_replace(["{displayname}", "{tag}"], [$displayName, $tag], $this->getDisplayNameFormat()));
             $player->sendMessage(str_replace("{price}", $currency . $tagprice, $this->plugin->messages["kygektagsshop.info.economybuytagsuccess"]));
             return;
@@ -232,14 +232,14 @@ class TagsActions {
     }
 
 
-	/**
-	 * Gets the display name format from the KygekTagsShop configuration file
-	 *
-	 * @return string
-	 */
-	public function getDisplayNameFormat() : string {
-		return ($this->config["display-name-format"] ?? "{displayname} {tag}") ?: "{displayname} {tag}";
-	}
+    /**
+     * Gets the display name format from the KygekTagsShop configuration file
+     *
+     * @return string
+     */
+    public function getDisplayNameFormat() : string {
+        return ($this->config["display-name-format"] ?? "{displayname} {tag}") ?: "{displayname} {tag}";
+    }
 
 
     /**
