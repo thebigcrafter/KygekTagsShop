@@ -26,7 +26,7 @@ Allow players to use tags that they can show to other players by using this plug
 - Automatic plugin updates checker
 - Missing config file detection
 - Empty tags detection
-- Multiple languages support (English, Indonesian, Spanish, German, French, Romanian)
+- Multiple languages support (English, Indonesian, Spanish, German, French, Romanian, Turkish)
 - API for developers (see **For Developers** tab)
 - Events (`TagBuyEvent` and `TagSellEvent`)
 
