@@ -89,6 +89,19 @@ tags:
 - "[Tag1]:10000"
 - "[Tag2]:20000"
 - "[Tag3]:50000"
+
+# Player display name format setting
+#
+# The KygekTagsShop plugin uses Player->setDisplayName() to set tag to player
+# The default display name format is "{playername} {tag}"
+# As an example, if using the default format, the player display name will be changed to "PlayerName [Tag1]"
+#
+# Change this if you want to change the display name format
+# Use "{displayname}" to display the current display name of the player
+# Use "{tag}" to display the tag that the player owns
+#
+# If empty, the plugin will use the default display name format
+display-name-format: "{displayname} {tag}"
 #########################
 
 # Whether to check for plugin updates (Recommended)
