@@ -24,7 +24,7 @@
 name: KygekTagsShop
 version: 1.0.0-beta.6
 main: Kygekraqmak\KygekTagsShop\TagsShop
-api: 3.0.0
+api: 4.0.0
 author: Kygekraqmak
 website: "https://github.com/Kygekraqmak/KygekTagsShop"
 softdepend: EconomyAPI

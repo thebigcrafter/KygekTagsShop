@@ -79,7 +79,7 @@ class TagsShop extends PluginBase implements Listener {
         return self::$instance;
     }
 
-    public function onEnable() {
+    protected function onEnable(): void{
         self::$instance = $this;
 
         $this->saveResource("config.yml");
