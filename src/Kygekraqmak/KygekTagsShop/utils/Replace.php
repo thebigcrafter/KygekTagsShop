@@ -27,7 +27,7 @@ declare(strict_types=1);
 
 namespace Kygekraqmak\KygekTagsShop\utils;
 
-use pocketmine\Player;
+use pocketmine\player\Player;
 use Kygekraqmak\KygekTagsShop\TagsShop;
 
 class Replace {

@@ -28,7 +28,7 @@ declare(strict_types=1);
 namespace Kygekraqmak\KygekTagsShop\event;
 
 use pocketmine\event\player\PlayerEvent;
-use pocketmine\Player;
+use pocketmine\player\Player;
 
 abstract class TagEvent extends PlayerEvent {
 

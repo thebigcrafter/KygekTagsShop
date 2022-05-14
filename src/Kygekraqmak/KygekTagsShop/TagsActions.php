@@ -30,7 +30,7 @@ namespace Kygekraqmak\KygekTagsShop;
 use Kygekraqmak\KygekTagsShop\event\TagBuyEvent;
 use Kygekraqmak\KygekTagsShop\event\TagSellEvent;
 use onebone\economyapi\EconomyAPI;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\utils\Config;
 
 /**

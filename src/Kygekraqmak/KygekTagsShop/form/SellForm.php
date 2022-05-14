@@ -29,7 +29,7 @@ namespace Kygekraqmak\KygekTagsShop\form;
 
 use jojoe77777\FormAPI\SimpleForm;
 use Kygekraqmak\KygekTagsShop\utils\Replace;
-use pocketmine\Player;
+use pocketmine\player\Player;
 
 class SellForm extends MenuForm {
 
