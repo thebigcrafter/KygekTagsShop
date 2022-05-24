@@ -22,7 +22,7 @@
 #
 
 name: KygekTagsShop
-version: 1.0.0-beta.6
+version: 1.0.0-RC1
 main: Kygekraqmak\KygekTagsShop\TagsShop
 api: 4.0.0
 author: Kygekraqmak
