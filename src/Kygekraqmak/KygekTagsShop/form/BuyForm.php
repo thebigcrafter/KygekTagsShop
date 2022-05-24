@@ -27,11 +27,11 @@ declare(strict_types=1);
 
 namespace Kygekraqmak\KygekTagsShop\form;
 
-use jojoe77777\FormAPI\CustomForm;
-use jojoe77777\FormAPI\SimpleForm;
 use Kygekraqmak\KygekTagsShop\TagsShop;
 use Kygekraqmak\KygekTagsShop\utils\Replace;
 use pocketmine\player\Player;
+use Vecnavium\FormsUI\CustomForm;
+use Vecnavium\FormsUI\SimpleForm;
 
 class BuyForm extends MenuForm {
 

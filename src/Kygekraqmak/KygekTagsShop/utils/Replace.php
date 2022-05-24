@@ -44,7 +44,7 @@ class Replace {
     public static function replaceTag(Player $player, int $tagid, string $text) : string {
         $tagsshop = TagsShop::getInstance();
         $api = TagsShop::getAPI();
-        $currency = $tagsshop->economyEnabled ? $tagsshop->economyAPI->getMonetaryUnit() : "";
+        $currency = $tagsshop->economyEnabled ? "$" : "";
         $price = ($tagsshop->economyEnabled and $api->tagExists($tagid)) ? $currency . $api->getTagPrice($tagid) : "free";
         $name = $api->getTagName($tagid) ?? "Unknown tag";
 
@@ -57,5 +57,4 @@ class Replace {
 
         return strtr($text, $replace);
     }
-
 }

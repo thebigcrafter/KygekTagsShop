@@ -29,7 +29,7 @@ namespace Kygekraqmak\KygekTagsShop\form;
 
 use Kygekraqmak\KygekTagsShop\TagsShop;
 use Kygekraqmak\KygekTagsShop\utils\Replace;
-use jojoe77777\FormAPI\SimpleForm;
+use Vecnavium\FormsUI\SimpleForm;
 use pocketmine\player\Player;
 
 class MenuForm {

@@ -27,7 +27,7 @@ declare(strict_types=1);
 
 namespace Kygekraqmak\KygekTagsShop\form;
 
-use jojoe77777\FormAPI\SimpleForm;
+use Vecnavium\FormsUI\SimpleForm;
 use Kygekraqmak\KygekTagsShop\utils\Replace;
 use pocketmine\player\Player;
 

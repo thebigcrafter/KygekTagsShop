@@ -27,9 +27,10 @@ declare(strict_types=1);
 
 namespace Kygekraqmak\KygekTagsShop;
 
+use cooldogedev\BedrockEconomy\api\BedrockEconomyAPI;
+use cooldogedev\BedrockEconomy\libs\cooldogedev\libSQL\context\ClosureContext;
 use Kygekraqmak\KygekTagsShop\event\TagBuyEvent;
 use Kygekraqmak\KygekTagsShop\event\TagSellEvent;
-use onebone\economyapi\EconomyAPI;
 use pocketmine\player\Player;
 use pocketmine\utils\Config;
 
@@ -52,17 +53,13 @@ class TagsActions {
 
     /** @var bool */
     private $economyEnabled;
-    /** @var EconomyAPI|null */
-    private $economyAPI;
 
-    public function __construct(TagsShop $plugin, array $config, Config $data, bool $economyEnabled, ?EconomyAPI $economyAPI) {
+    public function __construct(TagsShop $plugin, array $config, Config $data, bool $economyEnabled) {
         $this->plugin = $plugin;
         $this->config = $config;
         $this->data = $data;
-        $this->economyEnabled = $economyEnabled;
-        $this->economyAPI = $economyAPI;
+        $this->economyEnabled = $economyEnabled;;
     }
-
 
     /**
      * Get tags in config file
@@ -135,7 +132,7 @@ class TagsActions {
      * @return bool
      */
     public function playerHasTag(Player $player) : bool {
-        return isset($this->getAllData()[$player->getLowercaseName()]);
+        return isset($this->getAllData()[strtolower($player->getName())]);
     }
 
 
@@ -171,13 +168,12 @@ class TagsActions {
 
         if ($this->economyEnabled) {
             $tagprice = $this->getTagPrice($this->getPlayerTag($player));
-            $currency = $this->economyAPI->getMonetaryUnit();
             (new TagSellEvent($player, $tagid))->call();
-            $this->economyAPI->addMoney($player, $tagprice);
+            BedrockEconomyAPI::getInstance()->addToPlayerBalance($player->getName(), $tagprice);
             $this->removeData($player);
             // TODO: Set player display name to original display name after new database has been implemented
             $player->setDisplayName($player->getName());
-            $player->sendMessage(str_replace("{price}", $currency . $tagprice, $this->plugin->messages["kygektagsshop.info.economyselltagsuccess"]));
+            $player->sendMessage(str_replace("{price}", "$" . $tagprice, $this->plugin->messages["kygektagsshop.info.economyselltagsuccess"]));
             return;
         }
 
@@ -204,24 +200,24 @@ class TagsActions {
         }
 
         if ($this->economyEnabled) {
-            $playermoney = $this->economyAPI->myMoney($player);
-            $tagprice = $this->getTagPrice($tagid);
-            $currency = $this->economyAPI->getMonetaryUnit();
-            $money = $currency . ($tagprice - $playermoney);
+            BedrockEconomyAPI::getInstance()->getPlayerBalance($player->getName(), ClosureContext::create(function(?int $balance) use ($tagid, $player): void {
+                $tagprice = $this->getTagPrice($tagid);
+                $money = "$" . ($tagprice - $balance);
 
-            if ($playermoney < $tagprice) {
-                $player->sendMessage(str_replace("{price}", $money, $this->plugin->messages["kygektagsshop.warning.notenoughmoney"]));
-                return;
-            }
+                if ($balance < $tagprice) {
+                    $player->sendMessage(str_replace("{price}", $money, $this->plugin->messages["kygektagsshop.warning.notenoughmoney"]));
+                    return;
+                }
 
-            (new TagBuyEvent($player, $tagid))->call();
-            $this->setData($player, $tagid);
-            $this->economyAPI->reduceMoney($player, $tagprice);
-            // TODO: Store original player display name in database after new database has been implemented (See line #178 for purpose)
-            $displayName = $player->getDisplayName();
-            $tag = $this->getTagName($tagid);
-            $player->setDisplayName(str_replace(["{displayname}", "{tag}"], [$displayName, $tag], $this->getDisplayNameFormat()));
-            $player->sendMessage(str_replace("{price}", $currency . $tagprice, $this->plugin->messages["kygektagsshop.info.economybuytagsuccess"]));
+                (new TagBuyEvent($player, $tagid))->call();
+                $this->setData($player, $tagid);
+                BedrockEconomyAPI::getInstance()->subtractFromPlayerBalance($player->getName(), $tagprice);
+                // TODO: Store original player display name in database after new database has been implemented (See line #178 for purpose)
+                $displayName = $player->getDisplayName();
+                $tag = $this->getTagName($tagid);
+                $player->setDisplayName(str_replace(["{displayname}", "{tag}"], [$displayName, $tag], $this->getDisplayNameFormat()));
+                $player->sendMessage(str_replace("{price}", "$" . $tagprice, $this->plugin->messages["kygektagsshop.info.economybuytagsuccess"]));
+            }));
             return;
         }
 
@@ -249,7 +245,7 @@ class TagsActions {
      * @return int
      */
     private function getData(Player $player) : int {
-        return $this->data->get($player->getLowercaseName());
+        return $this->data->get(strtolower($player->getName()));
     }
 
 
@@ -260,7 +256,7 @@ class TagsActions {
      * @param int $tagid
      */
     private function setData(Player $player, int $tagid) {
-        $this->data->set($player->getLowercaseName(), $tagid);
+        $this->data->set(strtolower($player->getName()), $tagid);
         $this->saveData();
         $this->reloadData();
     }
@@ -272,7 +268,7 @@ class TagsActions {
      * @param Player $player
      */
     private function removeData(Player $player) {
-        $this->data->remove($player->getLowercaseName());
+        $this->data->remove(strtolower($player->getName()));
         $this->saveData();
         $this->reloadData();
     }
