@@ -22,12 +22,12 @@
 #
 
 name: KygekTagsShop
-version: 1.0.0-RC1
+version: 1.0.0-RC2
 main: Kygekraqmak\KygekTagsShop\TagsShop
 api: 4.0.0
 author: Kygekraqmak
-website: "https://github.com/Kygekraqmak/KygekTagsShop"
-softdepend: EconomyAPI
+website: "https://github.com/thebigcrafter/KygekTagsShop"
+softdepend: BedrockEconomy
 
 permissions:
   kygektagsshop.tags:
