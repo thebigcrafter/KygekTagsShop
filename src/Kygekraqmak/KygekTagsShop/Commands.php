@@ -31,8 +31,10 @@ use Kygekraqmak\KygekTagsShop\form\MenuForm;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
+use pocketmine\plugin\Plugin;
+use pocketmine\plugin\PluginOwned;
 
-class Commands extends Command {
+class Commands extends Command implements PluginOwned {
 
     /** @var TagsShop */
     private $main;
@@ -48,27 +50,28 @@ class Commands extends Command {
         $this->setDescription($desc);
     }
 
-    public function getMain() : TagsShop {
-        return $this->main;
-    }
-
     public function execute(CommandSender $sender, string $commandLabel, array $args) : bool {
         if (!$sender instanceof Player) {
-            $sender->sendMessage($this->getMain()->messages["kygektagsshop.warning.notplayer"]);
+            $sender->sendMessage($this->getOwningPlugin()->messages["kygektagsshop.warning.notplayer"]);
             return true;
         }
 
         if (!$sender->hasPermission("kygektagsshop.tags")) {
-            $sender->sendMessage($this->getMain()->messages["kygektagsshop.warning.nopermission"]);
+            $sender->sendMessage($this->getOwningPlugin()->messages["kygektagsshop.warning.nopermission"]);
             return true;
         }
 
-        if (!$this->getMain()->fileExists()) {
-            $sender->sendMessage($this->getMain()->messages["kygektagsshop.warning.filemissing"]);
+        if (!$this->getOwningPlugin()->fileExists()) {
+            $sender->sendMessage($this->getOwningPlugin()->messages["kygektagsshop.warning.filemissing"]);
             return true;
         }
 
         MenuForm::menuForm($sender);
         return true;
+    }
+
+    public function getOwningPlugin(): TagsShop
+    {
+        return $this->main;
     }
 }
