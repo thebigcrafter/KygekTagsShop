@@ -204,7 +204,7 @@ class TagsActions {
                 $tagprice = $this->getTagPrice($tagid);
                 $money = "$" . ($tagprice - $balance);
 
-                if ($balance >= $tagprice) {
+                if ($balance < $tagprice) {
                     $player->sendMessage(str_replace("{price}", $money, $this->plugin->messages["kygektagsshop.warning.notenoughmoney"]));
                     return;
                 }
