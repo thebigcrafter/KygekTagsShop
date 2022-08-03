@@ -133,7 +133,10 @@ class TagsActions {
      * @return bool
      */
     public function playerHasTag(Player $player) : bool {
-        return isset($this->getAllData()[strtolower($player->getName())]);
+        $data = $this->getAllData(function (?array $data): array{
+            return $data;
+        });
+        return isset($data[strtolower($player->getName())]);
     }
 
     /**
@@ -303,7 +306,7 @@ class TagsActions {
      * Gets all KygekTagsShop database contents
      *
      * @param Closure $callback
-     * @return array
+     * @return void
      */
     public function getAllData(Closure $callback) : void {
         $this->data->executeSelect('kygektagsshop.getall', [
