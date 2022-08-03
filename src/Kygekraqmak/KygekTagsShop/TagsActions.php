@@ -133,8 +133,9 @@ class TagsActions {
      * @return bool
      */
     public function playerHasTag(Player $player) : bool {
-        $data = $this->getAllData(function (?array $data): array{
-            return $data;
+        /** @var array $data */
+        $data = $this->getAllData(function (?array $result){
+            return $result;
         });
         return isset($data[strtolower($player->getName())]);
     }
@@ -146,7 +147,7 @@ class TagsActions {
      *
      * @param Player $player
      * @param Closure $callback
-     * @return null|int
+     * @return null|int|void
      */
     public function getPlayerTag(Player $player, Closure $callback) : ?int {
         if (!$this->playerHasTag($player)) return null;
