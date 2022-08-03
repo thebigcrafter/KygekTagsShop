@@ -246,9 +246,8 @@ class TagsActions {
      *
      * @param Player $player
      * @param Closure $callback
-     * @return void
      */
-    private function getData(Player $player, Closure $callback) : void {
+    private function getData(Player $player, Closure $callback) {
         $this->data->executeSelect(
             'kygektagsshop.get',
             [
