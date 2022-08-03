@@ -50,12 +50,13 @@ class MenuForm {
                     }
                     break;
                 case 1:
-                    $tagid = TagsShop::getAPI()->getPlayerTag($player);
-                    if ($tagid === null) {
-                        SellForm::noTagForm($player);
-                    } else {
-                        SellForm::sellTagForm($player, $tagid);
-                    }
+                    TagsShop::getAPI()->getPlayerTag($player, function (?int $tagid) use ($player): void{
+                        if ($tagid === null) {
+                            SellForm::noTagForm($player);
+                        } else {
+                            SellForm::sellTagForm($player, $tagid);
+                        }
+                    });
                     break;
             }
         });

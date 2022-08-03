@@ -55,9 +55,6 @@ class TagsActions {
     /** @var bool */
     private $economyEnabled;
 
-    /** @var string[] */
-    private array $temp = [];
-
     public function __construct(TagsShop $plugin, array $config, DataConnector $data, bool $economyEnabled) {
         $this->plugin = $plugin;
         $this->config = $config;
