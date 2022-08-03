@@ -151,7 +151,7 @@ class TagsActions {
     public function getPlayerTag(Player $player, Closure $callback) {
         if (!$this->playerHasTag($player)) return null;
 
-        return $this->getData($player, $callback);
+        $this->getData($player, $callback);
     }
 
 
