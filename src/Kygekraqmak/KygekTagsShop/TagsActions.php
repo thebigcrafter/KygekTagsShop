@@ -310,7 +310,7 @@ class TagsActions {
         ],
         function (array $data) use ($callback){
             if(empty($data));
-            $callback($data);
+            $callback($data[0]);
         }
         );
     }
