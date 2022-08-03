@@ -147,9 +147,8 @@ class TagsActions {
      *
      * @param Player $player
      * @param Closure $callback
-     * @return null|int|void
      */
-    public function getPlayerTag(Player $player, Closure $callback) : ?int {
+    public function getPlayerTag(Player $player, Closure $callback) {
         if (!$this->playerHasTag($player)) return null;
 
         return $this->getData($player, $callback);
@@ -307,9 +306,8 @@ class TagsActions {
      * Gets all KygekTagsShop database contents
      *
      * @param Closure $callback
-     * @return void
      */
-    public function getAllData(Closure $callback) : void {
+    public function getAllData(Closure $callback) {
         $this->data->executeSelect('kygektagsshop.getall', [
         ],
         function (array $data) use ($callback){
