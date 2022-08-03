@@ -31,7 +31,6 @@ use Kygekraqmak\KygekTagsShop\form\MenuForm;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
-use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginOwned;
 
 class Commands extends Command implements PluginOwned {

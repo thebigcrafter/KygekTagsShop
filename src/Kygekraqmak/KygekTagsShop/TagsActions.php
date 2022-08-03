@@ -302,21 +302,17 @@ class TagsActions {
     /**
      * Gets all KygekTagsShop database contents
      *
-     * @param bool $keys
+     * @param Closure $callback
      * @return array
      */
-    public function getAllData() : array {
+    public function getAllData(Closure $callback) : void {
         $this->data->executeSelect('kygektagsshop.getall', [
         ],
-        function (array $data){
-            if(empty($data)) $this->temp = [];
-            foreach ($data as $player){
-                $this->temp = [];
-                var_dump($player);
-            }
+        function (array $data) use ($callback){
+            if(empty($data));
+            $callback($data);
         }
         );
-        return $this->temp;
     }
 
 
