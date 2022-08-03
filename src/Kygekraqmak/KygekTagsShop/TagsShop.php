@@ -34,6 +34,8 @@ use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat as TF;
 use pocketmine\utils\Config;
+use poggit\libasynql\libasynql;
+use poggit\libasynql\DataConnector;
 
 class TagsShop extends PluginBase implements Listener {
 
@@ -43,7 +45,8 @@ class TagsShop extends PluginBase implements Listener {
 
     /** @var array */
     public $config;
-    /** @var Config */
+    
+    /** @var DataConnector */
     public $data;
     /** @var string */
     private $prefix = TF::YELLOW . "[KygekTagsShop] " . TF::RESET;
@@ -81,7 +84,12 @@ class TagsShop extends PluginBase implements Listener {
 
         $this->saveResource("config.yml");
         $this->config = $this->getConfig()->getAll();
-        $this->data = new Config($this->getDataFolder()."data.json", Config::JSON);
+        // $this->data = new Config($this->getDataFolder()."data.json", Config::JSON);
+        $db = libasynql::create($this, $this->config['database'], ['mysql' => 'mysql.sql', 'sqlite' => 'sqlite.sql']);
+        $db->executeGeneric('kygektagsshop.init');
+        $db->waitAll();
+        $this->data = $db;
+
         $this->prefix = empty($this->config["prefix"]) ? TF::YELLOW . "[KygekTagsShop] " . TF::RESET : $this->config["prefix"];
 
         $this->defaultMessages = [
@@ -123,7 +131,6 @@ class TagsShop extends PluginBase implements Listener {
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->getServer()->getCommandMap()->register("KygekTagsShop", new Commands($this, $cmddesc, $cmdalias));
         self::$api = new TagsActions($this, $this->config, $this->data, $this->economyEnabled);
-
         (new KtpmplCfs($this))->checkUpdates();
     }
 
@@ -166,10 +173,11 @@ class TagsShop extends PluginBase implements Listener {
         }
 
         if (self::getAPI()->playerHasTag($player)) {
-            $tagid = self::getAPI()->getPlayerTag($player);
-            if (self::getAPI()->tagExists($tagid)) {
-                $player->setDisplayName($player->getName() . " " . $this->getAPI()->getTagName($tagid));
-            }
+            self::getAPI()->getData($player, function (?int $tagid) use ($player): void{
+                if (self::getAPI()->tagExists($tagid)) {
+                    $player->setDisplayName($player->getName() . " " . self::getAPI()->getTagName($tagid));
+                }
+            });
         }
     }
 
