@@ -10,4 +10,6 @@ projects:
       version: ^1.1.2
     - src: thebigcrafter/ktpmpl-cfs/ktpmpl-cfs
       version: ^4.0.0
+    - src: poggit/libasynql/libasynql
+      version: ^3.4.0
 ...
