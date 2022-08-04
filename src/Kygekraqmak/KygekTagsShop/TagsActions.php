@@ -32,7 +32,6 @@ use cooldogedev\BedrockEconomy\api\BedrockEconomyAPI;
 use cooldogedev\BedrockEconomy\libs\cooldogedev\libSQL\context\ClosureContext;
 use Kygekraqmak\KygekTagsShop\event\TagBuyEvent;
 use Kygekraqmak\KygekTagsShop\event\TagSellEvent;
-use pocketmine\player\OfflinePlayer;
 use pocketmine\player\Player;
 use pocketmine\Server;
 use poggit\libasynql\DataConnector;
@@ -61,10 +60,7 @@ class TagsActions {
         $this->plugin = $plugin;
         $this->config = $config;
         $this->data = $data;
-        $this->economyEnabled = $economyEnabled;
-        $this->getAllData(function (?array $array){
-            var_dump($array);
-        });
+        $this->economyEnabled = $economyEnabled;=
     }
 
     /**
@@ -137,7 +133,7 @@ class TagsActions {
      * @param Player $player
      * @return bool
      */
-    public function playerHasTag(OfflinePlayer $player) : bool {
+    public function playerHasTag(Player $player) : bool {
         /** @var array $data */
         $data = $this->getAllData(function (?array $result) use ($data){
             $data = $result;
