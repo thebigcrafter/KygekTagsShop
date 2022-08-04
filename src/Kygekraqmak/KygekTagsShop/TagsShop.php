@@ -171,14 +171,11 @@ class TagsShop extends PluginBase implements Listener {
             $player->sendMessage($this->messages["kygektagsshop.warning.filemissing"]);
             return;
         }
-
-        if (self::getAPI()->playerHasTag($player)) {
-            self::getAPI()->getPlayerTag($player, function (?int $tagid) use ($player): void{
-                if (self::getAPI()->tagExists($tagid)) {
-                    $player->setDisplayName($player->getName() . " " . self::getAPI()->getTagName($tagid));
-                }
-            });
-        }
+        self::getAPI()->getPlayerTag($player, function (?int $tagid) use ($player): void{
+            if (self::getAPI()->tagExists($tagid) && $tagid !== 0) {
+                $player->setDisplayName($player->getName() . " " . self::getAPI()->getTagName($tagid));
+            }
+        });
     }
 
     private function checkConfig() {
