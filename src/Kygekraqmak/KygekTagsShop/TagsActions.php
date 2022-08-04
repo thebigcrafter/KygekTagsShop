@@ -209,7 +209,7 @@ class TagsActions {
             $this->setData($player, $tagid);
             $player->setDisplayName($player->getName() . " " . $this->getTagName($tagid));
             $player->sendMessage($this->plugin->messages["kygektagsshop.info.freebuytagsuccess"]);
-        }
+        });
     }
 
 
