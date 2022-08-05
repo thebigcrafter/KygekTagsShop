@@ -84,7 +84,6 @@ class TagsShop extends PluginBase implements Listener {
 
         $this->saveResource("config.yml");
         $this->config = $this->getConfig()->getAll();
-        // $this->data = new Config($this->getDataFolder()."data.json", Config::JSON);
         $db = libasynql::create($this, $this->config['database'], ['mysql' => 'mysql.sql', 'sqlite' => 'sqlite.sql']);
         $db->executeGeneric('kygektagsshop.init');
         $db->waitAll();
