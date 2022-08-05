@@ -44,7 +44,7 @@ class MenuForm {
             switch ($data) {
                 case 0:
                     TagsShop::getAPI()->getPlayerTag($player, function (?int $tagid) use ($player): void{
-                        if ($tagid !== 0) {
+                        if ($tagid !== -1) {
                             BuyForm::tagExistsForm($player);
                         } else {
                             BuyForm::tagsListForm($player);
