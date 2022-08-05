@@ -147,7 +147,7 @@ class TagsActions {
      */
     public function unsetPlayerTag(Player $player) {
         $this->getPlayerTag($player, function (?int $tagid) use ($player): void{
-            if($tagid == null){
+            if($tagid == -1){
                 $player->sendMessage($this->plugin->messages["kygektagsshop.warning.playerhasnotag"]);
                 return;
             }
@@ -237,9 +237,9 @@ class TagsActions {
             ],
             function (array $data) use ($callback){
                 if(empty($data))
-                    $callback(null);
+                    $callback(-1);
                 else
-                    $callback(isset($data[0]) ? $data[0]['tagid'] : null);
+                    $callback(isset($data[0]) ? $data[0]['tagid'] : -1);
             }
         );
     }

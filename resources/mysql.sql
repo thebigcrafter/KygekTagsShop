@@ -5,7 +5,7 @@
 CREATE TABLE IF NOT EXISTS kygektagsshop
 (
     player VARCHAR(32) PRIMARY KEY,
-    tagid INT NOT NULL
+    tagid INT OR NULL
 );
 -- # }
 
