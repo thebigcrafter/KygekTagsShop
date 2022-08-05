@@ -241,8 +241,9 @@ class TagsActions {
                         'tagid' => 0
                     ]);
                     $callback(0);
-                };
-                $callback($data[0]['tagid']);
+                    return;
+                }
+                $callback(isset($data[0]) ? $data[0]['tagid'] : 0);
             }
         );
     }
