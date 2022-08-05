@@ -237,7 +237,7 @@ class TagsActions {
             function (array $data) use ($player, $callback){
                 if(empty($data)){
                     $this->data->executeInsert('kygektagsshop.insert', [
-                        'player' => $player,
+                        'player' => strtolower($player->getName()),
                         'tagid' => 0
                     ]);
                     $this->data->waitAll();
