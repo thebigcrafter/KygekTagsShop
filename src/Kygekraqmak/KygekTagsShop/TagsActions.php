@@ -149,6 +149,7 @@ class TagsActions {
         $this->getPlayerTag($player, function (?int $tagid) use ($player): void{
             if($tagid == 0){
                 $player->sendMessage($this->plugin->messages["kygektagsshop.warning.playerhasnotag"]);
+                return;
             }
             if ($this->economyEnabled) {
                 $tagprice = $this->getTagPrice($tagid);
