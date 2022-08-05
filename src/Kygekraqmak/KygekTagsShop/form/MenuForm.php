@@ -53,7 +53,7 @@ class MenuForm {
                     break;
                 case 1:
                     TagsShop::getAPI()->getPlayerTag($player, function (?int $tagid) use ($player): void{
-                        if ($tagid === null) {
+                        if ($tagid === null or $tagid === -1) {
                             SellForm::noTagForm($player);
                         } else {
                             SellForm::sellTagForm($player, $tagid);
