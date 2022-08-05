@@ -240,7 +240,6 @@ class TagsActions {
                         'player' => strtolower($player->getName()),
                         'tagid' => 0
                     ]);
-                    $this->data->waitAll();
                     $callback(0);
                 };
                 $callback($data[0]['tagid']);
@@ -274,7 +273,6 @@ class TagsActions {
         $this->data->executeChange('kygektagsshop.remove', [
             'player' => strtolower($player->getName())
         ]);
-        $this->data->waitAll();
     }
 
 
