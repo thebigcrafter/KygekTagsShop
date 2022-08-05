@@ -171,7 +171,7 @@ class TagsShop extends PluginBase implements Listener {
             return;
         }
         self::getAPI()->getPlayerTag($player, function (?int $tagid) use ($player): void{
-            if (self::getAPI()->tagExists($tagid) && $tagid !== null) {
+            if ($tagid !== null && self::getAPI()->tagExists($tagid)) {
                 $player->setDisplayName($player->getName() . " " . self::getAPI()->getTagName($tagid));
             }
         });
