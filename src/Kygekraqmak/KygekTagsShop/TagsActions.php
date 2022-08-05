@@ -235,7 +235,7 @@ class TagsActions {
             [
                 'player' => strtolower($player->getName())
             ],
-            function (array $data) use ($player, $callback){
+            function (array $data) use ($callback){
                 if(empty($data))
                     $callback(null);
                 else
@@ -258,7 +258,7 @@ class TagsActions {
             [
                 'player' => strtolower($player->getName())
             ],
-            function (array $data) use ($player){
+            function (array $data) use ($player, $tagid){
                 if(empty($data)){
                     $this->data->executeInsert('kygektagsshop.insert', [
                         'player' => strtolower($player->getName()),
