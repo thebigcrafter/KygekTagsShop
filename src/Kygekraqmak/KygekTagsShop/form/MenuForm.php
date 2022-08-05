@@ -43,11 +43,13 @@ class MenuForm {
             if ($data === null) return true;
             switch ($data) {
                 case 0:
-                    if (TagsShop::getAPI()->playerHasTag($player)) {
-                        BuyForm::tagExistsForm($player);
-                    } else {
-                        BuyForm::tagsListForm($player);
-                    }
+                    TagsShop::getAPI()->getPlayerTag($player, function (?int $tagid) use ($player): void{
+                        if ($tagid === 0) {
+                            BuyForm::tagExistsForm($player);
+                        } else {
+                            BuyForm::tagsListForm($player);
+                        }
+                    });
                     break;
                 case 1:
                     TagsShop::getAPI()->getPlayerTag($player, function (?int $tagid) use ($player): void{
