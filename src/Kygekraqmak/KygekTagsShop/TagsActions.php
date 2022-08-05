@@ -147,7 +147,7 @@ class TagsActions {
      */
     public function unsetPlayerTag(Player $player) {
         $this->getPlayerTag($player, function (?int $tagid) use ($player): void{
-            if($tagid == -1){
+            if($tagid == null){
                 $player->sendMessage($this->plugin->messages["kygektagsshop.warning.playerhasnotag"]);
                 return;
             }
@@ -236,15 +236,10 @@ class TagsActions {
                 'player' => strtolower($player->getName())
             ],
             function (array $data) use ($player, $callback){
-                if(empty($data)){
-                    $this->data->executeInsert('kygektagsshop.insert', [
-                        'player' => strtolower($player->getName()),
-                        'tagid' => -1
-                    ]);
-                    $callback(-1);
-                    return;
-                }
-                $callback(isset($data[0]) ? $data[0]['tagid'] : -1);
+                if(empty($data))
+                    $callback(null);
+                else
+                    $callback(isset($data[0]) ? $data[0]['tagid'] : null);
             }
         );
     }
@@ -258,11 +253,26 @@ class TagsActions {
      */
     private function setData(Player $player, int $tagid) {
         //$this->data->set(strtolower($player->getName()), $tagid);
-        $this->data->executeChange('kygektagsshop.update', [
-            'player' => strtolower($player->getName()),
-            'tagid' => $tagid
-        ]);
-        $this->data->waitAll();
+        $this->data->executeSelect(
+            'kygektagsshop.get',
+            [
+                'player' => strtolower($player->getName())
+            ],
+            function (array $data) use ($player){
+                if(empty($data)){
+                    $this->data->executeInsert('kygektagsshop.insert', [
+                        'player' => strtolower($player->getName()),
+                        'tagid' => $tagid
+                    ]);
+                } else{
+                    $this->data->executeChange('kygektagsshop.update', [
+                        'player' => strtolower($player->getName()),
+                        'tagid' => $tagid
+                    ]);
+                    $this->data->waitAll();
+                }
+            }
+        );
     }
 
 
