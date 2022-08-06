@@ -50,7 +50,7 @@
 
 > If you want to download the latest development build, which may contain the latest features that are currently in development, head over to Poggit CI and download the latest build. Please note that development builds may be unstable because it may contain untested issues or bugs.
 
-# Commands & Permissions
+# 📜 Commands & Permissions
 
 | Command     | Default Description                                     | Permission           | Default |
 | ----------- | ------------------------------------------------------- | -------------------- | ------- |
@@ -60,12 +60,12 @@
 - Command description can be changed in `config.yml`. You can also add command aliases in `config.yml`.  
 - Use `-kygektagsshop.tags` to blacklist the `/tagsshop` command permission to groups/users in PurePerms.
 
-# Contributing
+# ✨ Contributing
 
 Help us by contributing or translating KygekTagsShop plugin. To add translation, fork the KygekTagsShop plugin repo and copy the `en.yml` file inside `resources/lang` directory to the language code.
 
 Don't forget to create a [pull request](https://github.com/thebigcrafter/KygekTagsShop/pulls)!
 
-# License
+# ⚖️ License
 
 Licensed under the [GNU General Public License v3.0](https://github.com/thebigcrafter/KygekTagsShop/blob/master/LICENSE) license.
