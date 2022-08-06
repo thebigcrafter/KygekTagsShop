@@ -27,12 +27,13 @@ declare(strict_types=1);
 
 namespace Kygekraqmak\KygekTagsShop;
 
+use Closure;
 use cooldogedev\BedrockEconomy\api\BedrockEconomyAPI;
 use cooldogedev\BedrockEconomy\libs\cooldogedev\libSQL\context\ClosureContext;
 use Kygekraqmak\KygekTagsShop\event\TagBuyEvent;
 use Kygekraqmak\KygekTagsShop\event\TagSellEvent;
 use pocketmine\player\Player;
-use pocketmine\utils\Config;
+use poggit\libasynql\DataConnector;
 
 /**
  * KygekTagsShop API class
@@ -48,17 +49,17 @@ class TagsActions {
 
     /** @var array */
     private $config;
-    /** @var Config */
+    /** @var DataConnector */
     private $data;
 
     /** @var bool */
     private $economyEnabled;
 
-    public function __construct(TagsShop $plugin, array $config, Config $data, bool $economyEnabled) {
+    public function __construct(TagsShop $plugin, array $config, DataConnector $data, bool $economyEnabled) {
         $this->plugin = $plugin;
         $this->config = $config;
         $this->data = $data;
-        $this->economyEnabled = $economyEnabled;;
+        $this->economyEnabled = $economyEnabled;
     }
 
     /**
@@ -124,30 +125,16 @@ class TagsActions {
         return isset($this->getAllTags()[$tagid]);
     }
 
-
-    /**
-     * Checks if player has tag
-     *
-     * @param Player $player
-     * @return bool
-     */
-    public function playerHasTag(Player $player) : bool {
-        return isset($this->getAllData()[strtolower($player->getName())]);
-    }
-
-
     /**
      * Gets player's tag ID from database
      *
      * Returns null if player doesn't have tag
      *
      * @param Player $player
-     * @return null|int
+     * @param Closure $callback
      */
-    public function getPlayerTag(Player $player) : ?int {
-        if (!$this->playerHasTag($player)) return null;
-
-        return $this->getData($player);
+    public function getPlayerTag(Player $player, Closure $callback) {
+        $this->getData($player, $callback);
     }
 
 
@@ -159,28 +146,27 @@ class TagsActions {
      * @param Player $player
      */
     public function unsetPlayerTag(Player $player) {
-        if (!$this->playerHasTag($player)) {
-            $player->sendMessage($this->plugin->messages["kygektagsshop.warning.playerhasnotag"]);
-            return;
-        }
-
-        $tagid = $this->getPlayerTag($player);
-
-        if ($this->economyEnabled) {
-            $tagprice = $this->getTagPrice($this->getPlayerTag($player));
+        $this->getPlayerTag($player, function (?int $tagid) use ($player): void{
+            if($tagid == -1){
+                $player->sendMessage($this->plugin->messages["kygektagsshop.warning.playerhasnotag"]);
+                return;
+            }
+            if ($this->economyEnabled) {
+                $tagprice = $this->getTagPrice($tagid);
+                (new TagSellEvent($player, $tagid))->call();
+                BedrockEconomyAPI::getInstance()->addToPlayerBalance($player->getName(), $tagprice);
+                $this->removeData($player);
+                // TODO: Set player display name to original display name after new database has been implemented
+                $player->setDisplayName($player->getName());
+                $player->sendMessage(str_replace("{price}", "$" . $tagprice, $this->plugin->messages["kygektagsshop.info.economyselltagsuccess"]));
+                return;
+            }
+    
             (new TagSellEvent($player, $tagid))->call();
-            BedrockEconomyAPI::getInstance()->addToPlayerBalance($player->getName(), $tagprice);
             $this->removeData($player);
-            // TODO: Set player display name to original display name after new database has been implemented
             $player->setDisplayName($player->getName());
-            $player->sendMessage(str_replace("{price}", "$" . $tagprice, $this->plugin->messages["kygektagsshop.info.economyselltagsuccess"]));
-            return;
-        }
-
-        (new TagSellEvent($player, $tagid))->call();
-        $this->removeData($player);
-        $player->setDisplayName($player->getName());
-        $player->sendMessage($this->plugin->messages["kygektagsshop.info.freeselltagsuccess"]);
+            $player->sendMessage($this->plugin->messages["kygektagsshop.info.freeselltagsuccess"]);
+        });
     }
 
 
@@ -193,38 +179,38 @@ class TagsActions {
      * @param int $tagid
      */
     public function setPlayerTag(Player $player, int $tagid) {
+        $this->getPlayerTag($player, function (?int $currentid) use ($player, $tagid): void{
+            if($currentid == $tagid){
+                $player->sendMessage($this->plugin->messages["kygektagsshop.warning.playerhastag"]);
+                return;
+            }
+            if ($this->economyEnabled) {
+                BedrockEconomyAPI::getInstance()->getPlayerBalance($player->getName(), ClosureContext::create(function(?int $balance) use ($tagid, $player): void {
+                    $tagprice = $this->getTagPrice($tagid);
+                    $money = "$" . ($tagprice - $balance);
 
-        if ($this->playerHasTag($player)) {
-            $player->sendMessage($this->plugin->messages["kygektagsshop.warning.playerhastag"]);
-            return;
-        }
+                    if ($balance < $tagprice) {
+                        $player->sendMessage(str_replace("{price}", $money, $this->plugin->messages["kygektagsshop.warning.notenoughmoney"]));
+                        return;
+                    }
 
-        if ($this->economyEnabled) {
-            BedrockEconomyAPI::getInstance()->getPlayerBalance($player->getName(), ClosureContext::create(function(?int $balance) use ($tagid, $player): void {
-                $tagprice = $this->getTagPrice($tagid);
-                $money = "$" . ($tagprice - $balance);
+                    (new TagBuyEvent($player, $tagid))->call();
+                    $this->setData($player, $tagid);
+                    BedrockEconomyAPI::getInstance()->subtractFromPlayerBalance($player->getName(), $tagprice);
+                    // TODO: Store original player display name in database after new database has been implemented (See line #178 for purpose)
+                    $displayName = $player->getDisplayName();
+                    $tag = $this->getTagName($tagid);
+                    $player->setDisplayName(str_replace(["{displayname}", "{tag}"], [$displayName, $tag], $this->getDisplayNameFormat()));
+                    $player->sendMessage(str_replace("{price}", "$" . $tagprice, $this->plugin->messages["kygektagsshop.info.economybuytagsuccess"]));
+                }));
+                return;
+            }
 
-                if ($balance < $tagprice) {
-                    $player->sendMessage(str_replace("{price}", $money, $this->plugin->messages["kygektagsshop.warning.notenoughmoney"]));
-                    return;
-                }
-
-                (new TagBuyEvent($player, $tagid))->call();
-                $this->setData($player, $tagid);
-                BedrockEconomyAPI::getInstance()->subtractFromPlayerBalance($player->getName(), $tagprice);
-                // TODO: Store original player display name in database after new database has been implemented (See line #178 for purpose)
-                $displayName = $player->getDisplayName();
-                $tag = $this->getTagName($tagid);
-                $player->setDisplayName(str_replace(["{displayname}", "{tag}"], [$displayName, $tag], $this->getDisplayNameFormat()));
-                $player->sendMessage(str_replace("{price}", "$" . $tagprice, $this->plugin->messages["kygektagsshop.info.economybuytagsuccess"]));
-            }));
-            return;
-        }
-
-        (new TagBuyEvent($player, $tagid))->call();
-        $this->setData($player, $tagid);
-        $player->setDisplayName($player->getName() . " " . $this->getTagName($tagid));
-        $player->sendMessage($this->plugin->messages["kygektagsshop.info.freebuytagsuccess"]);
+            (new TagBuyEvent($player, $tagid))->call();
+            $this->setData($player, $tagid);
+            $player->setDisplayName($player->getName() . " " . $this->getTagName($tagid));
+            $player->sendMessage($this->plugin->messages["kygektagsshop.info.freebuytagsuccess"]);
+        });
     }
 
 
@@ -237,15 +223,25 @@ class TagsActions {
         return ($this->config["display-name-format"] ?? "{displayname} {tag}") ?: "{displayname} {tag}";
     }
 
-
     /**
      * Gets the tag ID of a player from KygekTagsShop database
      *
      * @param Player $player
-     * @return int
+     * @param Closure $callback
      */
-    private function getData(Player $player) : int {
-        return $this->data->get(strtolower($player->getName()));
+    private function getData(Player $player, Closure $callback) {
+        $this->data->executeSelect(
+            'kygektagsshop.get',
+            [
+                'player' => strtolower($player->getName())
+            ],
+            function (array $data) use ($callback){
+                if(empty($data))
+                    $callback(-1);
+                else
+                    $callback(isset($data[0]) ? $data[0]['tagid'] : -1);
+            }
+        );
     }
 
 
@@ -256,9 +252,27 @@ class TagsActions {
      * @param int $tagid
      */
     private function setData(Player $player, int $tagid) {
-        $this->data->set(strtolower($player->getName()), $tagid);
-        $this->saveData();
-        $this->reloadData();
+        //$this->data->set(strtolower($player->getName()), $tagid);
+        $this->data->executeSelect(
+            'kygektagsshop.get',
+            [
+                'player' => strtolower($player->getName())
+            ],
+            function (array $data) use ($player, $tagid){
+                if(empty($data)){
+                    $this->data->executeInsert('kygektagsshop.insert', [
+                        'player' => strtolower($player->getName()),
+                        'tagid' => $tagid
+                    ]);
+                } else{
+                    $this->data->executeChange('kygektagsshop.update', [
+                        'player' => strtolower($player->getName()),
+                        'tagid' => $tagid
+                    ]);
+                    $this->data->waitAll();
+                }
+            }
+        );
     }
 
 
@@ -268,36 +282,27 @@ class TagsActions {
      * @param Player $player
      */
     private function removeData(Player $player) {
-        $this->data->remove(strtolower($player->getName()));
-        $this->saveData();
-        $this->reloadData();
+        $this->data->executeChange('kygektagsshop.remove', [
+            'player' => strtolower($player->getName())
+        ]);
     }
 
 
     /**
      * Gets all KygekTagsShop database contents
      *
-     * @param bool $keys
-     * @return array
+     * @param Closure $callback
      */
-    public function getAllData(bool $keys = false) : array {
-        return $this->data->getAll($keys);
-    }
-
-
-    /**
-     * Reloads the KygekTagsShop database
-     */
-    public function reloadData() {
-        $this->data->reload();
-    }
-
-
-    /**
-     * Saves the KygekTagsShop database
-     */
-    public function saveData() {
-        $this->data->save();
+    public function getAllData(Closure $callback) {
+        $this->data->executeSelect('kygektagsshop.getall', [
+        ],
+        function (array $data) use ($callback){
+            if(empty($data)) 
+                $callback($data);
+            else 
+                $callback($data[0]);
+        }
+        );
     }
 
 

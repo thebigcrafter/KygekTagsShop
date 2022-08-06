@@ -43,19 +43,22 @@ class MenuForm {
             if ($data === null) return true;
             switch ($data) {
                 case 0:
-                    if (TagsShop::getAPI()->playerHasTag($player)) {
-                        BuyForm::tagExistsForm($player);
-                    } else {
-                        BuyForm::tagsListForm($player);
-                    }
+                    TagsShop::getAPI()->getPlayerTag($player, function (?int $tagid) use ($player): void{
+                        if ($tagid !== -1) {
+                            BuyForm::tagExistsForm($player);
+                        } else {
+                            BuyForm::tagsListForm($player);
+                        }
+                    });
                     break;
                 case 1:
-                    $tagid = TagsShop::getAPI()->getPlayerTag($player);
-                    if ($tagid === null) {
-                        SellForm::noTagForm($player);
-                    } else {
-                        SellForm::sellTagForm($player, $tagid);
-                    }
+                    TagsShop::getAPI()->getPlayerTag($player, function (?int $tagid) use ($player): void{
+                        if ($tagid === -1) {
+                            SellForm::noTagForm($player);
+                        } else {
+                            SellForm::sellTagForm($player, $tagid);
+                        }
+                    });
                     break;
             }
         });
