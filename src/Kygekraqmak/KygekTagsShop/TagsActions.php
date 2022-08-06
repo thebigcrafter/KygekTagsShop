@@ -252,7 +252,6 @@ class TagsActions {
      * @param int $tagid
      */
     private function setData(Player $player, int $tagid) {
-        //$this->data->set(strtolower($player->getName()), $tagid);
         $this->data->executeSelect(
             'kygektagsshop.get',
             [
