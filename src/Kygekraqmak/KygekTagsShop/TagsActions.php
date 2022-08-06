@@ -180,7 +180,7 @@ class TagsActions {
      */
     public function setPlayerTag(Player $player, int $tagid) {
         $this->getPlayerTag($player, function (?int $currentid) use ($player, $tagid): void{
-            if($currentid === $tagid){
+            if($currentid == $tagid){
                 $player->sendMessage($this->plugin->messages["kygektagsshop.warning.playerhastag"]);
                 return;
             }
