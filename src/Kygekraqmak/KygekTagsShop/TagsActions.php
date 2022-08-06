@@ -298,7 +298,7 @@ class TagsActions {
         ],
         function (array $data) use ($callback){
             if(empty($data)) 
-                $callback([]);
+                $callback($data);
             else 
                 $callback($data[0]);
         }
