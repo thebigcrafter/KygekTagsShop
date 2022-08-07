@@ -60,6 +60,18 @@
 - Command description can be changed in `config.yml`. You can also add command aliases in `config.yml`.  
 - Use `-kygektagsshop.tags` to blacklist the `/tagsshop` command permission to groups/users in PurePerms.
 
+# ⚙️ For Developers
+
+We provide API for developers to write addons/plugins that depends with KygekTagsShop.
+To access KygekTagsShop API class, you can use Kygekraqmak\KygekTagsShop\TagsShop::getAPI().
+
+Example:
+```php
+$tags = Kygekraqmak\KygekTagsShop\TagsShop::getAPI()->getAllTags(); // Get all tags from KygekTagsShop
+```
+API code can be seen here.
+Please regularly check the changelogs for any changes in the API in future versions.
+
 # ✨ Contributing
 
 Help us by contributing or translating KygekTagsShop plugin. To add translation, fork the KygekTagsShop plugin repo and copy the `en.yml` file inside `resources/lang` directory to the language code.
