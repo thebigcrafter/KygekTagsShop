@@ -33,63 +33,127 @@ use pocketmine\player\Player;
 use Vecnavium\FormsUI\CustomForm;
 use Vecnavium\FormsUI\SimpleForm;
 
-class BuyForm extends MenuForm {
+class BuyForm extends MenuForm
+{
+	public static function tagsListForm(Player $player)
+	{
+		$tagdisplay = [];
+		foreach (TagsShop::getAPI()->getAllTags() as $tags) {
+			$tagdisplay[] = array_keys($tags)[0];
+		}
 
-    public static function tagsListForm(Player $player) {
-        $tagdisplay = [];
-        foreach (TagsShop::getAPI()->getAllTags() as $tags) {
-            $tagdisplay[] = array_keys($tags)[0];
-        }
+		$form = new CustomForm(function (Player $player, $data = null) {
+			if ($data === null) {
+				if (parent::getMain()->config["return-when-closed"]) {
+					parent::menuForm($player);
+				}
+				return true;
+			}
+			self::confirmBuyForm($player, $data[1]);
+		});
 
-        $form = new CustomForm(function (Player $player, $data = null) {
-            if ($data === null) {
-                if (parent::getMain()->config["return-when-closed"]) parent::menuForm($player);
-                return true;
-            }
-            self::confirmBuyForm($player, $data[1]);
-        });
+		$form->setTitle(
+			Replace::replaceGeneric(
+				$player,
+				parent::getMain()->config["buy-title"],
+			),
+		);
+		$form->addLabel(
+			Replace::replaceGeneric(
+				$player,
+				parent::getMain()->config["buy-content"],
+			),
+		);
+		$form->addDropdown(
+			Replace::replaceGeneric(
+				$player,
+				parent::getMain()->config["buy-dropdown"],
+			),
+			$tagdisplay,
+		);
+		$player->sendForm($form);
+	}
 
-        $form->setTitle(Replace::replaceGeneric($player, parent::getMain()->config["buy-title"]));
-        $form->addLabel(Replace::replaceGeneric($player, parent::getMain()->config["buy-content"]));
-        $form->addDropdown(Replace::replaceGeneric($player, parent::getMain()->config["buy-dropdown"]), $tagdisplay);
-        $player->sendForm($form);
-    }
+	public static function tagExistsForm(Player $player)
+	{
+		$form = new SimpleForm(function (Player $player, $data = null) {
+			if ($data === null) {
+				if (parent::getMain()->config["return-when-closed"]) {
+					self::tagsListForm($player);
+				}
+				return true;
+			}
+			if ($data === 0) {
+				parent::menuForm($player);
+			}
+		});
+		$form->setTitle(
+			Replace::replaceGeneric(
+				$player,
+				parent::getMain()->config["tag-exists-title"],
+			),
+		);
+		$form->setContent(
+			Replace::replaceGeneric(
+				$player,
+				parent::getMain()->config["tag-exists-content"],
+			),
+		);
+		$form->addButton(
+			Replace::replaceGeneric(
+				$player,
+				parent::getMain()->config["tag-exists-button"],
+			),
+		);
+		$player->sendForm($form);
+	}
 
-    public static function tagExistsForm(Player $player) {
-        $form = new SimpleForm(function (Player $player, $data = null) {
-            if ($data === null) {
-                if (parent::getMain()->config["return-when-closed"]) self::tagsListForm($player);
-                return true;
-            }
-            if ($data === 0) parent::menuForm($player);
-        });
-        $form->setTitle(Replace::replaceGeneric($player, parent::getMain()->config["tag-exists-title"]));
-        $form->setContent(Replace::replaceGeneric($player, parent::getMain()->config["tag-exists-content"]));
-        $form->addButton(Replace::replaceGeneric($player, parent::getMain()->config["tag-exists-button"]));
-        $player->sendForm($form);
-    }
+	public static function confirmBuyForm(Player $player, int $tagid)
+	{
+		$form = new SimpleForm(function (Player $player, $data = null) use (
+			$tagid,
+		) {
+			if ($data === null) {
+				if (parent::getMain()->config["return-when-closed"]) {
+					self::tagsListForm($player);
+				}
+				return true;
+			}
+			switch ($data) {
+				case 0:
+					TagsShop::getAPI()->setPlayerTag($player, $tagid);
+					break;
+				case 1:
+					self::tagsListForm($player);
+					break;
+			}
+		});
 
-    public static function confirmBuyForm(Player $player, int $tagid) {
-        $form = new SimpleForm(function (Player $player, $data = null) use ($tagid) {
-            if ($data === null) {
-                if (parent::getMain()->config["return-when-closed"]) self::tagsListForm($player);
-                return true;
-            }
-            switch ($data) {
-                case 0:
-                    TagsShop::getAPI()->setPlayerTag($player, $tagid);
-                    break;
-                case 1:
-                    self::tagsListForm($player);
-                    break;
-            }
-        });
-
-        $form->setTitle(Replace::replaceGeneric($player, parent::getMain()->config["buy-confirm-title"]));
-        $form->setContent(Replace::replaceTag($player, $tagid, parent::getMain()->config["buy-confirm-content"]));
-        $form->addButton(Replace::replaceGeneric($player, parent::getMain()->config["buy-confirm-agree-button"]));
-        $form->addButton(Replace::replaceGeneric($player, parent::getMain()->config["buy-confirm-disagree-button"]));
-        $player->sendForm($form);
-    }
-
+		$form->setTitle(
+			Replace::replaceGeneric(
+				$player,
+				parent::getMain()->config["buy-confirm-title"],
+			),
+		);
+		$form->setContent(
+			Replace::replaceTag(
+				$player,
+				$tagid,
+				parent::getMain()->config["buy-confirm-content"],
+			),
+		);
+		$form->addButton(
+			Replace::replaceGeneric(
+				$player,
+				parent::getMain()->config["buy-confirm-agree-button"],
+			),
+		);
+		$form->addButton(
+			Replace::replaceGeneric(
+				$player,
+				parent::getMain()->config["buy-confirm-disagree-button"],
+			),
+		);
+		$player->sendForm($form);
+	}
 }

@@ -32,164 +32,252 @@ use KygekTeam\KtpmplCfs\KtpmplCfs;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\plugin\PluginBase;
-use pocketmine\utils\TextFormat as TF;
 use pocketmine\utils\Config;
-use poggit\libasynql\libasynql;
+use pocketmine\utils\TextFormat as TF;
 use poggit\libasynql\DataConnector;
+use poggit\libasynql\libasynql;
 
-class TagsShop extends PluginBase implements Listener {
+class TagsShop extends PluginBase implements Listener
+{
+	private const ROOT = "kygektagsshop";
+	public const INFO = TF::GREEN;
+	public const WARNING = TF::RED;
 
-    private const ROOT = "kygektagsshop";
-    public const INFO = TF::GREEN;
-    public const WARNING = TF::RED;
+	/** @var array */
+	public $config;
 
-    /** @var array */
-    public $config;
-    
-    /** @var DataConnector */
-    public $data;
-    /** @var string */
-    private $prefix = TF::YELLOW . "[KygekTagsShop] " . TF::RESET;
+	/** @var DataConnector */
+	public $data;
+	/** @var string */
+	private $prefix = TF::YELLOW . "[KygekTagsShop] " . TF::RESET;
 
-    /** @var bool */
-    public $economyEnabled = false;
+	/** @var bool */
+	public $economyEnabled = false;
 
-    /** @var TagsActions */
-    private static $api;
-    /** @var TagsShop */
-    private static $instance = null;
+	/** @var TagsActions */
+	private static $api;
+	/** @var TagsShop */
+	private static $instance = null;
 
-    /** @var string[] */
-    private $lang = ["de", "en", "es", "fr", "id", "ro", "tr"];
-    /** @var string[] */
-    public $messages = [];
-    /** @var string[] */
-    private $defaultMessages = [];
+	/** @var string[] */
+	private $lang = ["de", "en", "es", "fr", "id", "ro", "tr"];
+	/** @var string[] */
+	public $messages = [];
+	/** @var string[] */
+	private $defaultMessages = [];
 
-    /**
-     * Returns an instance of KygekTagsShop API
-     *
-     * @return TagsActions
-     */
-    public static function getAPI() : TagsActions {
-        return self::$api;
-    }
+	/**
+	 * Returns an instance of KygekTagsShop API
+	 */
+	public static function getAPI(): TagsActions
+	{
+		return self::$api;
+	}
 
-    public static function getInstance() {
-        return self::$instance;
-    }
+	public static function getInstance()
+	{
+		return self::$instance;
+	}
 
-    protected function onEnable(): void{
-        self::$instance = $this;
+	protected function onEnable(): void
+	{
+		self::$instance = $this;
 
-        $this->saveResource("config.yml");
-        $this->config = $this->getConfig()->getAll();
-        $db = libasynql::create($this, $this->config['database'], ['mysql' => 'mysql.sql', 'sqlite' => 'sqlite.sql']);
-        $db->executeGeneric('kygektagsshop.init');
-        $db->waitAll();
-        $this->data = $db;
+		$this->saveResource("config.yml");
+		$this->config = $this->getConfig()->getAll();
+		$db = libasynql::create($this, $this->config["database"], [
+			"mysql" => "mysql.sql",
+			"sqlite" => "sqlite.sql",
+		]);
+		$db->executeGeneric("kygektagsshop.init");
+		$db->waitAll();
+		$this->data = $db;
 
-        $this->prefix = empty($this->config["prefix"]) ? TF::YELLOW . "[KygekTagsShop] " . TF::RESET : $this->config["prefix"];
+		$this->prefix = empty($this->config["prefix"])
+			? TF::YELLOW . "[KygekTagsShop] " . TF::RESET
+			: $this->config["prefix"];
 
-        $this->defaultMessages = [
-            self::ROOT . ".warning.filemissing" => $this->prefix . self::WARNING . "Config and/or data file cannot be found, please restart the server!",
-            self::ROOT . ".warning.notplayer" => $this->prefix . self::WARNING . "You can only execute this command in-game!",
-            self::ROOT . ".warning.nopermission" => $this->prefix . self::WARNING . "You do not have permission to use this command!",
-            self::ROOT . ".warning.playerhastag" => $this->prefix . self::WARNING . "You cannot buy tags because you have owned a tag!",
-            self::ROOT . ".warning.playerhasnotag" => $this->prefix . self::WARNING . "You cannot buy tags because you haven't owned a tag!",
-            self::ROOT . ".warning.notenoughmoney" => $this->prefix . self::WARNING . "You need {price} more to buy this tag!",
-            self::ROOT . ".info.economybuytagsuccess" => $this->prefix . self::INFO . "Successfully set your tag for {price}",
-            self::ROOT . ".info.freebuytagsuccess" => $this->prefix . self::INFO . "Successfully set your tag",
-            self::ROOT . ".info.economyselltagsuccess" => $this->prefix . self::INFO . "Successfully sold your tag for {price}",
-            self::ROOT . ".info.freeselltagsuccess" => $this->prefix . self::INFO . "Successfully sold your tag",
-            self::ROOT . ".notice.outdatedconfig" => "Your configuration file is outdated, updating the config.yml...",
-            self::ROOT . ".notice.oldconfiginfo" => "The old configuration file can be found at config_old.yml",
-            self::ROOT . ".notice.noeconomyapi" => "EconomyAPI plugin is not installed or enabled, all tags will be free",
-            self::ROOT . ".error.notags" => "Tags cannot be empty, disabling plugin..."
-        ];
+		$this->defaultMessages = [
+			self::ROOT . ".warning.filemissing" =>
+				$this->prefix .
+				self::WARNING .
+				"Config and/or data file cannot be found, please restart the server!",
+			self::ROOT . ".warning.notplayer" =>
+				$this->prefix .
+				self::WARNING .
+				"You can only execute this command in-game!",
+			self::ROOT . ".warning.nopermission" =>
+				$this->prefix .
+				self::WARNING .
+				"You do not have permission to use this command!",
+			self::ROOT . ".warning.playerhastag" =>
+				$this->prefix .
+				self::WARNING .
+				"You cannot buy tags because you have owned a tag!",
+			self::ROOT . ".warning.playerhasnotag" =>
+				$this->prefix .
+				self::WARNING .
+				"You cannot buy tags because you haven't owned a tag!",
+			self::ROOT . ".warning.notenoughmoney" =>
+				$this->prefix .
+				self::WARNING .
+				"You need {price} more to buy this tag!",
+			self::ROOT . ".info.economybuytagsuccess" =>
+				$this->prefix .
+				self::INFO .
+				"Successfully set your tag for {price}",
+			self::ROOT . ".info.freebuytagsuccess" =>
+				$this->prefix . self::INFO . "Successfully set your tag",
+			self::ROOT . ".info.economyselltagsuccess" =>
+				$this->prefix .
+				self::INFO .
+				"Successfully sold your tag for {price}",
+			self::ROOT . ".info.freeselltagsuccess" =>
+				$this->prefix . self::INFO . "Successfully sold your tag",
+			self::ROOT .
+			".notice.outdatedconfig" => "Your configuration file is outdated, updating the config.yml...",
+			self::ROOT .
+			".notice.oldconfiginfo" => "The old configuration file can be found at config_old.yml",
+			self::ROOT .
+			".notice.noeconomyapi" => "EconomyAPI plugin is not installed or enabled, all tags will be free",
+			self::ROOT .
+			".error.notags" => "Tags cannot be empty, disabling plugin...",
+		];
 
-        $this->initializeLangs();
-        $this->checkConfig();
+		$this->initializeLangs();
+		$this->checkConfig();
 
-        if (!class_exists(BedrockEconomy::class)) {
-            if ($this->config["notify-no-economyapi"] === true) {
-                $this->getLogger()->notice($this->messages["kygektagsshop.notice.noeconomyapi"]);
-            }
-        } else {
-            $this->economyEnabled = true;
-        }
+		if (!class_exists(BedrockEconomy::class)) {
+			if ($this->config["notify-no-economyapi"] === true) {
+				$this->getLogger()->notice(
+					$this->messages["kygektagsshop.notice.noeconomyapi"],
+				);
+			}
+		} else {
+			$this->economyEnabled = true;
+		}
 
-        if (empty($this->config["tags"])) {
-            $this->getLogger()->error($this->messages["kygektagsshop.error.notags"]);
-            $this->getServer()->getPluginManager()->disablePlugin($this);
-            return;
-        }
+		if (empty($this->config["tags"])) {
+			$this->getLogger()->error(
+				$this->messages["kygektagsshop.error.notags"],
+			);
+			$this->getServer()
+				->getPluginManager()
+				->disablePlugin($this);
+			return;
+		}
 
-        $cmddesc = (empty($this->config)) ? "Buy tags here!" : $this->config["command-desc"];
-        $cmdalias = $this->config["command-aliases"];
-        $this->getServer()->getPluginManager()->registerEvents($this, $this);
-        $this->getServer()->getCommandMap()->register("KygekTagsShop", new Commands($this, $cmddesc, $cmdalias));
-        self::$api = new TagsActions($this, $this->config, $this->data, $this->economyEnabled);
-        (new KtpmplCfs($this))->checkUpdates();
-    }
+		$cmddesc = empty($this->config)
+			? "Buy tags here!"
+			: $this->config["command-desc"];
+		$cmdalias = $this->config["command-aliases"];
+		$this->getServer()
+			->getPluginManager()
+			->registerEvents($this, $this);
+		$this->getServer()
+			->getCommandMap()
+			->register(
+				"KygekTagsShop",
+				new Commands($this, $cmddesc, $cmdalias),
+			);
+		self::$api = new TagsActions(
+			$this,
+			$this->config,
+			$this->data,
+			$this->economyEnabled,
+		);
+		(new KtpmplCfs($this))->checkUpdates();
+	}
 
-    private function initializeLangs() {
-        foreach ($this->lang as $lang) {
-            $this->saveResource("lang/" . $lang . ".yml", true);
-            $langf = new Config($this->getDataFolder() . "lang/" . $lang . ".yml", Config::YAML);
-            if ($this->config["language"] !== $lang) continue;
+	private function initializeLangs()
+	{
+		foreach ($this->lang as $lang) {
+			$this->saveResource("lang/" . $lang . ".yml", true);
+			$langf = new Config(
+				$this->getDataFolder() . "lang/" . $lang . ".yml",
+				Config::YAML,
+			);
+			if ($this->config["language"] !== $lang) {
+				continue;
+			}
 
-            $langc = $langf->getAll();
-            array_walk($langc["info"], function (&$value) {
-                $value = $this->prefix . self::INFO . $value;
-            });
-            array_walk($langc["warning"], function (&$value) {
-                $value = $this->prefix . self::WARNING . $value;
-            });
+			$langc = $langf->getAll();
+			array_walk($langc["info"], function (&$value) {
+				$value = $this->prefix . self::INFO . $value;
+			});
+			array_walk($langc["warning"], function (&$value) {
+				$value = $this->prefix . self::WARNING . $value;
+			});
 
-            $this->messages = array_merge($langc["info"], $langc["warning"]);
-            foreach ($langc as $key => $value) {
-                if (!is_array($value)) $this->messages[$key] = $value;
-            }
+			$this->messages = array_merge($langc["info"], $langc["warning"]);
+			foreach ($langc as $key => $value) {
+				if (!is_array($value)) {
+					$this->messages[$key] = $value;
+				}
+			}
 
-            // Fixes language if some keys are missing
-            foreach ($this->defaultMessages as $key => $value) {
-                if (!isset($this->messages[$key])) $this->messages[$key] = $value;
-            }
-        }
+			// Fixes language if some keys are missing
+			foreach ($this->defaultMessages as $key => $value) {
+				if (!isset($this->messages[$key])) {
+					$this->messages[$key] = $value;
+				}
+			}
+		}
 
-        if (!empty($this->messages)) return;
-        $this->getLogger()->warning("Unknown language in configuration file, using English...");
-        $this->messages = $this->defaultMessages;
-    }
+		if (!empty($this->messages)) {
+			return;
+		}
+		$this->getLogger()->warning(
+			"Unknown language in configuration file, using English...",
+		);
+		$this->messages = $this->defaultMessages;
+	}
 
-    public function onJoin(PlayerJoinEvent $event) {
-        $player = $event->getPlayer();
+	public function onJoin(PlayerJoinEvent $event)
+	{
+		$player = $event->getPlayer();
 
-        if (!$this->fileExists()) {
-            $player->sendMessage($this->messages["kygektagsshop.warning.filemissing"]);
-            return;
-        }
-        self::getAPI()->getPlayerTag($player, function (?int $tagid) use ($player): void{
-            if ($tagid !== -1 && self::getAPI()->tagExists($tagid)) {
-                $player->setDisplayName($player->getName() . " " . self::getAPI()->getTagName($tagid));
-            }
-        });
-    }
+		if (!$this->fileExists()) {
+			$player->sendMessage(
+				$this->messages["kygektagsshop.warning.filemissing"],
+			);
+			return;
+		}
+		self::getAPI()->getPlayerTag($player, function (?int $tagid) use (
+			$player,
+		): void {
+			if ($tagid !== -1 && self::getAPI()->tagExists($tagid)) {
+				$player->setDisplayName(
+					$player->getName() .
+						" " .
+						self::getAPI()->getTagName($tagid),
+				);
+			}
+		});
+	}
 
-    private function checkConfig() {
-        if ($this->config["config-version"] !== "1.6") {
-            $this->getLogger()->notice($this->messages["kygektagsshop.notice.outdatedconfig"]);
-            $this->getLogger()->notice($this->messages["kygektagsshop.notice.oldconfiginfo"]);
-            rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");
-            $this->saveResource("config.yml");
-            $this->getConfig()->reload();
-        }
-    }
+	private function checkConfig()
+	{
+		if ($this->config["config-version"] !== "1.6") {
+			$this->getLogger()->notice(
+				$this->messages["kygektagsshop.notice.outdatedconfig"],
+			);
+			$this->getLogger()->notice(
+				$this->messages["kygektagsshop.notice.oldconfiginfo"],
+			);
+			rename(
+				$this->getDataFolder() . "config.yml",
+				$this->getDataFolder() . "config_old.yml",
+			);
+			$this->saveResource("config.yml");
+			$this->getConfig()->reload();
+		}
+	}
 
-    public function fileExists() : bool {
-        $config = $this->getDataFolder() . "config.yml";
-        $data = self::getAPI()->getDataLocation();
-        return file_exists($config) or file_exists($data);
-    }
+	public function fileExists(): bool
+	{
+		$config = $this->getDataFolder() . "config.yml";
+		$data = self::getAPI()->getDataLocation();
+		return file_exists($config) or file_exists($data);
+	}
 }

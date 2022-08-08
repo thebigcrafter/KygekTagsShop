@@ -29,46 +29,78 @@ namespace Kygekraqmak\KygekTagsShop\form;
 
 use Kygekraqmak\KygekTagsShop\TagsShop;
 use Kygekraqmak\KygekTagsShop\utils\Replace;
-use Vecnavium\FormsUI\SimpleForm;
 use pocketmine\player\Player;
+use Vecnavium\FormsUI\SimpleForm;
 
-class MenuForm {
+class MenuForm
+{
+	protected static function getMain(): TagsShop
+	{
+		return TagsShop::getInstance();
+	}
 
-    protected static function getMain() : TagsShop {
-        return TagsShop::getInstance();
-    }
+	public static function menuForm(Player $player)
+	{
+		$form = new SimpleForm(function (Player $player, $data = null) {
+			if ($data === null) {
+				return true;
+			}
+			switch ($data) {
+				case 0:
+					TagsShop::getAPI()->getPlayerTag($player, function (
+						?int $tagid,
+					) use ($player): void {
+						if ($tagid !== -1) {
+							BuyForm::tagExistsForm($player);
+						} else {
+							BuyForm::tagsListForm($player);
+						}
+					});
+					break;
+				case 1:
+					TagsShop::getAPI()->getPlayerTag($player, function (
+						?int $tagid,
+					) use ($player): void {
+						if ($tagid === -1) {
+							SellForm::noTagForm($player);
+						} else {
+							SellForm::sellTagForm($player, $tagid);
+						}
+					});
+					break;
+			}
+		});
 
-    public static function menuForm(Player $player) {
-        $form = new SimpleForm(function (Player $player, $data = null) {
-            if ($data === null) return true;
-            switch ($data) {
-                case 0:
-                    TagsShop::getAPI()->getPlayerTag($player, function (?int $tagid) use ($player): void{
-                        if ($tagid !== -1) {
-                            BuyForm::tagExistsForm($player);
-                        } else {
-                            BuyForm::tagsListForm($player);
-                        }
-                    });
-                    break;
-                case 1:
-                    TagsShop::getAPI()->getPlayerTag($player, function (?int $tagid) use ($player): void{
-                        if ($tagid === -1) {
-                            SellForm::noTagForm($player);
-                        } else {
-                            SellForm::sellTagForm($player, $tagid);
-                        }
-                    });
-                    break;
-            }
-        });
-
-        $form->setTitle(Replace::replaceGeneric($player, self::getMain()->config["main-title"]));
-        $form->setContent(Replace::replaceGeneric($player, self::getMain()->config["main-content"]));
-        $form->addButton(Replace::replaceGeneric($player, self::getMain()->config["main-buy-button"]));
-        $form->addButton(Replace::replaceGeneric($player, self::getMain()->config["main-sell-button"]));
-        $form->addButton(Replace::replaceGeneric($player, self::getMain()->config["main-exit-button"]));
-        $player->sendForm($form);
-    }
-
+		$form->setTitle(
+			Replace::replaceGeneric(
+				$player,
+				self::getMain()->config["main-title"],
+			),
+		);
+		$form->setContent(
+			Replace::replaceGeneric(
+				$player,
+				self::getMain()->config["main-content"],
+			),
+		);
+		$form->addButton(
+			Replace::replaceGeneric(
+				$player,
+				self::getMain()->config["main-buy-button"],
+			),
+		);
+		$form->addButton(
+			Replace::replaceGeneric(
+				$player,
+				self::getMain()->config["main-sell-button"],
+			),
+		);
+		$form->addButton(
+			Replace::replaceGeneric(
+				$player,
+				self::getMain()->config["main-exit-button"],
+			),
+		);
+		$player->sendForm($form);
+	}
 }

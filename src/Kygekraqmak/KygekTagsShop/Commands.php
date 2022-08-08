@@ -33,44 +33,61 @@ use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\plugin\PluginOwned;
 
-class Commands extends Command implements PluginOwned {
+class Commands extends Command implements PluginOwned
+{
+	/** @var TagsShop */
+	private $main;
 
-    /** @var TagsShop */
-    private $main;
+	public function __construct(TagsShop $main, string $desc, array $aliases)
+	{
+		$this->main = $main;
+		$desc = empty($desc) ? "Buy and sell your tags using money" : $desc;
 
-    public function __construct(TagsShop $main, string $desc, array $aliases) {
-        $this->main = $main;
-        $desc = (empty($desc)) ? "Buy and sell your tags using money" : $desc;
+		parent::__construct("tagsshop");
+		$this->setPermission("kygektagsshop.tags");
+		$this->setAliases($aliases);
+		$this->setUsage("/tagsshop");
+		$this->setDescription($desc);
+	}
 
-        parent::__construct("tagsshop");
-        $this->setPermission("kygektagsshop.tags");
-        $this->setAliases($aliases);
-        $this->setUsage("/tagsshop");
-        $this->setDescription($desc);
-    }
+	public function execute(
+		CommandSender $sender,
+		string $commandLabel,
+		array $args,
+	): bool {
+		if (!$sender instanceof Player) {
+			$sender->sendMessage(
+				$this->getOwningPlugin()->messages[
+					"kygektagsshop.warning.notplayer"
+				],
+			);
+			return true;
+		}
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args) : bool {
-        if (!$sender instanceof Player) {
-            $sender->sendMessage($this->getOwningPlugin()->messages["kygektagsshop.warning.notplayer"]);
-            return true;
-        }
+		if (!$sender->hasPermission("kygektagsshop.tags")) {
+			$sender->sendMessage(
+				$this->getOwningPlugin()->messages[
+					"kygektagsshop.warning.nopermission"
+				],
+			);
+			return true;
+		}
 
-        if (!$sender->hasPermission("kygektagsshop.tags")) {
-            $sender->sendMessage($this->getOwningPlugin()->messages["kygektagsshop.warning.nopermission"]);
-            return true;
-        }
+		if (!$this->getOwningPlugin()->fileExists()) {
+			$sender->sendMessage(
+				$this->getOwningPlugin()->messages[
+					"kygektagsshop.warning.filemissing"
+				],
+			);
+			return true;
+		}
 
-        if (!$this->getOwningPlugin()->fileExists()) {
-            $sender->sendMessage($this->getOwningPlugin()->messages["kygektagsshop.warning.filemissing"]);
-            return true;
-        }
+		MenuForm::menuForm($sender);
+		return true;
+	}
 
-        MenuForm::menuForm($sender);
-        return true;
-    }
-
-    public function getOwningPlugin(): TagsShop
-    {
-        return $this->main;
-    }
+	public function getOwningPlugin(): TagsShop
+	{
+		return $this->main;
+	}
 }

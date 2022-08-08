@@ -27,47 +27,92 @@ declare(strict_types=1);
 
 namespace Kygekraqmak\KygekTagsShop\form;
 
-use Vecnavium\FormsUI\SimpleForm;
 use Kygekraqmak\KygekTagsShop\utils\Replace;
 use pocketmine\player\Player;
+use Vecnavium\FormsUI\SimpleForm;
 
-class SellForm extends MenuForm {
+class SellForm extends MenuForm
+{
+	public static function sellTagForm(Player $player, int $tagid)
+	{
+		$form = new SimpleForm(function (Player $player, $data = null) {
+			if ($data === null) {
+				if (parent::getMain()->config["return-when-closed"]) {
+					parent::menuForm($player);
+				}
+				return true;
+			}
+			switch ($data) {
+				case 0:
+					parent::getMain()
+						->getAPI()
+						->unsetPlayerTag($player);
+					break;
+				case 1:
+					parent::menuForm($player);
+					break;
+			}
+		});
 
-    public static function sellTagForm(Player $player, int $tagid) {
-        $form = new SimpleForm(function (Player $player, $data = null) {
-            if ($data === null) {
-                if (parent::getMain()->config["return-when-closed"]) parent::menuForm($player);
-                return true;
-            }
-            switch ($data) {
-                case 0:
-                    parent::getMain()->getAPI()->unsetPlayerTag($player);
-                    break;
-                case 1:
-                    parent::menuForm($player);
-                    break;
-            }
-        });
+		$form->setTitle(
+			Replace::replaceGeneric(
+				$player,
+				parent::getMain()->config["sell-title"],
+			),
+		);
+		$form->setContent(
+			Replace::replaceTag(
+				$player,
+				$tagid,
+				parent::getMain()->config["sell-content"],
+			),
+		);
+		$form->addButton(
+			Replace::replaceGeneric(
+				$player,
+				parent::getMain()->config["sell-agree-button"],
+			),
+		);
+		$form->addButton(
+			Replace::replaceGeneric(
+				$player,
+				parent::getMain()->config["sell-disagree-button"],
+			),
+		);
+		$player->sendForm($form);
+	}
 
-        $form->setTitle(Replace::replaceGeneric($player, parent::getMain()->config["sell-title"]));
-        $form->setContent(Replace::replaceTag($player, $tagid, parent::getMain()->config["sell-content"]));
-        $form->addButton(Replace::replaceGeneric($player, parent::getMain()->config["sell-agree-button"]));
-        $form->addButton(Replace::replaceGeneric($player, parent::getMain()->config["sell-disagree-button"]));
-        $player->sendForm($form);
-    }
-
-    public static function noTagForm(Player $player) {
-        $form = new SimpleForm(function (Player $player, $data = null) {
-            if ($data === null) {
-                if (parent::getMain()->config["return-when-closed"]) parent::menuForm($player);
-                return true;
-            }
-            if ($data === 0) parent::menuForm($player);
-        });
-        $form->setTitle(Replace::replaceGeneric($player, parent::getMain()->config["no-tag-title"]));
-        $form->setContent(Replace::replaceGeneric($player, parent::getMain()->config["no-tag-content"]));
-        $form->addButton(Replace::replaceGeneric($player, parent::getMain()->config["no-tag-button"]));
-        $player->sendForm($form);
-    }
-
+	public static function noTagForm(Player $player)
+	{
+		$form = new SimpleForm(function (Player $player, $data = null) {
+			if ($data === null) {
+				if (parent::getMain()->config["return-when-closed"]) {
+					parent::menuForm($player);
+				}
+				return true;
+			}
+			if ($data === 0) {
+				parent::menuForm($player);
+			}
+		});
+		$form->setTitle(
+			Replace::replaceGeneric(
+				$player,
+				parent::getMain()->config["no-tag-title"],
+			),
+		);
+		$form->setContent(
+			Replace::replaceGeneric(
+				$player,
+				parent::getMain()->config["no-tag-content"],
+			),
+		);
+		$form->addButton(
+			Replace::replaceGeneric(
+				$player,
+				parent::getMain()->config["no-tag-button"],
+			),
+		);
+		$player->sendForm($form);
+	}
 }

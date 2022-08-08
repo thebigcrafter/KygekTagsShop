@@ -27,6 +27,6 @@ declare(strict_types=1);
 
 namespace Kygekraqmak\KygekTagsShop\event;
 
-class TagBuyEvent extends TagEvent {
-
+class TagBuyEvent extends TagEvent
+{
 }

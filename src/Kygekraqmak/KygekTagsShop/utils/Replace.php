@@ -27,34 +27,42 @@ declare(strict_types=1);
 
 namespace Kygekraqmak\KygekTagsShop\utils;
 
-use pocketmine\player\Player;
 use Kygekraqmak\KygekTagsShop\TagsShop;
+use pocketmine\player\Player;
 
-class Replace {
+class Replace
+{
+	public static function replaceGeneric(Player $player, string $text): string
+	{
+		$replace = [
+			"{player}" => $player->getName(),
+			"&" => "§",
+		];
 
-    public static function replaceGeneric(Player $player, string $text) : string {
-        $replace = [
-            "{player}" => $player->getName(),
-            "&" => "§"
-        ];
+		return strtr($text, $replace);
+	}
 
-        return strtr($text, $replace);
-    }
+	public static function replaceTag(
+		Player $player,
+		int $tagid,
+		string $text,
+	): string {
+		$tagsshop = TagsShop::getInstance();
+		$api = TagsShop::getAPI();
+		$currency = $tagsshop->economyEnabled ? "$" : "";
+		$price =
+			($tagsshop->economyEnabled and $api->tagExists($tagid))
+				? $currency . $api->getTagPrice($tagid)
+				: "free";
+		$name = $api->getTagName($tagid) ?? "Unknown tag";
 
-    public static function replaceTag(Player $player, int $tagid, string $text) : string {
-        $tagsshop = TagsShop::getInstance();
-        $api = TagsShop::getAPI();
-        $currency = $tagsshop->economyEnabled ? "$" : "";
-        $price = ($tagsshop->economyEnabled and $api->tagExists($tagid)) ? $currency . $api->getTagPrice($tagid) : "free";
-        $name = $api->getTagName($tagid) ?? "Unknown tag";
+		$replace = [
+			"{player}" => $player->getName(),
+			"&" => "§",
+			"{tagprice}" => $price,
+			"{tagname}" => $name,
+		];
 
-        $replace = [
-            "{player}" => $player->getName(),
-            "&" => "§",
-            "{tagprice}" => $price,
-            "{tagname}" => $name
-        ];
-
-        return strtr($text, $replace);
-    }
+		return strtr($text, $replace);
+	}
 }
