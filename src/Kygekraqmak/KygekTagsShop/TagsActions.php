@@ -201,7 +201,9 @@ class TagsActions
 				$this->removeData($player);
 				// TODO: Set player display name to original display name after new database has been implemented
 				$player->setDisplayName($player->getName());
+			if ($this->purePermsEnabled) {
 				$this->unSetUperm($player, $tagid);
+			}
 				$player->sendMessage(
 					str_replace(
 						"{price}",
@@ -293,7 +295,9 @@ class TagsActions
 								$this->getDisplayNameFormat(),
 							),
 						);
-						$this->setUperm($player, $tagid);
+						if ($this->purePermsEnabled) {
+							$this->setUperm($player, $tagid);
+						}
 						$player->sendMessage(
 							str_replace(
 								"{price}",
