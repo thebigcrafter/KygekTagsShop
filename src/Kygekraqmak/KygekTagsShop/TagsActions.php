@@ -62,22 +62,27 @@ class TagsActions
 	/** @var bool */
 	private $economyEnabled;
 
+	/** @var bool */
+	private $purePermsEnabled;
+
 	public function __construct(
 		TagsShop $plugin,
 		array $config,
 		DataConnector $data,
 		bool $economyEnabled,
+		bool $purePermsEnabled
 	) {
 		$this->plugin = $plugin;
 		$this->config = $config;
 		$this->data = $data;
 		$this->economyEnabled = $economyEnabled;
+		$this->purePermsEnabled = $purePermsEnabled;
 	}
 
 	/**
 	 * Get tags in config file
 	 *
-	 * Returns an multidimensional associative array (ID => [tag => price]) or null if there are no tags
+	 * Returns an multidimensional associative array (ID => [tag => [price, [permissions]]) or null if there are no tags
 	 * ID always starts from 0 and is ordered as that of in config file
 	 */
 	public function getAllTags(): ?array
@@ -89,7 +94,7 @@ class TagsActions
 
 		foreach ($this->config["tags"] as $tag) {
 			$tag = explode(":", $tag);
-			$alltags[][str_replace("&", "§", $tag[0] . "&r")] = $tag[1];
+			$alltags[][str_replace("&", "§", $tag[0] . "&r")] = [$tag[1], $tag[2]];
 		}
 
 		return $alltags;
@@ -107,8 +112,26 @@ class TagsActions
 		if (!$this->economyEnabled or !$this->tagExists($tagid)) {
 			return null;
 		}
+		return (int) array_values($this->getAllTags()[$tagid])[0][0];
+	}
 
-		return (int) array_values($this->getAllTags()[$tagid])[0];
+	/**
+	 * Get permissions of a tag
+	 *
+	 * Returns null if:
+	 * - PurePerms plugin is not installed or enabled, and/or
+	 * - tag ID doesn't exists
+	 */
+	public function getTagPermissions(int $tagid): ?array
+	{
+		if (!$this->purePermsEnabled or !$this->tagExists($tagid)) {
+			return null;
+		}
+
+		$permissions = array_values($this->getAllTags()[$tagid])[0][1];
+		$permissions = str_replace(["[", "]", ",", "'", "\""], "", $permissions);
+		$permissions = explode(" ", $permissions);
+		return (array) $permissions;
 	}
 
 	/**

@@ -199,6 +199,7 @@ class TagsShop extends PluginBase implements Listener
 			$this->config,
 			$this->data,
 			$this->economyEnabled,
+			$this->purePermsEnabled
 		);
 		(new KtpmplCfs($this))->checkUpdates();
 	}

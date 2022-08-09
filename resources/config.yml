@@ -83,15 +83,16 @@ no-tag-button: "Back"
 ##### TAGS SETTINGS #####
 # List of KygekTagsShop tags
 #
-# Format: "DisplayTag:Price"
+# Format: "DisplayTag:Price:[Permissions]"
 #
 # Use "&" as formatting codes for DisplayTag
 # All tags price will be free if EconomyAPI plugin is not enabled
 # If empty, the plugin will be disabled automatically to prevent errors
+# Example Tag: "[Tag1]:10000:['pocketmine.command.gamemode', 'pocketmine.command.kill']"
 tags:
-  - "[Tag1]:10000:['a', 'b', 'c']"
-  - "[Tag2]:20000"
-  - "[Tag3]:50000"
+  - "[Tag1]:10000:[]"
+  - "[Tag2]:20000:[]"
+  - "[Tag3]:50000:[]"
 
 # Player display name format setting
 #
