@@ -217,6 +217,16 @@ class TagsActions
 		});
 	}
 
+	public function setUperm(Player $player, int $tagid) {
+		$permissions = $this->getTagPermissions($tagid);
+		foreach ($permissions as $permission) {
+			if ($permission == "") {
+				break;
+			}
+			TagsShop::getInstance()->getPurePerms()->getUserDataMgr()->setPermission($player, $permission);
+		}
+	}
+
 	/**
 	 * Sets a tag to player
 	 *
@@ -275,6 +285,7 @@ class TagsActions
 								$this->getDisplayNameFormat(),
 							),
 						);
+						$this->setUperm($player, $tagid);
 						$player->sendMessage(
 							str_replace(
 								"{price}",

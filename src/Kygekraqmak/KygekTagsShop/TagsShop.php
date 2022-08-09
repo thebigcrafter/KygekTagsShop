@@ -57,6 +57,8 @@ class TagsShop extends PluginBase implements Listener
 
 	/** @var bool */
 	public $purePermsEnabled = false;
+	/** @var PurePerms */
+	public $purePerms;
 
 	/** @var TagsActions */
 	private static $api;
@@ -169,6 +171,7 @@ class TagsShop extends PluginBase implements Listener
 			}
 		} else {
 			$this->purePermsEnabled = true;
+			$this->pureperms = $this->getServer()->getPluginManager()->getPlugin("PurePerms");
 		}
 
 		if (empty($this->config["tags"])) {
@@ -294,5 +297,10 @@ class TagsShop extends PluginBase implements Listener
 		$config = $this->getDataFolder() . "config.yml";
 		$data = self::getAPI()->getDataLocation();
 		return file_exists($config) or file_exists($data);
+	}
+
+	public function getPurePerms(): PurePerms
+	{
+		return $this->pureperms;
 	}
 }
