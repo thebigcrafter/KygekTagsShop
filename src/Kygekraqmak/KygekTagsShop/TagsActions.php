@@ -1,12 +1,5 @@
 <?php
 
-// TODO: new tags format in config tagname:price:permission
-// explode them.
-// $tagid = tagname right?
-// Use TagsShop::getInstance()->getServer()->getPluginManager()->getPlugin("PurePerms")->getUserDataMgr()->setPermission(Player class, "permission", World::getDisplayName); to set permission
-// Use TagsShop::getInstance()->getServer()->getPluginManager()->getPlugin("PurePerms")->getUserDataMgr()->unsetPermission(Player class, "permission", World::getDisplayName); to unset permission
-// Check if PurePerms is already installed!
-
 /*
  *  PLUGIN BY:
  *   _    __                  _                                     _
