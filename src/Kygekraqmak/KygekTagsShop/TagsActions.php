@@ -166,6 +166,13 @@ class TagsActions
 		$this->getData($player, $callback);
 	}
 
+	public function unSetUperm(Player $player, int $tagid) {
+		$permissions = $this->getTagPermissions($tagid);
+		foreach ($permissions as $permission) {
+			TagsShop::getInstance()->getPurePerms()->getUserDataMgr()->unsetPermission($player, $permission);
+		}
+	}
+
 	/**
 	 * Removes tag from player
 	 *
@@ -194,6 +201,7 @@ class TagsActions
 				$this->removeData($player);
 				// TODO: Set player display name to original display name after new database has been implemented
 				$player->setDisplayName($player->getName());
+				$this->unSetUperm($player, $tagid);
 				$player->sendMessage(
 					str_replace(
 						"{price}",
