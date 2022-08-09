@@ -22,6 +22,7 @@ warning:
 kygektagsshop.notice.outdatedconfig: "File konfigurasi Anda sudah usang, memperbarui config.yml..."
 kygektagsshop.notice.oldconfiginfo: "File konfigurasi lama dapat ditemukan di config-old.yml"
 kygektagsshop.notice.noeconomyapi: "Plugin EconomyAPI belum dipasang atau diaktifkan, semua tags akan digratiskan"
+kygektagsshop.notice.pureperms: "Plugin PurePerms tidak diinstal atau diaktifkan, beberapa fitur akan dinonaktifkan"
 
 # Console Errors
 kygektagsshop.error.notags: "Tags tidak boleh kosong, menonaktifkan plugin..."

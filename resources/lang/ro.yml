@@ -22,6 +22,7 @@ warning:
 kygektagsshop.notice.outdatedconfig: "Fișierul dvs. de configurare este neapdatat, actualizam config.yml..."
 kygektagsshop.notice.oldconfiginfo: "Vechiul fișier de configurare poate fi găsit la config_old.yml"
 kygektagsshop.notice.noeconomyapi: "Pluginul EconomyAPI nu este instalat sau activat, toate tagurile vor fi gratuite"
+kygektagsshop.notice.pureperms: "Pluginul PurePerms nu este instalat sau activat, unele funcții vor fi dezactivate"
 
 # Console Errors
 kygektagsshop.error.notags: "Tagurile nu pot fi goale, dezactivam pluginul..."

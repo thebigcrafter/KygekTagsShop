@@ -22,6 +22,7 @@ warning:
 kygektagsshop.notice.outdatedconfig: "Votre fichier de configuration est obsolète, nous mettons à jour config.yml..."
 kygektagsshop.notice.oldconfiginfo: "L'ancien fichier de configuration se trouve sur config_old.yml"
 kygektagsshop.notice.noeconomyapi: "Le plugin EconomyAPI n'est pas installé ou activé, tous les tags seront gratuits"
+kygektagsshop.notice.pureperms: "Plugin PurePerms non installé ou activé, certaines fonctionnalités seront désactivées"
 
 # Console Errors
 kygektagsshop.error.notags: "Les tags ne peuvent pas être vides, nous désactivons le plugin..."

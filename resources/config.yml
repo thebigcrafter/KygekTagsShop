@@ -37,6 +37,9 @@ prefix: ""
 
 # Whether to notify if EconomyAPI plugin is not installed or enabled
 notify-no-economyapi: true
+
+# Whether to notify if PurePerms plugin is not installed or enabled
+notify-no-pureperms: true
 ############################
 
 ##### FORM SETTINGS #####
@@ -86,7 +89,7 @@ no-tag-button: "Back"
 # All tags price will be free if EconomyAPI plugin is not enabled
 # If empty, the plugin will be disabled automatically to prevent errors
 tags:
-  - "[Tag1]:10000"
+  - "[Tag1]:10000:['a', 'b', 'c']"
   - "[Tag2]:20000"
   - "[Tag3]:50000"
 

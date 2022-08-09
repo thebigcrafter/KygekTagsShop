@@ -22,6 +22,7 @@ warning:
 kygektagsshop.notice.outdatedconfig: "Yapılandırma dosyanız güncel değil, config.yml güncelleniyor..."
 kygektagsshop.notice.oldconfiginfo: "Eski yapılandırma dosyası config_old.yml adresinde bulunabilir"
 kygektagsshop.notice.noeconomyapi: "EconomyAPI eklentisi yüklü veya etkin değil, tüm etiketler ücretsiz olacak"
+kygektagsshop.notice.pureperms: "PurePerms eklentisi yüklenmedi veya etkinleştirilmedi, bazı özellikler devre dışı bırakılacak"
 
 # Console Errors
 kygektagsshop.error.notags: "Etiketler boş olamaz, eklenti devre dışı bırakılıyor..."

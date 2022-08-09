@@ -27,6 +27,7 @@ declare(strict_types=1);
 
 namespace Kygekraqmak\KygekTagsShop;
 
+use _64FF00\PurePerms\PurePerms;
 use cooldogedev\BedrockEconomy\BedrockEconomy;
 use KygekTeam\KtpmplCfs\KtpmplCfs;
 use pocketmine\event\Listener;
@@ -53,6 +54,9 @@ class TagsShop extends PluginBase implements Listener
 
 	/** @var bool */
 	public $economyEnabled = false;
+
+	/** @var bool */
+	public $purePermsEnabled = false;
 
 	/** @var TagsActions */
 	private static $api;
@@ -155,6 +159,16 @@ class TagsShop extends PluginBase implements Listener
 			}
 		} else {
 			$this->economyEnabled = true;
+		}
+
+		if (!class_exists(PurePerms::class)) {
+			if ($this->config["notify-no-pureperms"] === true) {
+				$this->getLogger()->notice(
+					$this->messages["kygektagsshop.notice.pureperms"],
+				);
+			}
+		} else {
+			$this->purePermsEnabled = true;
 		}
 
 		if (empty($this->config["tags"])) {

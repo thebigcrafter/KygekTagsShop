@@ -22,6 +22,7 @@ warning:
 kygektagsshop.notice.outdatedconfig: "Tệp cấu hình của bạn đã lỗi thời, đang cập nhật config.yml ..."
 kygektagsshop.notice.oldconfiginfo: "Tệp cấu hình cũ có thể được tìm thấy tại config_old.yml"
 kygektagsshop.notice.noeconomyapi: "Plugin BedrockEconomy chưa được cài đặt hoặc kích hoạt, tất cả các tag sẽ miễn phí"
+kygektagsshop.notice.pureperms: "Plugin PurePerms chưa được cài đặt hoặc kích hoạt, một số tính năng sẽ bị vô hiệu hóa"
 
 # Console Errors
 kygektagsshop.error.notags: "Tags không được để trống, đang tắt plugin ..."

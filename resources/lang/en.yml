@@ -22,6 +22,7 @@ warning:
 kygektagsshop.notice.outdatedconfig: "Your configuration file is outdated, updating the config.yml..."
 kygektagsshop.notice.oldconfiginfo: "The old configuration file can be found at config_old.yml"
 kygektagsshop.notice.noeconomyapi: "BedrockEconomy plugin is not installed or enabled, all tags will be free"
+kygektagsshop.notice.pureperms: "PurePerms plugin not installed or activated, some features will be disabled"
 
 # Console Errors
 kygektagsshop.error.notags: "Tags cannot be empty, disabling plugin..."
