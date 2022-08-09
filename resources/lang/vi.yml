@@ -1,0 +1,28 @@
+---
+# KygekTagsShop Vietnamese Messages File
+# Translator: NhanAZ
+
+# Info Messages
+info:
+  kygektagsshop.info.economybuytagsuccess: "Thiết lập thành công tag của bạn với giá {price}"
+  kygektagsshop.info.freebuytagsuccess: "Tag của bạn đã được thiết lập thành công"
+  kygektagsshop.info.economyselltagsuccess: "Đã bán thành công tag của bạn với giá {price}"
+  kygektagsshop.info.freeselltagsuccess: "Đã bán thành công tag của bạn"
+
+# Warning Messages
+warning:
+  kygektagsshop.warning.filemissing: "Không thể tìm thấy cấu hình và hoặc tệp dữ liệu, vui lòng khởi động lại máy chủ!"
+  kygektagsshop.warning.notplayer: "Bạn chỉ có thể thực thi lệnh này trong trò chơi!"
+  kygektagsshop.warning.nopermission: "Bạn không có quyền sử dụng lệnh này!"
+  kygektagsshop.warning.playerhastag: "Bạn không thể mua tag bởi vì bạn đã sở hữu tag!"
+  kygektagsshop.warning.playerhasnotag: "Bạn không thể bán tag vì bạn chưa sở hữu tag!"
+  kygektagsshop.warning.notenoughmoney: "Bạn cần thêm {price} để mua tag này!"
+
+# Console Notices
+kygektagsshop.notice.outdatedconfig: "Tệp cấu hình của bạn đã lỗi thời, đang cập nhật config.yml ..."
+kygektagsshop.notice.oldconfiginfo: "Tệp cấu hình cũ có thể được tìm thấy tại config_old.yml"
+kygektagsshop.notice.noeconomyapi: "Plugin BedrockEconomy chưa được cài đặt hoặc kích hoạt, tất cả các tag sẽ miễn phí"
+
+# Console Errors
+kygektagsshop.error.notags: "Tags không được để trống, đang tắt plugin ..."
+...

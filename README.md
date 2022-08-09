@@ -36,7 +36,7 @@
 - Missing config file detection
 - Empty tags detection
 - Configurable player display name format for tag placement
-- Multiple languages support (English, Indonesian, Spanish, German, French, Romanian, Turkish)
+- Multiple languages support (English, Indonesian, Spanish, German, French, Romanian, Turkish, Vietnamese)
 - API for developers (see **For Developers** tab)
 - Events for developers (`TagBuyEvent` and `TagSellEvent`)
 
