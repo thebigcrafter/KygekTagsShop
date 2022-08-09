@@ -147,6 +147,8 @@ class TagsShop extends PluginBase implements Listener
 			self::ROOT .
 			".notice.noeconomyapi" => "EconomyAPI plugin is not installed or enabled, all tags will be free",
 			self::ROOT .
+			"notice.pureperms" => "PurePerms plugin not installed or activated, some features will be disabled",
+			self::ROOT .
 			".error.notags" => "Tags cannot be empty, disabling plugin...",
 		];
 
