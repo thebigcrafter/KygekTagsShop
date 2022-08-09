@@ -63,7 +63,7 @@ class TagsActions
 		array $config,
 		DataConnector $data,
 		bool $economyEnabled,
-		bool $purePermsEnabled
+		bool $purePermsEnabled,
 	) {
 		$this->plugin = $plugin;
 		$this->config = $config;
@@ -87,7 +87,10 @@ class TagsActions
 
 		foreach ($this->config["tags"] as $tag) {
 			$tag = explode(":", $tag);
-			$alltags[][str_replace("&", "§", $tag[0] . "&r")] = [$tag[1], $tag[2]];
+			$alltags[][str_replace("&", "§", $tag[0] . "&r")] = [
+				$tag[1],
+				$tag[2],
+			];
 		}
 
 		return $alltags;
@@ -122,7 +125,11 @@ class TagsActions
 		}
 
 		$permissions = array_values($this->getAllTags()[$tagid])[0][1];
-		$permissions = str_replace(["[", "]", ",", "'", "\""], "", $permissions);
+		$permissions = str_replace(
+			["[", "]", ",", "'", "\""],
+			"",
+			$permissions,
+		);
 		$permissions = explode(" ", $permissions);
 		return (array) $permissions;
 	}
@@ -159,10 +166,14 @@ class TagsActions
 		$this->getData($player, $callback);
 	}
 
-	public function unSetUperm(Player $player, int $tagid) {
+	public function unSetUperm(Player $player, int $tagid)
+	{
 		$permissions = $this->getTagPermissions($tagid);
 		foreach ($permissions as $permission) {
-			TagsShop::getInstance()->getPurePerms()->getUserDataMgr()->unsetPermission($player, $permission);
+			TagsShop::getInstance()
+				->getPurePerms()
+				->getUserDataMgr()
+				->unsetPermission($player, $permission);
 		}
 	}
 
@@ -194,9 +205,9 @@ class TagsActions
 				$this->removeData($player);
 				// TODO: Set player display name to original display name after new database has been implemented
 				$player->setDisplayName($player->getName());
-			if ($this->purePermsEnabled) {
-				$this->unSetUperm($player, $tagid);
-			}
+				if ($this->purePermsEnabled) {
+					$this->unSetUperm($player, $tagid);
+				}
 				$player->sendMessage(
 					str_replace(
 						"{price}",
@@ -220,13 +231,17 @@ class TagsActions
 		});
 	}
 
-	public function setUperm(Player $player, int $tagid) {
+	public function setUperm(Player $player, int $tagid)
+	{
 		$permissions = $this->getTagPermissions($tagid);
 		foreach ($permissions as $permission) {
 			if ($permission == "") {
 				break;
 			}
-			TagsShop::getInstance()->getPurePerms()->getUserDataMgr()->setPermission($player, $permission);
+			TagsShop::getInstance()
+				->getPurePerms()
+				->getUserDataMgr()
+				->setPermission($player, $permission);
 		}
 	}
 

@@ -171,7 +171,9 @@ class TagsShop extends PluginBase implements Listener
 			}
 		} else {
 			$this->purePermsEnabled = true;
-			$this->pureperms = $this->getServer()->getPluginManager()->getPlugin("PurePerms");
+			$this->pureperms = $this->getServer()
+				->getPluginManager()
+				->getPlugin("PurePerms");
 		}
 
 		if (empty($this->config["tags"])) {
@@ -202,7 +204,7 @@ class TagsShop extends PluginBase implements Listener
 			$this->config,
 			$this->data,
 			$this->economyEnabled,
-			$this->purePermsEnabled
+			$this->purePermsEnabled,
 		);
 		(new KtpmplCfs($this))->checkUpdates();
 	}
