@@ -280,7 +280,7 @@ class TagsShop extends PluginBase implements Listener
 
 	private function checkConfig()
 	{
-		if ($this->config["config-version"] !== "1.6") {
+		if ($this->config["config-version"] !== "1.7") {
 			$this->getLogger()->notice(
 				$this->messages["kygektagsshop.notice.outdatedconfig"],
 			);
