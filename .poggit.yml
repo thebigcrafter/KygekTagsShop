@@ -8,8 +8,8 @@ projects:
     libs:
     - src: Vecnavium/FormsUI/FormsUI
       version: ^1.1.2
-    - src: thebigcrafter/ktpmpl-cfs/ktpmpl-cfs
-      version: ^4.0.0
+    - src: thebigcrafter/Mercury/Mercury
+      version: ^1.0.0
     - src: poggit/libasynql/libasynql
       version: ^3.4.0
 ...

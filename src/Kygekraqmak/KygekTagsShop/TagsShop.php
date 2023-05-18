@@ -29,7 +29,6 @@ namespace Kygekraqmak\KygekTagsShop;
 
 use _64FF00\PurePerms\PurePerms;
 use cooldogedev\BedrockEconomy\BedrockEconomy;
-use KygekTeam\KtpmplCfs\KtpmplCfs;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\plugin\PluginBase;
@@ -37,6 +36,7 @@ use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat as TF;
 use poggit\libasynql\DataConnector;
 use poggit\libasynql\libasynql;
+use thebigcrafter\Mercury\PluginManager;
 
 class TagsShop extends PluginBase implements Listener
 {
@@ -208,7 +208,7 @@ class TagsShop extends PluginBase implements Listener
 			$this->economyEnabled,
 			$this->purePermsEnabled,
 		);
-		(new KtpmplCfs($this))->checkUpdates();
+		PluginManager::checkForUpdates($this);
 	}
 
 	private function initializeLangs()
