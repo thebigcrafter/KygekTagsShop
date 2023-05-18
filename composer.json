@@ -3,7 +3,7 @@
     "description": "A PocketMine-MP plugin that allows players to use tags",
     "type": "pocketmine-plugin",
     "require": {
-        "pocketmine/pocketmine-mp": "^4.0.0",
+        "pocketmine/pocketmine-mp": "5.0.0-BETA2",
         "vecnavium/formsui": "^1.1.2",
         "thebigcrafter/mercury": "dev-main",
         "sof3/libasynql": "^4.1.7"
