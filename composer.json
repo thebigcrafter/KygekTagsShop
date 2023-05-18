@@ -5,7 +5,7 @@
     "require": {
         "pocketmine/pocketmine-mp": "^4.0.0",
         "vecnavium/formsui": "^1.1.2",
-        "thebigcrafter/Mercury": "dev-master",
+        "thebigcrafter/mercury": "dev-master",
         "sof3/libasynql": "^4.1.7"
     },
     "require-dev": {
