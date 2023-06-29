@@ -1,0 +1,29 @@
+---
+# KygekTagsShop Russian Messages File
+# Translator: KygekDev
+
+# Info Messages
+info:
+  kygektagsshop.info.economybuytagsuccess: "Вы успешно установили тег для {price}"
+  kygektagsshop.info.freebuytagsuccess: "Вы успешно установили тег"
+  kygektagsshop.info.economyselltagsuccess: "Ваш тег успешно продан за {price}"
+  kygektagsshop.info.freeselltagsuccess: "Ваш тег успешно продан"
+
+# Warning Messages
+warning:
+  kygektagsshop.warning.filemissing: "Не удается найти файл конфигурации или данных, перезапустите сервер!"
+  kygektagsshop.warning.notplayer: "Вы можете выполнить эту команду только в игре!"
+  kygektagsshop.warning.nopermission: "У вас нет разрешения на использование этой команды!"
+  kygektagsshop.warning.playerhastag: "Вы не можете покупать теги, потому что у вас есть тег!"
+  kygektagsshop.warning.playerhasnotag: "Вы не можете продавать метки, потому что у вас их нет!"
+  kygektagsshop.warning.notenoughmoney: "Чтобы купить этот тег, вам нужно на {price} больше!"
+
+# Console Notices
+kygektagsshop.notice.outdatedconfig: "Ваш файл конфигурации устарел, обновление config.yml..."
+kygektagsshop.notice.oldconfiginfo: "Старый файл конфигурации можно найти по адресу config_old.yml."
+kygektagsshop.notice.noeconomyapi: "Плагин BedrockEconomy не установлен или не включен, все теги будут бесплатными"
+kygektagsshop.notice.pureperms: "Плагин PurePerms не установлен или не активирован, некоторые функции будут отключены"
+
+# Console Errors
+kygektagsshop.error.notags: "Теги не могут быть пустыми, отключение плагина..."
+...
