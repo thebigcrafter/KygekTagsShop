@@ -18,7 +18,7 @@
 #
 
 # Language to be used for default messages
-# Available languages: en, id, es, ro, fr, de, tr, vi
+# Available languages: en, id, es, ro, fr, de, tr, vi, ru
 language: en
 
 ##### COMMAND SETTINGS #####
