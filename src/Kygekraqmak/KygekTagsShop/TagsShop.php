@@ -301,7 +301,7 @@ class TagsShop extends PluginBase implements Listener {
 		return file_exists($config) || file_exists($data);
 	}
 
-	public function getPurePerms() : PurePerms {
+	public function getPurePerms() : Plugin {
 		return $this->purePerms;
 	}
 }
