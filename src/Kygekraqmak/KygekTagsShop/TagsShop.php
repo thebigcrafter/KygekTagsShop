@@ -30,6 +30,7 @@ use _64FF00\PurePerms\PurePerms;
 use cooldogedev\BedrockEconomy\BedrockEconomy;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat as TF;
@@ -61,7 +62,7 @@ class TagsShop extends PluginBase implements Listener {
 
 	/** @var bool */
 	public $purePermsEnabled = false;
-	/** @var PurePerms */
+	/** @var Plugin|null */
 	private $purePerms;
 
 	/** @var TagsActions */
