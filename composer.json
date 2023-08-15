@@ -9,7 +9,7 @@
         "sof3/libasynql": "^4.1.7"
     },
     "require-dev": {
-        "sof3/pharynx": "^0.3.0",
+        "sof3/pharynx": "^0.3.5",
         "friendsofphp/php-cs-fixer": "^3.17"
     },
     "license": "LGPL-3.0-or-later",
