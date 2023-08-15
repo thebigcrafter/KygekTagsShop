@@ -14,13 +14,12 @@
  *        |____/ |____/                           |_|
  *
  * A PocketMine-MP plugin that allows players to use tags
- * Copyright (C) 2020-2022 Kygekraqmak
+ * Copyright (C) 2020-2023 Kygekraqmak
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
  */
 
 declare(strict_types=1);
@@ -31,10 +30,8 @@ use Kygekraqmak\KygekTagsShop\utils\Replace;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\SimpleForm;
 
-class SellForm extends MenuForm
-{
-	public static function sellTagForm(Player $player, int $tagid)
-	{
+class SellForm extends MenuForm {
+	public static function sellTagForm(Player $player, int $tagid) {
 		$form = new SimpleForm(function (Player $player, $data = null) {
 			if ($data === null) {
 				if (parent::getMain()->config["return-when-closed"]) {
@@ -82,8 +79,7 @@ class SellForm extends MenuForm
 		$player->sendForm($form);
 	}
 
-	public static function noTagForm(Player $player)
-	{
+	public static function noTagForm(Player $player) {
 		$form = new SimpleForm(function (Player $player, $data = null) {
 			if ($data === null) {
 				if (parent::getMain()->config["return-when-closed"]) {

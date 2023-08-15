@@ -14,13 +14,12 @@
  *        |____/ |____/                           |_|
  *
  * A PocketMine-MP plugin that allows players to use tags
- * Copyright (C) 2020-2022 Kygekraqmak
+ * Copyright (C) 2020-2023 Kygekraqmak
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
  */
 
 declare(strict_types=1);
@@ -32,15 +31,12 @@ use Kygekraqmak\KygekTagsShop\utils\Replace;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\SimpleForm;
 
-class MenuForm
-{
-	protected static function getMain(): TagsShop
-	{
+class MenuForm {
+	protected static function getMain() : TagsShop {
 		return TagsShop::getInstance();
 	}
 
-	public static function menuForm(Player $player)
-	{
+	public static function menuForm(Player $player) {
 		$form = new SimpleForm(function (Player $player, $data = null) {
 			if ($data === null) {
 				return true;
@@ -49,7 +45,7 @@ class MenuForm
 				case 0:
 					TagsShop::getAPI()->getPlayerTag($player, function (
 						?int $tagid,
-					) use ($player): void {
+					) use ($player) : void {
 						if ($tagid !== -1) {
 							BuyForm::tagExistsForm($player);
 						} else {
@@ -60,7 +56,7 @@ class MenuForm
 				case 1:
 					TagsShop::getAPI()->getPlayerTag($player, function (
 						?int $tagid,
-					) use ($player): void {
+					) use ($player) : void {
 						if ($tagid === -1) {
 							SellForm::noTagForm($player);
 						} else {

@@ -14,19 +14,17 @@
  *        |____/ |____/                           |_|
  *
  * A PocketMine-MP plugin that allows players to use tags
- * Copyright (C) 2020-2022 Kygekraqmak
+ * Copyright (C) 2020-2023 Kygekraqmak
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
  */
 
 declare(strict_types=1);
 
 namespace Kygekraqmak\KygekTagsShop\event;
 
-class TagBuyEvent extends TagEvent
-{
+class TagBuyEvent extends TagEvent {
 }

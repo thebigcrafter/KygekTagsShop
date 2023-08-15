@@ -13,9 +13,6 @@
 #        |____/ |____/                           |_|
 #
 # KygekTagsShop configuration file
-# KygekTagsShop is included with API for plugin developers
-# See https://github.com/Kygekraqmak/KygekTagsShop#for-developers for API guide
-#
 
 # Language to be used for default messages
 # Available languages: en, id, es, ro, fr, de, tr, vi, ru
@@ -130,11 +127,8 @@ database:
   worker-limit: 1
 #######################
 
-# Whether to check for plugin updates (Recommended)
-check-updates: true
-
 ##### DANGER ZONE #####
 # Do not change this (Only for internal use)!
-config-version: "1.7"
+config-version: "1.8"
 #######################
 ...

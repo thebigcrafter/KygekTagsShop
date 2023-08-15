@@ -14,13 +14,12 @@
  *        |____/ |____/                           |_|
  *
  * A PocketMine-MP plugin that allows players to use tags
- * Copyright (C) 2020-2022 Kygekraqmak
+ * Copyright (C) 2020-2023 Kygekraqmak
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
  */
 
 declare(strict_types=1);
@@ -36,10 +35,15 @@ use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat as TF;
 use poggit\libasynql\DataConnector;
 use poggit\libasynql\libasynql;
-use thebigcrafter\Mercury\PluginManager;
+use thebigcrafter\Hydrogen\Hydrogen;
+use function array_merge;
+use function array_walk;
+use function class_exists;
+use function file_exists;
+use function is_array;
+use function rename;
 
-class TagsShop extends PluginBase implements Listener
-{
+class TagsShop extends PluginBase implements Listener {
 	private const ROOT = "kygektagsshop";
 	public const INFO = TF::GREEN;
 	public const WARNING = TF::RED;
@@ -75,18 +79,15 @@ class TagsShop extends PluginBase implements Listener
 	/**
 	 * Returns an instance of KygekTagsShop API
 	 */
-	public static function getAPI(): TagsActions
-	{
+	public static function getAPI() : TagsActions {
 		return self::$api;
 	}
 
-	public static function getInstance()
-	{
+	public static function getInstance() {
 		return self::$instance;
 	}
 
-	protected function onEnable(): void
-	{
+	protected function onEnable() : void {
 		self::$instance = $this;
 
 		$this->saveResource("config.yml");
@@ -105,51 +106,51 @@ class TagsShop extends PluginBase implements Listener
 
 		$this->defaultMessages = [
 			self::ROOT . ".warning.filemissing" =>
-				$this->prefix .
+			$this->prefix .
 				self::WARNING .
 				"Config and/or data file cannot be found, please restart the server!",
 			self::ROOT . ".warning.notplayer" =>
-				$this->prefix .
+			$this->prefix .
 				self::WARNING .
 				"You can only execute this command in-game!",
 			self::ROOT . ".warning.nopermission" =>
-				$this->prefix .
+			$this->prefix .
 				self::WARNING .
 				"You do not have permission to use this command!",
 			self::ROOT . ".warning.playerhastag" =>
-				$this->prefix .
+			$this->prefix .
 				self::WARNING .
 				"You cannot buy tags because you have owned a tag!",
 			self::ROOT . ".warning.playerhasnotag" =>
-				$this->prefix .
+			$this->prefix .
 				self::WARNING .
 				"You cannot buy tags because you haven't owned a tag!",
 			self::ROOT . ".warning.notenoughmoney" =>
-				$this->prefix .
+			$this->prefix .
 				self::WARNING .
 				"You need {price} more to buy this tag!",
 			self::ROOT . ".info.economybuytagsuccess" =>
-				$this->prefix .
+			$this->prefix .
 				self::INFO .
 				"Successfully set your tag for {price}",
 			self::ROOT . ".info.freebuytagsuccess" =>
-				$this->prefix . self::INFO . "Successfully set your tag",
+			$this->prefix . self::INFO . "Successfully set your tag",
 			self::ROOT . ".info.economyselltagsuccess" =>
-				$this->prefix .
+			$this->prefix .
 				self::INFO .
 				"Successfully sold your tag for {price}",
 			self::ROOT . ".info.freeselltagsuccess" =>
-				$this->prefix . self::INFO . "Successfully sold your tag",
+			$this->prefix . self::INFO . "Successfully sold your tag",
 			self::ROOT .
-			".notice.outdatedconfig" => "Your configuration file is outdated, updating the config.yml...",
+				".notice.outdatedconfig" => "Your configuration file is outdated, updating the config.yml...",
 			self::ROOT .
-			".notice.oldconfiginfo" => "The old configuration file can be found at config_old.yml",
+				".notice.oldconfiginfo" => "The old configuration file can be found at config_old.yml",
 			self::ROOT .
-			".notice.noeconomyapi" => "EconomyAPI plugin is not installed or enabled, all tags will be free",
+				".notice.noeconomyapi" => "EconomyAPI plugin is not installed or enabled, all tags will be free",
 			self::ROOT .
-			"notice.pureperms" => "PurePerms plugin not installed or activated, some features will be disabled",
+				"notice.pureperms" => "PurePerms plugin not installed or activated, some features will be disabled",
 			self::ROOT .
-			".error.notags" => "Tags cannot be empty, disabling plugin...",
+				".error.notags" => "Tags cannot be empty, disabling plugin...",
 		];
 
 		$this->initializeLangs();
@@ -208,11 +209,10 @@ class TagsShop extends PluginBase implements Listener
 			$this->economyEnabled,
 			$this->purePermsEnabled,
 		);
-		PluginManager::checkForUpdates($this);
+		Hydrogen::checkForUpdates($this);
 	}
 
-	private function initializeLangs()
-	{
+	private function initializeLangs() {
 		foreach ($this->lang as $lang) {
 			$this->saveResource("lang/" . $lang . ".yml", true);
 			$langf = new Config(
@@ -255,8 +255,7 @@ class TagsShop extends PluginBase implements Listener
 		$this->messages = $this->defaultMessages;
 	}
 
-	public function onJoin(PlayerJoinEvent $event)
-	{
+	public function onJoin(PlayerJoinEvent $event) {
 		$player = $event->getPlayer();
 
 		if (!$this->fileExists()) {
@@ -267,7 +266,7 @@ class TagsShop extends PluginBase implements Listener
 		}
 		self::getAPI()->getPlayerTag($player, function (?int $tagid) use (
 			$player,
-		): void {
+		) : void {
 			if ($tagid !== -1 && self::getAPI()->tagExists($tagid)) {
 				$player->setDisplayName(
 					$player->getName() .
@@ -278,8 +277,7 @@ class TagsShop extends PluginBase implements Listener
 		});
 	}
 
-	private function checkConfig()
-	{
+	private function checkConfig() {
 		if ($this->config["config-version"] !== "1.7") {
 			$this->getLogger()->notice(
 				$this->messages["kygektagsshop.notice.outdatedconfig"],
@@ -296,15 +294,13 @@ class TagsShop extends PluginBase implements Listener
 		}
 	}
 
-	public function fileExists(): bool
-	{
+	public function fileExists() : bool {
 		$config = $this->getDataFolder() . "config.yml";
 		$data = self::getAPI()->getDataLocation();
-		return file_exists($config) or file_exists($data);
+		return file_exists($config) || file_exists($data);
 	}
 
-	public function getPurePerms(): PurePerms
-	{
+	public function getPurePerms() : PurePerms {
 		return $this->purePerms;
 	}
 }

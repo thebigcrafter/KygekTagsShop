@@ -14,13 +14,12 @@
  *        |____/ |____/                           |_|
  *
  * A PocketMine-MP plugin that allows players to use tags
- * Copyright (C) 2020-2022 Kygekraqmak
+ * Copyright (C) 2020-2023 Kygekraqmak
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
  */
 
 declare(strict_types=1);
@@ -33,13 +32,11 @@ use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\plugin\PluginOwned;
 
-class Commands extends Command implements PluginOwned
-{
+class Commands extends Command implements PluginOwned {
 	/** @var TagsShop */
 	private $main;
 
-	public function __construct(TagsShop $main, string $desc, array $aliases)
-	{
+	public function __construct(TagsShop $main, string $desc, array $aliases) {
 		$this->main = $main;
 		$desc = empty($desc) ? "Buy and sell your tags using money" : $desc;
 
@@ -54,30 +51,24 @@ class Commands extends Command implements PluginOwned
 		CommandSender $sender,
 		string $commandLabel,
 		array $args,
-	): bool {
+	) : bool {
 		if (!$sender instanceof Player) {
 			$sender->sendMessage(
-				$this->getOwningPlugin()->messages[
-					"kygektagsshop.warning.notplayer"
-				],
+				$this->getOwningPlugin()->messages["kygektagsshop.warning.notplayer"],
 			);
 			return true;
 		}
 
 		if (!$sender->hasPermission("kygektagsshop.tags")) {
 			$sender->sendMessage(
-				$this->getOwningPlugin()->messages[
-					"kygektagsshop.warning.nopermission"
-				],
+				$this->getOwningPlugin()->messages["kygektagsshop.warning.nopermission"],
 			);
 			return true;
 		}
 
 		if (!$this->getOwningPlugin()->fileExists()) {
 			$sender->sendMessage(
-				$this->getOwningPlugin()->messages[
-					"kygektagsshop.warning.filemissing"
-				],
+				$this->getOwningPlugin()->messages["kygektagsshop.warning.filemissing"],
 			);
 			return true;
 		}
@@ -86,8 +77,7 @@ class Commands extends Command implements PluginOwned
 		return true;
 	}
 
-	public function getOwningPlugin(): TagsShop
-	{
+	public function getOwningPlugin() : TagsShop {
 		return $this->main;
 	}
 }

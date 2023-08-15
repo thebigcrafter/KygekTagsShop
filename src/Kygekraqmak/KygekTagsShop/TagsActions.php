@@ -14,13 +14,12 @@
  *        |____/ |____/                           |_|
  *
  * A PocketMine-MP plugin that allows players to use tags
- * Copyright (C) 2020-2022 Kygekraqmak
+ * Copyright (C) 2020-2023 Kygekraqmak
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
  */
 
 declare(strict_types=1);
@@ -29,19 +28,23 @@ namespace Kygekraqmak\KygekTagsShop;
 
 use Closure;
 use cooldogedev\BedrockEconomy\api\BedrockEconomyAPI;
-use cooldogedev\BedrockEconomy\libs\cooldogedev\libSQL\context\ClosureContext;
+use cooldogedev\BedrockEconomy\api\legacy\ClosureContext;
 use Kygekraqmak\KygekTagsShop\event\TagBuyEvent;
 use Kygekraqmak\KygekTagsShop\event\TagSellEvent;
 use pocketmine\player\Player;
 use poggit\libasynql\DataConnector;
+use function array_keys;
+use function array_values;
+use function explode;
+use function str_replace;
+use function strtolower;
 
 /**
  * KygekTagsShop API class
  *
  * @package Kygekraqmak\KygekTagsShop
  */
-class TagsActions
-{
+class TagsActions {
 	public const API_VERSION = 1.2;
 
 	/** @var TagsShop */
@@ -78,8 +81,7 @@ class TagsActions
 	 * Returns an multidimensional associative array (ID => [tag => [price, [permissions]]) or null if there are no tags
 	 * ID always starts from 0 and is ordered as that of in config file
 	 */
-	public function getAllTags(): ?array
-	{
+	public function getAllTags() : ?array {
 		$alltags = [];
 		if (empty($this->config["tags"])) {
 			return null;
@@ -103,9 +105,8 @@ class TagsActions
 	 * - EconomyAPI plugin is not installed or enabled, and/or
 	 * - tag ID doesn't exists
 	 */
-	public function getTagPrice(int $tagid): ?int
-	{
-		if (!$this->economyEnabled or !$this->tagExists($tagid)) {
+	public function getTagPrice(int $tagid) : ?int {
+		if (!$this->economyEnabled || !$this->tagExists($tagid)) {
 			return null;
 		}
 		return (int) array_values($this->getAllTags()[$tagid])[0][0];
@@ -118,9 +119,8 @@ class TagsActions
 	 * - PurePerms plugin is not installed or enabled, and/or
 	 * - tag ID doesn't exists
 	 */
-	public function getTagPermissions(int $tagid): ?array
-	{
-		if (!$this->purePermsEnabled or !$this->tagExists($tagid)) {
+	public function getTagPermissions(int $tagid) : ?array {
+		if (!$this->purePermsEnabled || !$this->tagExists($tagid)) {
 			return null;
 		}
 
@@ -139,8 +139,7 @@ class TagsActions
 	 *
 	 * Returns null if tag ID doesn't exists
 	 */
-	public function getTagName(int $tagid): ?string
-	{
+	public function getTagName(int $tagid) : ?string {
 		if (!$this->tagExists($tagid)) {
 			return null;
 		}
@@ -151,8 +150,7 @@ class TagsActions
 	/**
 	 * Checks if tag exists in config
 	 */
-	public function tagExists(int $tagid): bool
-	{
+	public function tagExists(int $tagid) : bool {
 		return isset($this->getAllTags()[$tagid]);
 	}
 
@@ -161,13 +159,11 @@ class TagsActions
 	 *
 	 * Returns null if player doesn't have tag
 	 */
-	public function getPlayerTag(Player $player, Closure $callback)
-	{
+	public function getPlayerTag(Player $player, Closure $callback) {
 		$this->getData($player, $callback);
 	}
 
-	public function unSetUperm(Player $player, int $tagid)
-	{
+	public function unSetUperm(Player $player, int $tagid) {
 		$permissions = $this->getTagPermissions($tagid);
 		foreach ($permissions as $permission) {
 			TagsShop::getInstance()
@@ -182,16 +178,13 @@ class TagsActions
 	 *
 	 * Sends a warning message if player doesn't have a tag
 	 */
-	public function unsetPlayerTag(Player $player)
-	{
+	public function unsetPlayerTag(Player $player) {
 		$this->getPlayerTag($player, function (?int $tagid) use (
 			$player,
-		): void {
+		) : void {
 			if ($tagid == -1) {
 				$player->sendMessage(
-					$this->plugin->messages[
-						"kygektagsshop.warning.playerhasnotag"
-					],
+					$this->plugin->messages["kygektagsshop.warning.playerhasnotag"],
 				);
 				return;
 			}
@@ -212,9 +205,7 @@ class TagsActions
 					str_replace(
 						"{price}",
 						"$" . $tagprice,
-						$this->plugin->messages[
-							"kygektagsshop.info.economyselltagsuccess"
-						],
+						$this->plugin->messages["kygektagsshop.info.economyselltagsuccess"],
 					),
 				);
 				return;
@@ -224,15 +215,12 @@ class TagsActions
 			$this->removeData($player);
 			$player->setDisplayName($player->getName());
 			$player->sendMessage(
-				$this->plugin->messages[
-					"kygektagsshop.info.freeselltagsuccess"
-				],
+				$this->plugin->messages["kygektagsshop.info.freeselltagsuccess"],
 			);
 		});
 	}
 
-	public function setUperm(Player $player, int $tagid)
-	{
+	public function setUperm(Player $player, int $tagid) {
 		$permissions = $this->getTagPermissions($tagid);
 		foreach ($permissions as $permission) {
 			if ($permission == "") {
@@ -250,17 +238,14 @@ class TagsActions
 	 *
 	 * Sends a warning message if player have a tag or player doesn't have enough money
 	 */
-	public function setPlayerTag(Player $player, int $tagid)
-	{
+	public function setPlayerTag(Player $player, int $tagid) {
 		$this->getPlayerTag($player, function (?int $currentid) use (
 			$player,
 			$tagid,
-		): void {
+		) : void {
 			if ($currentid == $tagid) {
 				$player->sendMessage(
-					$this->plugin->messages[
-						"kygektagsshop.warning.playerhastag"
-					],
+					$this->plugin->messages["kygektagsshop.warning.playerhastag"],
 				);
 				return;
 			}
@@ -270,7 +255,7 @@ class TagsActions
 					ClosureContext::create(function (?int $balance) use (
 						$tagid,
 						$player,
-					): void {
+					) : void {
 						$tagprice = $this->getTagPrice($tagid);
 						$money = "$" . ($tagprice - $balance);
 
@@ -279,9 +264,7 @@ class TagsActions
 								str_replace(
 									"{price}",
 									$money,
-									$this->plugin->messages[
-										"kygektagsshop.warning.notenoughmoney"
-									],
+									$this->plugin->messages["kygektagsshop.warning.notenoughmoney"],
 								),
 							);
 							return;
@@ -310,9 +293,7 @@ class TagsActions
 							str_replace(
 								"{price}",
 								"$" . $tagprice,
-								$this->plugin->messages[
-									"kygektagsshop.info.economybuytagsuccess"
-								],
+								$this->plugin->messages["kygektagsshop.info.economybuytagsuccess"],
 							),
 						);
 					}),
@@ -334,8 +315,7 @@ class TagsActions
 	/**
 	 * Gets the display name format from the KygekTagsShop configuration file
 	 */
-	public function getDisplayNameFormat(): string
-	{
+	public function getDisplayNameFormat() : string {
 		return $this->config["display-name-format"] ?? "{displayname} {tag}" ?:
 			"{displayname} {tag}";
 	}
@@ -343,8 +323,7 @@ class TagsActions
 	/**
 	 * Gets the tag ID of a player from KygekTagsShop database
 	 */
-	private function getData(Player $player, Closure $callback)
-	{
+	private function getData(Player $player, Closure $callback) {
 		$this->data->executeSelect(
 			"kygektagsshop.get",
 			[
@@ -363,8 +342,7 @@ class TagsActions
 	/**
 	 * Sets tag ID to a player inside KygekTagsShop database
 	 */
-	private function setData(Player $player, int $tagid)
-	{
+	private function setData(Player $player, int $tagid) {
 		$this->data->executeSelect(
 			"kygektagsshop.get",
 			[
@@ -390,8 +368,7 @@ class TagsActions
 	/**
 	 * Removes player tag ID from KygekTagsShop database
 	 */
-	private function removeData(Player $player)
-	{
+	private function removeData(Player $player) {
 		$this->data->executeChange("kygektagsshop.remove", [
 			"player" => strtolower($player->getName()),
 		]);
@@ -400,8 +377,7 @@ class TagsActions
 	/**
 	 * Gets all KygekTagsShop database contents
 	 */
-	public function getAllData(Closure $callback)
-	{
+	public function getAllData(Closure $callback) {
 		$this->data->executeSelect("kygektagsshop.getall", [], function (
 			array $data,
 		) use ($callback) {
@@ -416,8 +392,7 @@ class TagsActions
 	/**
 	 * Gets the KygekTagsShop database location
 	 */
-	public function getDataLocation(): string
-	{
+	public function getDataLocation() : string {
 		return $this->plugin->getDataFolder() . "data.json";
 	}
 }

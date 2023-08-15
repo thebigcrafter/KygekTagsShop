@@ -1,15 +1,15 @@
---- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/KygekTeam/KygekTagsShop
+--- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/thebigcrafter/KygekTagsShop
 build-by-default: true
 branches:
-- master
+- main
 projects:
   KygekTagsShop:
     path: ""
     libs:
     - src: Vecnavium/FormsUI/FormsUI
       version: ^1.1.2
-    - src: thebigcrafter/Mercury/Mercury
+    - src: thebigcrafter/Hydrogen/Hydrogen
       version: ^1.0.0
     - src: poggit/libasynql/libasynql
-      version: ^3.4.0
+      version: ^4.2.0
 ...

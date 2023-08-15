@@ -14,13 +14,12 @@
  *        |____/ |____/                           |_|
  *
  * A PocketMine-MP plugin that allows players to use tags
- * Copyright (C) 2020-2022 Kygekraqmak
+ * Copyright (C) 2020-2023 Kygekraqmak
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
  */
 
 declare(strict_types=1);
@@ -29,11 +28,10 @@ namespace Kygekraqmak\KygekTagsShop\utils;
 
 use Kygekraqmak\KygekTagsShop\TagsShop;
 use pocketmine\player\Player;
+use function strtr;
 
-class Replace
-{
-	public static function replaceGeneric(Player $player, string $text): string
-	{
+class Replace {
+	public static function replaceGeneric(Player $player, string $text) : string {
 		$replace = [
 			"{player}" => $player->getName(),
 			"&" => "§",
@@ -46,14 +44,14 @@ class Replace
 		Player $player,
 		int $tagid,
 		string $text,
-	): string {
+	) : string {
 		$tagsshop = TagsShop::getInstance();
 		$api = TagsShop::getAPI();
 		$currency = $tagsshop->economyEnabled ? "$" : "";
 		$price =
-			($tagsshop->economyEnabled and $api->tagExists($tagid))
-				? $currency . $api->getTagPrice($tagid)
-				: "free";
+			($tagsshop->economyEnabled && $api->tagExists($tagid))
+			? $currency . $api->getTagPrice($tagid)
+			: "free";
 		$name = $api->getTagName($tagid) ?? "Unknown tag";
 
 		$replace = [
