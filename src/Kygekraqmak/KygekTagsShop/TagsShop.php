@@ -36,6 +36,7 @@ use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat as TF;
 use poggit\libasynql\DataConnector;
 use poggit\libasynql\libasynql;
+use thebigcrafter\Hydrogen\HConfig;
 use thebigcrafter\Hydrogen\Hydrogen;
 use function array_merge;
 use function array_walk;
@@ -91,7 +92,6 @@ class TagsShop extends PluginBase implements Listener {
 	protected function onEnable() : void {
 		self::$instance = $this;
 
-		$this->saveResource("config.yml");
 		$this->config = $this->getConfig()->getAll();
 		$db = libasynql::create($this, $this->config["database"], [
 			"mysql" => "mysql.sql",
@@ -155,7 +155,7 @@ class TagsShop extends PluginBase implements Listener {
 		];
 
 		$this->initializeLangs();
-		$this->checkConfig();
+		HConfig::verifyConfigVersion($this->getConfig(), "1.8");
 
 		if (!class_exists(BedrockEconomy::class)) {
 			if ($this->config["notify-no-economyapi"] === true) {
@@ -276,23 +276,6 @@ class TagsShop extends PluginBase implements Listener {
 				);
 			}
 		});
-	}
-
-	private function checkConfig() {
-		if ($this->config["config-version"] !== "1.7") {
-			$this->getLogger()->notice(
-				$this->messages["kygektagsshop.notice.outdatedconfig"],
-			);
-			$this->getLogger()->notice(
-				$this->messages["kygektagsshop.notice.oldconfiginfo"],
-			);
-			rename(
-				$this->getDataFolder() . "config.yml",
-				$this->getDataFolder() . "config_old.yml",
-			);
-			$this->saveResource("config.yml");
-			$this->getConfig()->reload();
-		}
 	}
 
 	public function fileExists() : bool {
