@@ -29,8 +29,8 @@ namespace Kygekraqmak\KygekTagsShop\form;
 use Kygekraqmak\KygekTagsShop\TagsShop;
 use Kygekraqmak\KygekTagsShop\utils\Replace;
 use pocketmine\player\Player;
-use Kygekraqmak\KygekTagsShop\libs\_ff0c2de982ac1602\Vecnavium\FormsUI\CustomForm;
-use Kygekraqmak\KygekTagsShop\libs\_ff0c2de982ac1602\Vecnavium\FormsUI\SimpleForm;
+use Kygekraqmak\KygekTagsShop\libs\_110f82609134d69c\Vecnavium\FormsUI\CustomForm;
+use Kygekraqmak\KygekTagsShop\libs\_110f82609134d69c\Vecnavium\FormsUI\SimpleForm;
 use function array_keys;
 
 class BuyForm extends MenuForm {
