@@ -32,7 +32,7 @@ use cooldogedev\BedrockEconomy\api\legacy\ClosureContext;
 use Kygekraqmak\KygekTagsShop\event\TagBuyEvent;
 use Kygekraqmak\KygekTagsShop\event\TagSellEvent;
 use pocketmine\player\Player;
-use poggit\libasynql\DataConnector;
+use Kygekraqmak\KygekTagsShop\libs\_44cea270393910de\poggit\libasynql\DataConnector;
 use function array_keys;
 use function array_values;
 use function explode;
