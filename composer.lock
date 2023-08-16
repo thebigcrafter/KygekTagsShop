@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1a3e3cb9f979508fce43584c49e89bac",
+    "content-hash": "ef582e1965e4b44d8182fef02d1e75f3",
     "packages": [
         {
             "name": "adhocore/json-comment",
@@ -2127,16 +2127,16 @@
         },
         {
             "name": "sof3/pharynx",
-            "version": "0.1.0",
+            "version": "0.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SOF3/pharynx.git",
-                "reference": "fdc64cc4c2b5f328be3c64c76a01f4bad13f358e"
+                "reference": "4356d8555260d020e898ef2ea86429842748b92a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SOF3/pharynx/zipball/fdc64cc4c2b5f328be3c64c76a01f4bad13f358e",
-                "reference": "fdc64cc4c2b5f328be3c64c76a01f4bad13f358e",
+                "url": "https://api.github.com/repos/SOF3/pharynx/zipball/4356d8555260d020e898ef2ea86429842748b92a",
+                "reference": "4356d8555260d020e898ef2ea86429842748b92a",
                 "shasum": ""
             },
             "require": {
@@ -2145,8 +2145,11 @@
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.4",
                 "phpstan/phpstan": "^1.7",
-                "phpunit/phpunit": "^9.5"
+                "phpunit/phpunit": "^9.5.16 <9.5.17"
             },
+            "bin": [
+                "pharynx"
+            ],
             "type": "project",
             "autoload": {
                 "psr-4": {
@@ -2165,9 +2168,9 @@
             ],
             "support": {
                 "issues": "https://github.com/SOF3/pharynx/issues",
-                "source": "https://github.com/SOF3/pharynx/tree/0.1.0"
+                "source": "https://github.com/SOF3/pharynx/tree/0.2.5"
             },
-            "time": "2022-05-27T16:25:58+00:00"
+            "time": "2023-03-18T05:27:07+00:00"
         },
         {
             "name": "symfony/console",
