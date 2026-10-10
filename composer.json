@@ -3,7 +3,6 @@
     "description": "A PocketMine-MP plugin that allows players to use tags",
     "type": "pocketmine-plugin",
     "require": {
-        "pocketmine/pocketmine-mp": "^5.0.0",
         "vecnavium/formsui": "dev-master",
         "thebigcrafter/hydrogen": "dev-main",
         "sof3/libasynql": "^4.1.7"
@@ -11,14 +10,10 @@
     "require-dev": {
         "sof3/pharynx": "^0.2",
         "friendsofphp/php-cs-fixer": "^3.17",
-        "phpstan/phpstan": "^2.1"
+        "phpstan/phpstan": "^2.1",
+        "pocketmine/pocketmine-mp": "^5.0.0"
     },
     "license": "LGPL-3.0-or-later",
-    "autoload": {
-        "classmap": [
-            "src"
-        ]
-    },
     "scripts": {
         "analyse": "vendor/bin/phpstan analyse -c phpstan.neon.dist"
     }
