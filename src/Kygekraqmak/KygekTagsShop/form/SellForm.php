@@ -28,13 +28,13 @@ namespace Kygekraqmak\KygekTagsShop\form;
 
 use Kygekraqmak\KygekTagsShop\utils\Replace;
 use pocketmine\player\Player;
-use Kygekraqmak\KygekTagsShop\libs\_110f82609134d69c\Vecnavium\FormsUI\SimpleForm;
+use Kygekraqmak\KygekTagsShop\libs\_c20891dfa0c1366c\Vecnavium\FormsUI\SimpleForm;
 
 class SellForm extends MenuForm {
-	public static function sellTagForm(Player $player, int $tagid) {
+	public static function sellTagForm(Player $player, int $tagid) : void {
 		$form = new SimpleForm(function (Player $player, $data = null) {
 			if ($data === null) {
-				if (parent::getMain()->config["return-when-closed"]) {
+				if (parent::configBool("return-when-closed")) {
 					parent::menuForm($player);
 				}
 				return true;
@@ -54,35 +54,35 @@ class SellForm extends MenuForm {
 		$form->setTitle(
 			Replace::replaceGeneric(
 				$player,
-				parent::getMain()->config["sell-title"],
+				parent::configString("sell-title"),
 			),
 		);
 		$form->setContent(
 			Replace::replaceTag(
 				$player,
 				$tagid,
-				parent::getMain()->config["sell-content"],
+				parent::configString("sell-content"),
 			),
 		);
 		$form->addButton(
 			Replace::replaceGeneric(
 				$player,
-				parent::getMain()->config["sell-agree-button"],
+				parent::configString("sell-agree-button"),
 			),
 		);
 		$form->addButton(
 			Replace::replaceGeneric(
 				$player,
-				parent::getMain()->config["sell-disagree-button"],
+				parent::configString("sell-disagree-button"),
 			),
 		);
 		$player->sendForm($form);
 	}
 
-	public static function noTagForm(Player $player) {
+	public static function noTagForm(Player $player) : void {
 		$form = new SimpleForm(function (Player $player, $data = null) {
 			if ($data === null) {
-				if (parent::getMain()->config["return-when-closed"]) {
+				if (parent::configBool("return-when-closed")) {
 					parent::menuForm($player);
 				}
 				return true;
@@ -94,19 +94,19 @@ class SellForm extends MenuForm {
 		$form->setTitle(
 			Replace::replaceGeneric(
 				$player,
-				parent::getMain()->config["no-tag-title"],
+				parent::configString("no-tag-title"),
 			),
 		);
 		$form->setContent(
 			Replace::replaceGeneric(
 				$player,
-				parent::getMain()->config["no-tag-content"],
+				parent::configString("no-tag-content"),
 			),
 		);
 		$form->addButton(
 			Replace::replaceGeneric(
 				$player,
-				parent::getMain()->config["no-tag-button"],
+				parent::configString("no-tag-button"),
 			),
 		);
 		$player->sendForm($form);

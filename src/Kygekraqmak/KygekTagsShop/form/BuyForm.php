@@ -29,53 +29,59 @@ namespace Kygekraqmak\KygekTagsShop\form;
 use Kygekraqmak\KygekTagsShop\TagsShop;
 use Kygekraqmak\KygekTagsShop\utils\Replace;
 use pocketmine\player\Player;
-use Kygekraqmak\KygekTagsShop\libs\_110f82609134d69c\Vecnavium\FormsUI\CustomForm;
-use Kygekraqmak\KygekTagsShop\libs\_110f82609134d69c\Vecnavium\FormsUI\SimpleForm;
+use Kygekraqmak\KygekTagsShop\libs\_c20891dfa0c1366c\Vecnavium\FormsUI\CustomForm;
+use Kygekraqmak\KygekTagsShop\libs\_c20891dfa0c1366c\Vecnavium\FormsUI\SimpleForm;
 use function array_keys;
 
 class BuyForm extends MenuForm {
-	public static function tagsListForm(Player $player) {
+	public static function tagsListForm(Player $player) : void {
 		$tagdisplay = [];
-		foreach (TagsShop::getAPI()->getAllTags() as $tags) {
+		$allTags = TagsShop::getAPI()->getAllTags();
+		if ($allTags === null) {
+			return;
+		}
+		foreach ($allTags as $tags) {
 			$tagdisplay[] = array_keys($tags)[0];
 		}
 
 		$form = new CustomForm(function (Player $player, $data = null) {
 			if ($data === null) {
-				if (parent::getMain()->config["return-when-closed"]) {
+				if (parent::configBool("return-when-closed")) {
 					parent::menuForm($player);
 				}
 				return true;
 			}
-			self::confirmBuyForm($player, $data[1]);
+			if (is_array($data) && isset($data[1]) && is_int($data[1])) {
+				self::confirmBuyForm($player, $data[1]);
+			}
 		});
 
 		$form->setTitle(
 			Replace::replaceGeneric(
 				$player,
-				parent::getMain()->config["buy-title"],
+				parent::configString("buy-title"),
 			),
 		);
 		$form->addLabel(
 			Replace::replaceGeneric(
 				$player,
-				parent::getMain()->config["buy-content"],
+				parent::configString("buy-content"),
 			),
 		);
 		$form->addDropdown(
 			Replace::replaceGeneric(
 				$player,
-				parent::getMain()->config["buy-dropdown"],
+				parent::configString("buy-dropdown"),
 			),
 			$tagdisplay,
 		);
 		$player->sendForm($form);
 	}
 
-	public static function tagExistsForm(Player $player) {
+	public static function tagExistsForm(Player $player) : void {
 		$form = new SimpleForm(function (Player $player, $data = null) {
 			if ($data === null) {
-				if (parent::getMain()->config["return-when-closed"]) {
+				if (parent::configBool("return-when-closed")) {
 					self::tagsListForm($player);
 				}
 				return true;
@@ -87,30 +93,30 @@ class BuyForm extends MenuForm {
 		$form->setTitle(
 			Replace::replaceGeneric(
 				$player,
-				parent::getMain()->config["tag-exists-title"],
+				parent::configString("tag-exists-title"),
 			),
 		);
 		$form->setContent(
 			Replace::replaceGeneric(
 				$player,
-				parent::getMain()->config["tag-exists-content"],
+				parent::configString("tag-exists-content"),
 			),
 		);
 		$form->addButton(
 			Replace::replaceGeneric(
 				$player,
-				parent::getMain()->config["tag-exists-button"],
+				parent::configString("tag-exists-button"),
 			),
 		);
 		$player->sendForm($form);
 	}
 
-	public static function confirmBuyForm(Player $player, int $tagid) {
+	public static function confirmBuyForm(Player $player, int $tagid) : void {
 		$form = new SimpleForm(function (Player $player, $data = null) use (
 			$tagid,
 		) {
 			if ($data === null) {
-				if (parent::getMain()->config["return-when-closed"]) {
+				if (parent::configBool("return-when-closed")) {
 					self::tagsListForm($player);
 				}
 				return true;
@@ -128,26 +134,26 @@ class BuyForm extends MenuForm {
 		$form->setTitle(
 			Replace::replaceGeneric(
 				$player,
-				parent::getMain()->config["buy-confirm-title"],
+				parent::configString("buy-confirm-title"),
 			),
 		);
 		$form->setContent(
 			Replace::replaceTag(
 				$player,
 				$tagid,
-				parent::getMain()->config["buy-confirm-content"],
+				parent::configString("buy-confirm-content"),
 			),
 		);
 		$form->addButton(
 			Replace::replaceGeneric(
 				$player,
-				parent::getMain()->config["buy-confirm-agree-button"],
+				parent::configString("buy-confirm-agree-button"),
 			),
 		);
 		$form->addButton(
 			Replace::replaceGeneric(
 				$player,
-				parent::getMain()->config["buy-confirm-disagree-button"],
+				parent::configString("buy-confirm-disagree-button"),
 			),
 		);
 		$player->sendForm($form);
