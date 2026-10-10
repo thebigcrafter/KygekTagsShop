@@ -36,7 +36,7 @@ class MenuForm {
 		return TagsShop::getInstance();
 	}
 
-	public static function menuForm(Player $player) {
+	public static function menuForm(Player $player) : void {
 		$form = new SimpleForm(function (Player $player, $data = null) {
 			if ($data === null) {
 				return true;
@@ -44,7 +44,7 @@ class MenuForm {
 			switch ($data) {
 				case 0:
 					TagsShop::getAPI()->getPlayerTag($player, function (
-						?int $tagid,
+						int $tagid,
 					) use ($player) : void {
 						if ($tagid !== -1) {
 							BuyForm::tagExistsForm($player);
@@ -55,11 +55,11 @@ class MenuForm {
 					break;
 				case 1:
 					TagsShop::getAPI()->getPlayerTag($player, function (
-						?int $tagid,
+						int $tagid,
 					) use ($player) : void {
 						if ($tagid === -1) {
 							SellForm::noTagForm($player);
-						} else {
+						} elseif ($tagid >= 0) {
 							SellForm::sellTagForm($player, $tagid);
 						}
 					});
@@ -70,33 +70,43 @@ class MenuForm {
 		$form->setTitle(
 			Replace::replaceGeneric(
 				$player,
-				self::getMain()->config["main-title"],
+				self::configString("main-title"),
 			),
 		);
 		$form->setContent(
 			Replace::replaceGeneric(
 				$player,
-				self::getMain()->config["main-content"],
+				self::configString("main-content"),
 			),
 		);
 		$form->addButton(
 			Replace::replaceGeneric(
 				$player,
-				self::getMain()->config["main-buy-button"],
+				self::configString("main-buy-button"),
 			),
 		);
 		$form->addButton(
 			Replace::replaceGeneric(
 				$player,
-				self::getMain()->config["main-sell-button"],
+				self::configString("main-sell-button"),
 			),
 		);
 		$form->addButton(
 			Replace::replaceGeneric(
 				$player,
-				self::getMain()->config["main-exit-button"],
+				self::configString("main-exit-button"),
 			),
 		);
 		$player->sendForm($form);
+	}
+
+	protected static function configString(string $key) : string {
+		$value = self::getMain()->config[$key] ?? null;
+		return is_string($value) ? $value : "";
+	}
+
+	protected static function configBool(string $key) : bool {
+		$value = self::getMain()->config[$key] ?? null;
+		return $value === true;
 	}
 }

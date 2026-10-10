@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-<a href="https://poggit.pmmp.io/p/KygekTagsShop"><img src="https://poggit.pmmp.io/shield.dl.total/oh-my-pmmp?style=for-the-badge" alt="poggit" /></a>
+<a href="https://poggit.pmmp.io/p/KygekTagsShop"><img src="https://poggit.pmmp.io/shield.dl.total/KygekTagsShop?style=for-the-badge" alt="poggit" /></a>
 <a href="https://github.com/thebigcrafter/KygekTagsShop#GPL-3.0-1"><img src="https://img.shields.io/github/license/thebigcrafter/KygekTagsShop?style=for-the-badge" alt="license" /></a>
 <a href="https://discord.gg/PykBfE2TZ9"><img src="https://img.shields.io/discord/1087729577004122112?color=7289DA&label=discord&logo=discord&style=for-the-badge" alt="discord" /></a>
 </p>
@@ -16,8 +16,8 @@
 
 # 🧩 Features
 
-- EconomyAPI support for tags prices
-  - Shows warning if EconomyAPI plugin is not installed or enabled (Can be disabled in `config.yml`)
+- [BedrockEconomy](https://github.com/cooldogedev/BedrockEconomy) support for tag prices
+  - Shows a warning if BedrockEconomy is not installed or enabled (can be disabled in `config.yml`)
 - Compatible with PureChat
 - Unlimited tags
 - Forms to buy and sell tags

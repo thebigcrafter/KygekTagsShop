@@ -50,8 +50,8 @@ class TagsActions {
 	/** @var TagsShop */
 	private $plugin;
 
-	/** @var array */
-	private $config;
+	/** @var array<string, mixed> */
+	private array $config;
 	/** @var DataConnector */
 	private $data;
 
@@ -61,6 +61,7 @@ class TagsActions {
 	/** @var bool */
 	private $purePermsEnabled;
 
+	/** @param array<string, mixed> $config */
 	public function __construct(
 		TagsShop $plugin,
 		array $config,
@@ -81,17 +82,25 @@ class TagsActions {
 	 * Returns an multidimensional associative array (ID => [tag => [price, [permissions]]) or null if there are no tags
 	 * ID always starts from 0 and is ordered as that of in config file
 	 */
+	/** @return array<int, array<string, array{0: string, 1: string}>>|null */
 	public function getAllTags() : ?array {
 		$alltags = [];
-		if (empty($this->config["tags"])) {
+		$rawTags = $this->config["tags"] ?? null;
+		if (!is_array($rawTags) || $rawTags === []) {
 			return null;
 		}
 
-		foreach ($this->config["tags"] as $tag) {
-			$tag = explode(":", $tag);
-			$alltags[][str_replace("&", "§", $tag[0] . "&r")] = [
-				$tag[1],
-				$tag[2],
+		foreach ($rawTags as $rawTag) {
+			if (!is_string($rawTag)) {
+				continue;
+			}
+			$parts = explode(":", $rawTag, 3);
+			if (count($parts) !== 3) {
+				continue;
+			}
+			$alltags[][str_replace("&", "§", $parts[0] . "&r")] = [
+				$parts[1],
+				$parts[2],
 			];
 		}
 
@@ -106,10 +115,11 @@ class TagsActions {
 	 * - tag ID doesn't exists
 	 */
 	public function getTagPrice(int $tagid) : ?int {
-		if (!$this->economyEnabled || !$this->tagExists($tagid)) {
+		$tag = $this->getTagData($tagid);
+		if (!$this->economyEnabled || $tag === null) {
 			return null;
 		}
-		return (int) array_values($this->getAllTags()[$tagid])[0][0];
+		return (int) $tag[0];
 	}
 
 	/**
@@ -119,12 +129,14 @@ class TagsActions {
 	 * - PurePerms plugin is not installed or enabled, and/or
 	 * - tag ID doesn't exists
 	 */
+	/** @return list<string>|null */
 	public function getTagPermissions(int $tagid) : ?array {
-		if (!$this->purePermsEnabled || !$this->tagExists($tagid)) {
+		$tag = $this->getTagData($tagid);
+		if (!$this->purePermsEnabled || $tag === null) {
 			return null;
 		}
 
-		$permissions = array_values($this->getAllTags()[$tagid])[0][1];
+		$permissions = $tag[1];
 		$permissions = str_replace(
 			["[", "]", ",", "'", "\""],
 			"",
@@ -140,11 +152,12 @@ class TagsActions {
 	 * Returns null if tag ID doesn't exists
 	 */
 	public function getTagName(int $tagid) : ?string {
-		if (!$this->tagExists($tagid)) {
+		$tags = $this->getAllTags();
+		if ($tags === null || !isset($tags[$tagid])) {
 			return null;
 		}
-
-		return array_keys($this->getAllTags()[$tagid])[0];
+		$name = array_key_first($tags[$tagid]);
+		return is_string($name) ? $name : null;
 	}
 
 	/**
@@ -159,12 +172,15 @@ class TagsActions {
 	 *
 	 * Returns null if player doesn't have tag
 	 */
-	public function getPlayerTag(Player $player, Closure $callback) {
+	public function getPlayerTag(Player $player, Closure $callback) : void {
 		$this->getData($player, $callback);
 	}
 
-	public function unSetUperm(Player $player, int $tagid) {
+	public function unSetUperm(Player $player, int $tagid) : void {
 		$permissions = $this->getTagPermissions($tagid);
+		if ($permissions === null) {
+			return;
+		}
 		foreach ($permissions as $permission) {
 			TagsShop::getInstance()
 				->getPurePerms()
@@ -178,8 +194,8 @@ class TagsActions {
 	 *
 	 * Sends a warning message if player doesn't have a tag
 	 */
-	public function unsetPlayerTag(Player $player) {
-		$this->getPlayerTag($player, function (?int $tagid) use (
+	public function unsetPlayerTag(Player $player) : void {
+		$this->getPlayerTag($player, function (int $tagid) use (
 			$player,
 		) : void {
 			if ($tagid == -1) {
@@ -190,6 +206,9 @@ class TagsActions {
 			}
 			if ($this->economyEnabled) {
 				$tagprice = $this->getTagPrice($tagid);
+				if ($tagprice === null) {
+					return;
+				}
 				(new TagSellEvent($player, $tagid))->call();
 				BedrockEconomyAPI::getInstance()->addToPlayerBalance(
 					$player->getName(),
@@ -220,8 +239,11 @@ class TagsActions {
 		});
 	}
 
-	public function setUperm(Player $player, int $tagid) {
+	public function setUperm(Player $player, int $tagid) : void {
 		$permissions = $this->getTagPermissions($tagid);
+		if ($permissions === null) {
+			return;
+		}
 		foreach ($permissions as $permission) {
 			if ($permission == "") {
 				break;
@@ -238,7 +260,7 @@ class TagsActions {
 	 *
 	 * Sends a warning message if player have a tag or player doesn't have enough money
 	 */
-	public function setPlayerTag(Player $player, int $tagid) {
+	public function setPlayerTag(Player $player, int $tagid) : void {
 		$this->getPlayerTag($player, function (?int $currentid) use (
 			$player,
 			$tagid,
@@ -257,6 +279,9 @@ class TagsActions {
 						$player,
 					) : void {
 						$tagprice = $this->getTagPrice($tagid);
+						if ($tagprice === null || $balance === null) {
+							return;
+						}
 						$money = "$" . ($tagprice - $balance);
 
 						if ($balance < $tagprice) {
@@ -278,7 +303,7 @@ class TagsActions {
 						);
 						// TODO: Store original player display name in database after new database has been implemented (See line #178 for purpose)
 						$displayName = $player->getDisplayName();
-						$tag = $this->getTagName($tagid);
+						$tag = $this->getTagName($tagid) ?? "Unknown tag";
 						$player->setDisplayName(
 							str_replace(
 								["{displayname}", "{tag}"],
@@ -316,14 +341,14 @@ class TagsActions {
 	 * Gets the display name format from the KygekTagsShop configuration file
 	 */
 	public function getDisplayNameFormat() : string {
-		return $this->config["display-name-format"] ?? "{displayname} {tag}" ?:
-			"{displayname} {tag}";
+		$value = $this->config["display-name-format"] ?? null;
+		return is_string($value) && $value !== "" ? $value : "{displayname} {tag}";
 	}
 
 	/**
 	 * Gets the tag ID of a player from KygekTagsShop database
 	 */
-	private function getData(Player $player, Closure $callback) {
+	private function getData(Player $player, Closure $callback) : void {
 		$this->data->executeSelect(
 			"kygektagsshop.get",
 			[
@@ -333,7 +358,9 @@ class TagsActions {
 				if (empty($data)) {
 					$callback(-1);
 				} else {
-					$callback(isset($data[0]) ? $data[0]["tagid"] : -1);
+					$row = $data[0] ?? null;
+					$tagid = is_array($row) ? ($row["tagid"] ?? null) : null;
+					$callback(is_numeric($tagid) ? (int) $tagid : -1);
 				}
 			},
 		);
@@ -342,7 +369,7 @@ class TagsActions {
 	/**
 	 * Sets tag ID to a player inside KygekTagsShop database
 	 */
-	private function setData(Player $player, int $tagid) {
+	private function setData(Player $player, int $tagid) : void {
 		$this->data->executeSelect(
 			"kygektagsshop.get",
 			[
@@ -368,7 +395,7 @@ class TagsActions {
 	/**
 	 * Removes player tag ID from KygekTagsShop database
 	 */
-	private function removeData(Player $player) {
+	private function removeData(Player $player) : void {
 		$this->data->executeChange("kygektagsshop.remove", [
 			"player" => strtolower($player->getName()),
 		]);
@@ -377,7 +404,7 @@ class TagsActions {
 	/**
 	 * Gets all KygekTagsShop database contents
 	 */
-	public function getAllData(Closure $callback) {
+	public function getAllData(Closure $callback) : void {
 		$this->data->executeSelect("kygektagsshop.getall", [], function (
 			array $data,
 		) use ($callback) {
@@ -394,5 +421,15 @@ class TagsActions {
 	 */
 	public function getDataLocation() : string {
 		return $this->plugin->getDataFolder() . "data.json";
+	}
+
+	/** @return array{0: string, 1: string}|null */
+	private function getTagData(int $tagid) : ?array {
+		$tags = $this->getAllTags();
+		if ($tags === null || !isset($tags[$tagid])) {
+			return null;
+		}
+		$tag = array_values($tags[$tagid])[0] ?? null;
+		return is_array($tag) ? $tag : null;
 	}
 }

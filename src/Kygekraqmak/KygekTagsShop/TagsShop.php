@@ -50,49 +50,53 @@ class TagsShop extends PluginBase implements Listener {
 	public const INFO = TF::GREEN;
 	public const WARNING = TF::RED;
 
-	/** @var array */
-	public $config;
+	/** @var array<string, mixed> */
+	public array $config;
 
-	/** @var DataConnector */
-	public $data;
-	/** @var string */
-	private $prefix = TF::YELLOW . "[KygekTagsShop] " . TF::RESET;
+	public DataConnector $data;
+	private string $prefix = TF::YELLOW . "[KygekTagsShop] " . TF::RESET;
 
-	/** @var bool */
-	public $economyEnabled = false;
+	public bool $economyEnabled = false;
 
-	/** @var bool */
-	public $purePermsEnabled = false;
-	/** @var Plugin|null */
-	private $purePerms;
+	public bool $purePermsEnabled = false;
+	private ?PurePerms $purePerms = null;
 
-	/** @var TagsActions */
-	private static $api;
-	/** @var TagsShop */
-	private static $instance = null;
+	private static ?TagsActions $api = null;
+	private static ?self $instance = null;
 
-	/** @var string[] */
-	private $lang = ["de", "en", "es", "fr", "id", "ro", "tr", "vi", "ru"];
-	/** @var string[] */
-	public $messages = [];
-	/** @var string[] */
-	private $defaultMessages = [];
+	/** @var list<string> */
+	private array $lang = ["de", "en", "es", "fr", "id", "ro", "tr", "vi", "ru"];
+	/** @var array<string, string> */
+	public array $messages = [];
+	/** @var array<string, string> */
+	private array $defaultMessages = [];
 
 	/**
 	 * Returns an instance of KygekTagsShop API
 	 */
 	public static function getAPI() : TagsActions {
+		if (self::$api === null) {
+			throw new \LogicException("KygekTagsShop API is not initialized");
+		}
 		return self::$api;
 	}
 
-	public static function getInstance() {
+	public static function getInstance() : self {
+		if (self::$instance === null) {
+			throw new \LogicException("KygekTagsShop is not initialized");
+		}
 		return self::$instance;
 	}
 
 	protected function onEnable() : void {
 		self::$instance = $this;
 
-		$this->config = $this->getConfig()->getAll();
+		$this->config = [];
+		foreach ($this->getConfig()->getAll() as $key => $value) {
+			if (is_string($key)) {
+				$this->config[$key] = $value;
+			}
+		}
 		$db = libasynql::create($this, $this->config["database"], [
 			"mysql" => "mysql.sql",
 			"sqlite" => "sqlite.sql",
@@ -101,9 +105,10 @@ class TagsShop extends PluginBase implements Listener {
 		$db->waitAll();
 		$this->data = $db;
 
-		$this->prefix = empty($this->config["prefix"])
+		$configPrefix = $this->config["prefix"] ?? null;
+		$this->prefix = !is_string($configPrefix) || $configPrefix === ""
 			? TF::YELLOW . "[KygekTagsShop] " . TF::RESET
-			: $this->config["prefix"];
+			: $configPrefix;
 
 		$this->defaultMessages = [
 			self::ROOT . ".warning.filemissing" =>
@@ -167,7 +172,8 @@ class TagsShop extends PluginBase implements Listener {
 			$this->economyEnabled = true;
 		}
 
-		if (!class_exists(PurePerms::class)) {
+		$purePerms = $this->getServer()->getPluginManager()->getPlugin("PurePerms");
+		if (!$purePerms instanceof PurePerms) {
 			if ($this->config["notify-no-pureperms"] === true) {
 				$this->getLogger()->notice(
 					$this->messages["kygektagsshop.notice.pureperms"],
@@ -175,9 +181,7 @@ class TagsShop extends PluginBase implements Listener {
 			}
 		} else {
 			$this->purePermsEnabled = true;
-			$this->purePerms = $this->getServer()
-				->getPluginManager()
-				->getPlugin("PurePerms");
+			$this->purePerms = $purePerms;
 		}
 
 		if (empty($this->config["tags"])) {
@@ -190,10 +194,14 @@ class TagsShop extends PluginBase implements Listener {
 			return;
 		}
 
-		$cmddesc = empty($this->config)
-			? "Buy tags here!"
-			: $this->config["command-desc"];
-		$cmdalias = $this->config["command-aliases"];
+		$commandDescription = $this->config["command-desc"] ?? null;
+		$cmddesc = is_string($commandDescription) && $commandDescription !== ""
+			? $commandDescription
+			: "Buy tags here!";
+		$rawAliases = $this->config["command-aliases"] ?? [];
+		$cmdalias = is_array($rawAliases)
+			? array_values(array_filter($rawAliases, static fn(mixed $alias): bool => is_string($alias)))
+			: [];
 		$this->getServer()
 			->getPluginManager()
 			->registerEvents($this, $this);
@@ -213,7 +221,7 @@ class TagsShop extends PluginBase implements Listener {
 		Hydrogen::checkForUpdates($this);
 	}
 
-	private function initializeLangs() {
+	private function initializeLangs() : void {
 		foreach ($this->lang as $lang) {
 			$this->saveResource("lang/" . $lang . ".yml", true);
 			$langf = new Config(
@@ -225,16 +233,24 @@ class TagsShop extends PluginBase implements Listener {
 			}
 
 			$langc = $langf->getAll();
-			array_walk($langc["info"], function (&$value) {
-				$value = $this->prefix . self::INFO . $value;
-			});
-			array_walk($langc["warning"], function (&$value) {
-				$value = $this->prefix . self::WARNING . $value;
-			});
-
-			$this->messages = array_merge($langc["info"], $langc["warning"]);
+			$info = $langc["info"] ?? [];
+			$warning = $langc["warning"] ?? [];
+			if (is_array($info)) {
+				foreach ($info as $key => $value) {
+					if (is_string($key) && is_string($value)) {
+						$this->messages[$key] = $this->prefix . self::INFO . $value;
+					}
+				}
+			}
+			if (is_array($warning)) {
+				foreach ($warning as $key => $value) {
+					if (is_string($key) && is_string($value)) {
+						$this->messages[$key] = $this->prefix . self::WARNING . $value;
+					}
+				}
+			}
 			foreach ($langc as $key => $value) {
-				if (!is_array($value)) {
+				if (is_string($key) && !is_array($value) && is_string($value)) {
 					$this->messages[$key] = $value;
 				}
 			}
@@ -256,7 +272,7 @@ class TagsShop extends PluginBase implements Listener {
 		$this->messages = $this->defaultMessages;
 	}
 
-	public function onJoin(PlayerJoinEvent $event) {
+	public function onJoin(PlayerJoinEvent $event) : void {
 		$player = $event->getPlayer();
 
 		if (!$this->fileExists()) {
@@ -265,10 +281,10 @@ class TagsShop extends PluginBase implements Listener {
 			);
 			return;
 		}
-		self::getAPI()->getPlayerTag($player, function (?int $tagid) use (
+		self::getAPI()->getPlayerTag($player, function (int $tagid) use (
 			$player,
 		) : void {
-			if ($tagid !== -1 && self::getAPI()->tagExists($tagid)) {
+			if ($tagid >= 0 && self::getAPI()->tagExists($tagid)) {
 				$player->setDisplayName(
 					$player->getName() .
 						" " .
@@ -284,7 +300,10 @@ class TagsShop extends PluginBase implements Listener {
 		return file_exists($config) || file_exists($data);
 	}
 
-	public function getPurePerms() : Plugin {
+	public function getPurePerms() : PurePerms {
+		if ($this->purePerms === null) {
+			throw new \LogicException("PurePerms is not enabled");
+		}
 		return $this->purePerms;
 	}
 }
