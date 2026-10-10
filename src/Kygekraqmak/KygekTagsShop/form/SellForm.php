@@ -28,7 +28,7 @@ namespace Kygekraqmak\KygekTagsShop\form;
 
 use Kygekraqmak\KygekTagsShop\utils\Replace;
 use pocketmine\player\Player;
-use Vecnavium\FormsUI\SimpleForm;
+use Kygekraqmak\KygekTagsShop\libs\_61868a5d93acbee8\Vecnavium\FormsUI\SimpleForm;
 
 class SellForm extends MenuForm {
 	public static function sellTagForm(Player $player, int $tagid) : void {
