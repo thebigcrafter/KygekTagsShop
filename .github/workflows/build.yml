@@ -5,17 +5,22 @@ jobs:
   build-phar:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
-      - uses: shivammathur/setup-php@v2
+      - name: Check out repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Set up PHP environment
+        uses: shivammathur/setup-php@daf6ef8034382aea2c4e1521ead10758419b02cf
         with:
           php-version: "8.2"
-      - uses: SOF3/pharynx@v0.2
+      - name: Build plugin PHAR with Pharynx
+        uses: SOF3/pharynx@a5170a09f36143b50c0dae8f1f83bf46425241d1
         id: pharynx
-      - uses: actions/upload-artifact@v3
+      - name: Upload plugin PHAR artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: KygekTagsShop.phar
           path: ${{steps.pharynx.outputs.output-phar}}
-      - uses: actions/upload-artifact@v3
+      - name: Upload build directory artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: KygekTagsShop
           path: ${{steps.pharynx.outputs.output-dir}}
