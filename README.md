@@ -1,80 +1,78 @@
-<p align="center">
+# KygekTagsShop
 
-<img src="./images/KygekTagsShop.png" />
+KygekTagsShop is a PocketMine-MP plugin that lets players buy, sell and display configurable name tags through forms.
 
-</p>
+## Features
 
-<p align="center">
-<a href="https://poggit.pmmp.io/p/KygekTagsShop"><img src="https://poggit.pmmp.io/shield.dl.total/KygekTagsShop?style=for-the-badge" alt="poggit" /></a>
-<a href="https://github.com/thebigcrafter/KygekTagsShop#GPL-3.0-1"><img src="https://img.shields.io/github/license/thebigcrafter/KygekTagsShop?style=for-the-badge" alt="license" /></a>
-<a href="https://discord.gg/PykBfE2TZ9"><img src="https://img.shields.io/discord/1087729577004122112?color=7289DA&label=discord&logo=discord&style=for-the-badge" alt="discord" /></a>
-</p>
+- Buy and sell tags through an in-game form interface.
+- Configure tag prices, required permissions and display-name formatting.
+- Support optional BedrockEconomy balances and PurePerms tag permissions.
+- Store tag ownership in SQLite or MySQL through libasynql.
+- Customize messages, language, command aliases and form text.
+- Provide an API and `TagBuyEvent`/`TagSellEvent` events for addons.
+- Support the following bundled languages: English, Indonesian, Spanish, Romanian, French, German, Turkish, Vietnamese and Russian.
 
-# 📖 About
+## Requirements
 
-**KygekTagsShop** allows players to use tags that they can show to other players by using this plugin.
+- PocketMine-MP API 5.
+- BedrockEconomy is optional. When it is unavailable, the plugin follows the configured no-economy behavior and tags are free.
+- PurePerms is optional. When it is available, tag permissions are managed through it.
 
-# 🧩 Features
+## Installation
 
-- [BedrockEconomy](https://github.com/cooldogedev/BedrockEconomy) support for tag prices
-  - Shows a warning if BedrockEconomy is not installed or enabled (can be disabled in `config.yml`)
-- Compatible with PureChat
-- Unlimited tags
-- Forms to buy and sell tags
-- Highly customizeable forms
-  - Supports `{player}` to display the player name in all forms
-  - Supports `&` as formatting codes in all forms
-  - Supports `\n` to break new line in all forms
-  - Supports `{tagname}` to display tag name and `{tagprice}` to display tag price in some forms
-- Command descrption can be changed
-- Customizeable message prefix
-- Supports command aliases
-- Enable/disable return to previous form when the (X) button is pressed
-- Automatic plugin updates checker
-- Missing config file detection
-- Empty tags detection
-- Configurable player display name format for tag placement
-- Multiple languages support (English, Indonesian, Spanish, German, French, Romanian, Turkish, Vietnamese)
-- API for developers (see **For Developers** tab)
-- Events for developers (`TagBuyEvent` and `TagSellEvent`)
+1. Download a release from [Poggit](https://poggit.pmmp.io/p/KygekTagsShop) or a verified development artifact.
+2. Copy `KygekTagsShop.phar` into the server's `plugins` directory.
+3. Start or restart the server.
+4. Edit `plugin_data/KygekTagsShop/config.yml` when you need to change tags, forms, language or storage.
 
-# ⬇️ Installation
+Development builds may contain unfinished changes and should be tested on a staging server before being used on a production server.
 
-- Download the latest version from Poggit Releases (It is recommended to always download the latest version for the best experience, except you're having compatibility issues).
-- Place the KygekTagsShop.phar file into the plugins folder.
-- Restart or start your server.
-- Done!
+## Commands and permissions
 
-> If you want to download the latest development build, which may contain the latest features that are currently in development, head over to Poggit CI and download the latest build. Please note that development builds may be unstable because it may contain untested issues or bugs.
+| Command | Permission | Description |
+| --- | --- | --- |
+| `/tagsshop` | `kygektagsshop.tags` | Open the tag shop. |
 
-# 📜 Commands & Permissions
+The command is player-only. Its description and aliases can be changed with `command-desc` and `command-aliases` in `config.yml`.
 
-| Command     | Default Description                                     | Permission           | Default |
-| ----------- | ------------------------------------------------------- | -------------------- | ------- |
-| `/tagsshop` | Allows player to use KygekTagsShop to buy and sell tags | `kygektagsshop.tags` | true    |
+## Configuration
 
-**💡 Tips:**  
-- Command description can be changed in `config.yml`. You can also add command aliases in `config.yml`.  
-- Use `-kygektagsshop.tags` to blacklist the `/tagsshop` command permission to groups/users in PurePerms.
+The generated `config.yml` controls:
 
-# ⚙️ For Developers
+- Language, message prefix and form text.
+- Command description and aliases.
+- Whether the plugin returns to a previous form after closing one.
+- The tag list, prices, required permissions and player display-name format.
+- SQLite or MySQL connection settings and the asynchronous query worker limit.
 
-We provide API for developers to write addons/plugins that depends with KygekTagsShop.
-To access KygekTagsShop API class, you can use Kygekraqmak\KygekTagsShop\TagsShop::getAPI().
+The default database is SQLite. Configure the `database.mysql` section only when `database.type` is set to `mysql`. Keep database credentials outside public repositories and avoid using a root database account.
 
-Example:
-```php
-$tags = Kygekraqmak\KygekTagsShop\TagsShop::getAPI()->getAllTags(); // Get all tags from KygekTagsShop
+## Developer API
+
+Addons can access the API through `Kygekraqmak\KygekTagsShop\TagsShop::getAPI()`.
+
+The plugin dispatches:
+
+- `Kygekraqmak\KygekTagsShop\event\TagBuyEvent` after a tag purchase.
+- `Kygekraqmak\KygekTagsShop\event\TagSellEvent` after a tag sale.
+
+Check the source and event classes in this repository for the current method and event contracts.
+
+## Development
+
+Install the locked development dependencies and run the static analysis command:
+
+```shell
+composer install --no-interaction
+composer analyse
 ```
-API code can be seen here.
-Please regularly check the changelogs for any changes in the API in future versions.
 
-# ✨ Contributing
+The GitHub Actions workflow builds and uploads the plugin PHAR with the repository's pinned build action. A successful packaging run does not replace runtime, client or gameplay testing on a staging server.
 
-Help us by contributing or translating KygekTagsShop plugin. To add translation, fork the KygekTagsShop plugin repo and copy the `en.yml` file inside `resources/lang` directory to the language code.
+## Contributing
 
-Don't forget to create a [pull request](https://github.com/thebigcrafter/KygekTagsShop/pulls)!
+Contributions and translations are welcome. For a new translation, copy `resources/lang/en.yml`, use the appropriate language code and open a [pull request](https://github.com/thebigcrafter/KygekTagsShop/pulls).
 
-# ⚖️ License
+## License
 
-Licensed under the [GNU General Public License v3.0](https://github.com/thebigcrafter/KygekTagsShop#GPL-3.0-1) license.
+KygekTagsShop is licensed under the [GNU General Public License v3.0](https://github.com/thebigcrafter/KygekTagsShop/blob/main/LICENSE).

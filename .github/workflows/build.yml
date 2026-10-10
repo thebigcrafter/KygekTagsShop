@@ -14,6 +14,8 @@ jobs:
       - name: Build plugin PHAR with Pharynx
         uses: SOF3/pharynx@a5170a09f36143b50c0dae8f1f83bf46425241d1
         id: pharynx
+        with:
+          pharynx-version: 0.3.8
       - name: Upload plugin PHAR artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
