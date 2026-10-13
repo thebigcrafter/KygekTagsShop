@@ -32,11 +32,15 @@ use cooldogedev\BedrockEconomy\api\legacy\ClosureContext;
 use Kygekraqmak\KygekTagsShop\event\TagBuyEvent;
 use Kygekraqmak\KygekTagsShop\event\TagSellEvent;
 use pocketmine\player\Player;
-use Kygekraqmak\KygekTagsShop\libs\_4e815ed074482851\poggit\libasynql\DataConnector;
+use Kygekraqmak\KygekTagsShop\libs\_19e48d17047e9b42\poggit\libasynql\DataConnector;
 use function array_keys;
 use function array_values;
 use function explode;
+use function is_array;
+use function is_string;
+use function preg_match;
 use function str_replace;
+use function str_starts_with;
 use function strtolower;
 
 /**
@@ -420,7 +424,22 @@ class TagsActions {
 	 * Gets the KygekTagsShop database location
 	 */
 	public function getDataLocation() : string {
-		return $this->plugin->getDataFolder() . "data.json";
+		$database = $this->config["database"] ?? null;
+		if (!is_array($database) || ($database["type"] ?? null) !== "sqlite") {
+			return "";
+		}
+
+		$sqlite = $database["sqlite"] ?? null;
+		$file = is_array($sqlite) ? ($sqlite["file"] ?? null) : null;
+		if (!is_string($file) || $file === "" || $file === ":memory:") {
+			return "";
+		}
+
+		if (str_starts_with($file, "/") || str_starts_with($file, "\\") || preg_match('/^[A-Za-z]:[\\\\\/]/', $file) === 1) {
+			return $file;
+		}
+
+		return $this->plugin->getDataFolder() . $file;
 	}
 
 	/** @return array{0: string, 1: string}|null */

@@ -29,7 +29,7 @@ namespace Kygekraqmak\KygekTagsShop\form;
 use Kygekraqmak\KygekTagsShop\TagsShop;
 use Kygekraqmak\KygekTagsShop\utils\Replace;
 use pocketmine\player\Player;
-use Kygekraqmak\KygekTagsShop\libs\_4e815ed074482851\Vecnavium\FormsUI\SimpleForm;
+use Kygekraqmak\KygekTagsShop\libs\_19e48d17047e9b42\Vecnavium\FormsUI\SimpleForm;
 
 class MenuForm {
 	protected static function getMain() : TagsShop {

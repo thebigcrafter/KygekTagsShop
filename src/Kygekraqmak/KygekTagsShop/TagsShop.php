@@ -34,10 +34,10 @@ use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat as TF;
-use Kygekraqmak\KygekTagsShop\libs\_4e815ed074482851\poggit\libasynql\DataConnector;
-use Kygekraqmak\KygekTagsShop\libs\_4e815ed074482851\poggit\libasynql\libasynql;
-use Kygekraqmak\KygekTagsShop\libs\_4e815ed074482851\thebigcrafter\Hydrogen\HConfig;
-use Kygekraqmak\KygekTagsShop\libs\_4e815ed074482851\thebigcrafter\Hydrogen\Hydrogen;
+use Kygekraqmak\KygekTagsShop\libs\_19e48d17047e9b42\poggit\libasynql\DataConnector;
+use Kygekraqmak\KygekTagsShop\libs\_19e48d17047e9b42\poggit\libasynql\libasynql;
+use Kygekraqmak\KygekTagsShop\libs\_19e48d17047e9b42\thebigcrafter\Hydrogen\HConfig;
+use Kygekraqmak\KygekTagsShop\libs\_19e48d17047e9b42\thebigcrafter\Hydrogen\Hydrogen;
 use function array_merge;
 use function array_walk;
 use function class_exists;
@@ -297,7 +297,7 @@ class TagsShop extends PluginBase implements Listener {
 	public function fileExists() : bool {
 		$config = $this->getDataFolder() . "config.yml";
 		$data = self::getAPI()->getDataLocation();
-		return file_exists($config) || file_exists($data);
+		return file_exists($config) || ($data !== "" && file_exists($data));
 	}
 
 	public function getPurePerms() : PurePerms {
