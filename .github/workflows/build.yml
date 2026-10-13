@@ -12,7 +12,7 @@ jobs:
         with:
           php-version: "8.2"
       - name: Install locked Composer dependencies
-        run: composer install --no-interaction --no-progress --prefer-dist
+        run: composer install --ignore-platform-reqs --no-interaction --no-progress --prefer-dist
       - name: Expose Axolotl-PM metadata to Pharynx
         run: |
           mkdir -p vendor/pocketmine/pocketmine-mp
