@@ -11,8 +11,12 @@ jobs:
         uses: shivammathur/setup-php@4c5c122aa65e90c21a9ddc71071e94ad8b6d33e2
         with:
           php-version: "8.2"
-      - name: Expose Axolotl-PM path to Pharynx
-        run: ln -s ../axolotl-pm/pocketmine-mp vendor/pocketmine/pocketmine-mp
+      - name: Install locked Composer dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
+      - name: Expose Axolotl-PM metadata to Pharynx
+        run: |
+          mkdir -p vendor/pocketmine/pocketmine-mp
+          cp vendor/axolotl-pm/pocketmine-mp/composer.json vendor/pocketmine/pocketmine-mp/composer.json
       - name: Build plugin PHAR with Pharynx
         uses: SOF3/pharynx@a5170a09f36143b50c0dae8f1f83bf46425241d1
         id: pharynx
