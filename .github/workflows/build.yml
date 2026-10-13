@@ -8,7 +8,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - name: Set up PHP environment
-        uses: shivammathur/setup-php@daf6ef8034382aea2c4e1521ead10758419b02cf
+        uses: shivammathur/setup-php@4c5c122aa65e90c21a9ddc71071e94ad8b6d33e2
         with:
           php-version: "8.2"
       - name: Build plugin PHAR with Pharynx
@@ -16,6 +16,7 @@ jobs:
         id: pharynx
         with:
           pharynx-version: 0.3.8
+          stage-poggit: false
       - name: Upload plugin PHAR artifact
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
