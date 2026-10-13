@@ -18,7 +18,7 @@ jobs:
           mkdir -p vendor/pocketmine/pocketmine-mp
           cp vendor/axolotl-pm/pocketmine-mp/composer.json vendor/pocketmine/pocketmine-mp/composer.json
       - name: Build plugin PHAR with Pharynx
-        uses: SOF3/pharynx@a5170a09f36143b50c0dae8f1f83bf46425241d1
+        uses: SOF3/pharynx@7d82d3ed471174735ec4f6c43a4836b1c3fef66d
         id: pharynx
         with:
           pharynx-version: 0.3.8
