@@ -1,6 +1,6 @@
 # KygekTagsShop
 
-KygekTagsShop is a PocketMine-MP plugin that lets players buy, sell and display configurable name tags through forms.
+KygekTagsShop is an Axolotl-PM plugin that lets players buy, sell and display configurable name tags through forms.
 
 ## Features
 
@@ -14,15 +14,15 @@ KygekTagsShop is a PocketMine-MP plugin that lets players buy, sell and display 
 
 ## Requirements
 
-- PocketMine-MP API 5.
+- Axolotl-PM API 5.
 - BedrockEconomy is optional. When it is unavailable, the plugin follows the configured no-economy behavior and tags are free.
 - PurePerms is optional. When it is available, tag permissions are managed through it.
 
 ## Installation
 
-1. Download a release from [Poggit](https://poggit.pmmp.io/p/KygekTagsShop) or a verified development artifact.
+1. Download a release from [GitHub Releases](https://github.com/thebigcrafter/KygekTagsShop/releases) or a verified development artifact.
 2. Copy `KygekTagsShop.phar` into the server's `plugins` directory.
-3. Start or restart the server.
+3. Start or restart Axolotl-PM.
 4. Edit `plugin_data/KygekTagsShop/config.yml` when you need to change tags, forms, language or storage.
 
 Development builds may contain unfinished changes and should be tested on a staging server before being used on a production server.
@@ -50,6 +50,8 @@ The default database is SQLite. Configure the `database.mysql` section only when
 ## Developer API
 
 Addons can access the API through `Kygekraqmak\KygekTagsShop\TagsShop::getAPI()`.
+
+`getDataLocation()` returns the configured SQLite database path, resolved relative to the plugin data folder when necessary. It returns an empty string when the configured backend does not use a local SQLite file.
 
 The plugin dispatches:
 
