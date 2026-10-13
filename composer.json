@@ -2,6 +2,13 @@
     "name": "thebigcrafter/kygektagsshop",
     "description": "A PocketMine-MP plugin that allows players to use tags",
     "type": "pocketmine-plugin",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/axolotl-pm/PocketMine-MP",
+            "no-api": true
+        }
+    ],
     "require": {
         "vecnavium/formsui": "dev-master",
         "thebigcrafter/hydrogen": "dev-main",
@@ -11,7 +18,7 @@
         "sof3/pharynx": "^0.2",
         "friendsofphp/php-cs-fixer": "^3.17",
         "phpstan/phpstan": "^2.1",
-        "pocketmine/pocketmine-mp": "^5.0.0"
+        "axolotl-pm/pocketmine-mp": "5.49.1"
     },
     "license": "GPL-3.0-or-later",
     "autoload": {
