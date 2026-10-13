@@ -7,11 +7,19 @@
             "type": "vcs",
             "url": "https://github.com/axolotl-pm/PocketMine-MP",
             "no-api": true
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/Vecnavium/FormsUI"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/thebigcrafter/Hydrogen"
         }
     ],
     "require": {
         "vecnavium/formsui": "dev-master",
-        "thebigcrafter/hydrogen": "dev-main",
+        "thebigcrafter/hydrogen": "^1.1.4",
         "sof3/libasynql": "^4.1.7"
     },
     "require-dev": {

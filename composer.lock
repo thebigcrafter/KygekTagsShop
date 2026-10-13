@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "79a0375ffce863e2dce27a97512c3044",
+    "content-hash": "57737c50fd12a18530f842aaf03caa85",
     "packages": [
         {
             "name": "adhocore/json-comment",
@@ -1218,28 +1218,27 @@
         },
         {
             "name": "thebigcrafter/hydrogen",
-            "version": "dev-main",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thebigcrafter/Hydrogen.git",
-                "reference": "848e0f34fef97bd6c76a239ebfd893565949c562"
+                "reference": "5cad458f4783f7812859e88855e944df00998354"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thebigcrafter/Hydrogen/zipball/848e0f34fef97bd6c76a239ebfd893565949c562",
-                "reference": "848e0f34fef97bd6c76a239ebfd893565949c562",
+                "url": "https://api.github.com/repos/thebigcrafter/Hydrogen/zipball/5cad458f4783f7812859e88855e944df00998354",
+                "reference": "5cad458f4783f7812859e88855e944df00998354",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.1",
-                "pocketmine/pocketmine-mp": "^5.0",
                 "sof3/await-generator": "^3.6"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.17",
-                "phpstan/phpstan": "^1.12"
+                "phpstan/phpstan": "^2.1",
+                "pocketmine/pocketmine-mp": "^5.0"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "virion": {
@@ -1252,7 +1251,17 @@
                     "thebigcrafter\\Hydrogen\\": "src/thebigcrafter/Hydrogen"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "scripts": {
+                "fix-cs": [
+                    "./vendor/bin/php-cs-fixer fix"
+                ],
+                "analyse": [
+                    "./vendor/bin/phpstan analyse"
+                ],
+                "test": [
+                    "php tests/InternetTest.php"
+                ]
+            },
             "license": [
                 "Apache-2.0"
             ],
@@ -1263,11 +1272,10 @@
             ],
             "description": "A library that provides common functionality for the plugins of thebigcrafter",
             "support": {
-                "issues": "https://github.com/thebigcrafter/Hydrogen/issues",
-                "source": "https://github.com/thebigcrafter/Hydrogen/tree/main"
+                "source": "https://github.com/thebigcrafter/Hydrogen/tree/1.1.4",
+                "issues": "https://github.com/thebigcrafter/Hydrogen/issues"
             },
-            "abandoned": true,
-            "time": "2026-10-10T02:13:41+00:00"
+            "time": "2026-10-13T14:30:43+00:00"
         },
         {
             "name": "vecnavium/formsui",
@@ -1299,13 +1307,12 @@
                     "Vecnavium\\FormsUI\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-3.0-only"
             ],
             "support": {
-                "issues": "https://github.com/Vecnavium/FormsUI/issues",
-                "source": "https://github.com/Vecnavium/FormsUI/tree/master"
+                "source": "https://github.com/Vecnavium/FormsUI/tree/master",
+                "issues": "https://github.com/Vecnavium/FormsUI/issues"
             },
             "time": "2023-08-15T14:34:24+00:00"
         }
@@ -4024,7 +4031,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "thebigcrafter/hydrogen": 20,
         "vecnavium/formsui": 20
     },
     "prefer-stable": false,
