@@ -1,0 +1,5 @@
+name: EcoAPI
+version: 1.0.0
+antigen: NhanAZ\EcoAPI
+api: 5.0.0
+author: NhanAZ

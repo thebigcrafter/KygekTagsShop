@@ -27,10 +27,9 @@ declare(strict_types=1);
 namespace Kygekraqmak\KygekTagsShop;
 
 use Closure;
-use cooldogedev\BedrockEconomy\api\BedrockEconomyAPI;
-use cooldogedev\BedrockEconomy\api\legacy\ClosureContext;
 use Kygekraqmak\KygekTagsShop\event\TagBuyEvent;
 use Kygekraqmak\KygekTagsShop\event\TagSellEvent;
+use NhanAZ\EcoAPI\EconomyProvider;
 use pocketmine\player\Player;
 use poggit\libasynql\DataConnector;
 use function array_keys;
@@ -62,6 +61,8 @@ class TagsActions {
 	/** @var bool */
 	private $economyEnabled;
 
+	private ?EconomyProvider $economyProvider;
+
 	/** @var bool */
 	private $purePermsEnabled;
 
@@ -75,12 +76,21 @@ class TagsActions {
 		DataConnector $data,
 		bool $economyEnabled,
 		bool $purePermsEnabled,
+		?EconomyProvider $economyProvider = null,
 	) {
 		$this->plugin = $plugin;
 		$this->config = $config;
 		$this->data = $data;
 		$this->economyEnabled = $economyEnabled;
+		$this->economyProvider = $economyProvider;
 		$this->purePermsEnabled = $purePermsEnabled;
+	}
+
+	private function getEconomyProvider() : EconomyProvider {
+		if ($this->economyProvider === null) {
+			throw new \LogicException("The economy provider is not available");
+		}
+		return $this->economyProvider;
 	}
 
 	/**
@@ -118,7 +128,7 @@ class TagsActions {
 	 * Get price of a tag
 	 *
 	 * Returns null if:
-	 * - EconomyAPI plugin is not installed or enabled, and/or
+	 * - SimpleEconomy plugin is not installed or enabled, and/or
 	 * - tag ID doesn't exists
 	 */
 	public function getTagPrice(int $tagid) : ?int {
@@ -222,10 +232,10 @@ class TagsActions {
 					return;
 				}
 				$this->pendingTransactions[$transactionKey] = true;
-				BedrockEconomyAPI::getInstance()->addToPlayerBalance(
-					$player->getName(),
+				$this->getEconomyProvider()->addMoney(
+					$player,
 					$tagprice,
-					ClosureContext::create(function (bool $updated) use ($player, $tagid, $tagprice, $transactionKey) : void {
+					function (bool $updated) use ($player, $tagid, $tagprice, $transactionKey) : void {
 						if (!$updated) {
 							unset($this->pendingTransactions[$transactionKey]);
 							$player->sendMessage(
@@ -251,10 +261,10 @@ class TagsActions {
 								),
 							);
 						}, function () use ($player, $tagprice, $transactionKey) : void {
-							BedrockEconomyAPI::getInstance()->subtractFromPlayerBalance(
-								$player->getName(),
+							$this->getEconomyProvider()->takeMoney(
+								$player,
 								$tagprice,
-								ClosureContext::create(function (bool $refunded) use ($player, $transactionKey) : void {
+								function (bool $refunded) use ($player, $transactionKey) : void {
 									unset($this->pendingTransactions[$transactionKey]);
 									if (!$refunded) {
 										$this->plugin->getLogger()->warning("KygekTagsShop could not reverse a failed tag sale.");
@@ -263,10 +273,10 @@ class TagsActions {
 										$this->plugin->messages["kygektagsshop.warning.transactionfailed"] ??
 											"The transaction failed; your tag was not changed.",
 									);
-								}),
+								},
 							);
 						});
-					}),
+					},
 				);
 				return;
 			}
@@ -319,15 +329,16 @@ class TagsActions {
 			}
 			if ($this->economyEnabled) {
 				$this->pendingTransactions[$transactionKey] = true;
-				BedrockEconomyAPI::getInstance()->getPlayerBalance(
-					$player->getName(),
-					ClosureContext::create(function (?int $balance) use (
+				$this->getEconomyProvider()->getMoney(
+					$player,
+					function (float|int $balance) use (
 						$tagid,
 						$player,
 						$transactionKey,
 					) : void {
 						$tagprice = $this->getTagPrice($tagid);
-						if ($tagprice === null || $balance === null) {
+						$balance = (int) floor($balance);
+						if ($tagprice === null) {
 							unset($this->pendingTransactions[$transactionKey]);
 							return;
 						}
@@ -345,10 +356,10 @@ class TagsActions {
 							return;
 						}
 
-						BedrockEconomyAPI::getInstance()->subtractFromPlayerBalance(
-							$player->getName(),
+						$this->getEconomyProvider()->takeMoney(
+							$player,
 							$tagprice,
-							ClosureContext::create(function (bool $updated) use ($player, $tagid, $tagprice, $transactionKey) : void {
+							function (bool $updated) use ($player, $tagid, $tagprice, $transactionKey) : void {
 								if (!$updated) {
 									unset($this->pendingTransactions[$transactionKey]);
 									$player->sendMessage(
@@ -382,10 +393,10 @@ class TagsActions {
 										),
 									);
 								}, function () use ($player, $tagprice, $transactionKey) : void {
-									BedrockEconomyAPI::getInstance()->addToPlayerBalance(
-										$player->getName(),
+									$this->getEconomyProvider()->addMoney(
+										$player,
 										$tagprice,
-										ClosureContext::create(function (bool $refunded) use ($player, $transactionKey) : void {
+										function (bool $refunded) use ($player, $transactionKey) : void {
 											unset($this->pendingTransactions[$transactionKey]);
 											if (!$refunded) {
 												$this->plugin->getLogger()->warning("KygekTagsShop could not refund a failed tag purchase.");
@@ -394,12 +405,12 @@ class TagsActions {
 												$this->plugin->messages["kygektagsshop.warning.transactionfailed"] ??
 													"The transaction failed; your tag was not changed.",
 											);
-										}),
+										},
 									);
 								});
-							}),
+							},
 						);
-					}),
+					},
 				);
 				return;
 			}

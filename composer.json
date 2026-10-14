@@ -34,6 +34,11 @@
             "Kygekraqmak\\KygekTagsShop\\": "src/Kygekraqmak/KygekTagsShop/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "NhanAZ\\EcoAPI\\": "virions/EcoAPI/src/NhanAZ/EcoAPI/"
+        }
+    },
     "scripts": {
         "analyse": "vendor/bin/phpstan analyse -c phpstan.neon.dist",
         "test:api": "php tests/api-get-data-location.php"

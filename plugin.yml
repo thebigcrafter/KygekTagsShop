@@ -27,7 +27,7 @@ main: Kygekraqmak\KygekTagsShop\TagsShop
 api: 5.0.0
 authors: [Kygekraqmak, thebigcrafter]
 website: "https://github.com/thebigcrafter/KygekTagsShop"
-softdepend: [BedrockEconomy, PurePerms]
+softdepend: [SimpleEconomy, PurePerms]
 
 permissions:
   kygektagsshop.tags:

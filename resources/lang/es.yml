@@ -21,7 +21,7 @@ warning:
 # Console Notices
 kygektagsshop.notice.outdatedconfig: "Su archivo de configuración está desactualizado, actualizando config.yml..."
 kygektagsshop.notice.oldconfiginfo: "El archivo de configuración anterior se puede encontrar en config_old.yml"
-kygektagsshop.notice.noeconomyapi: "El plugin EconomyAPI no está instalado o habilitado, todas las etiquetas serán gratuitas"
+kygektagsshop.notice.noeconomyapi: "El plugin SimpleEconomy no está instalado o habilitado, todas las etiquetas serán gratuitas"
 kygektagsshop.notice.pureperms: "El complemento PurePerms no está instalado o activado, algunas funciones se desactivarán"
 
 # Console Errors

@@ -32,7 +32,7 @@ command-aliases: []
 # Leave empty to use default prefix
 prefix: ""
 
-# Whether to notify if EconomyAPI plugin is not installed or enabled
+# Whether to notify if SimpleEconomy plugin is not installed or enabled
 notify-no-economyapi: true
 
 # Whether to notify if PurePerms plugin is not installed or enabled
@@ -83,7 +83,7 @@ no-tag-button: "Back"
 # Format: "DisplayTag:Price:[Permissions]"
 #
 # Use "&" as formatting codes for DisplayTag
-# All tags price will be free if EconomyAPI plugin is not enabled
+# All tags price will be free if SimpleEconomy plugin is not enabled
 # If empty, the plugin will be disabled automatically to prevent errors
 # Example Tag: "[Tag1]:10000:['pocketmine.command.gamemode', 'pocketmine.command.kill']"
 tags:

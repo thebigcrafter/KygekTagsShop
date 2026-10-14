@@ -21,7 +21,7 @@ warning:
 # Console Notices
 kygektagsshop.notice.outdatedconfig: "Ваш файл конфигурации устарел, обновление config.yml..."
 kygektagsshop.notice.oldconfiginfo: "Старый файл конфигурации можно найти по адресу config_old.yml."
-kygektagsshop.notice.noeconomyapi: "Плагин BedrockEconomy не установлен или не включен, все теги будут бесплатными"
+kygektagsshop.notice.noeconomyapi: "Плагин SimpleEconomy не установлен или не включен, все теги будут бесплатными"
 kygektagsshop.notice.pureperms: "Плагин PurePerms не установлен или не активирован, некоторые функции будут отключены"
 
 # Console Errors

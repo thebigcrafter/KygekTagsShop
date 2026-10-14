@@ -27,7 +27,9 @@ declare(strict_types=1);
 namespace Kygekraqmak\KygekTagsShop;
 
 use _64FF00\PurePerms\PurePerms;
-use cooldogedev\BedrockEconomy\BedrockEconomy;
+use NhanAZ\EcoAPI\EconomyProvider;
+use NhanAZ\EcoAPI\EcoAPI;
+use NhanAZ\EcoAPI\exception\MissingProviderDependencyException;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\plugin\Plugin;
@@ -40,7 +42,6 @@ use thebigcrafter\Hydrogen\HConfig;
 use thebigcrafter\Hydrogen\Hydrogen;
 use function array_merge;
 use function array_walk;
-use function class_exists;
 use function file_exists;
 use function is_array;
 use function rename;
@@ -57,6 +58,7 @@ class TagsShop extends PluginBase implements Listener {
 	private string $prefix = TF::YELLOW . "[KygekTagsShop] " . TF::RESET;
 
 	public bool $economyEnabled = false;
+	private ?EconomyProvider $economyProvider = null;
 
 	public bool $purePermsEnabled = false;
 	private ?PurePerms $purePerms = null;
@@ -156,7 +158,7 @@ class TagsShop extends PluginBase implements Listener {
 			self::ROOT .
 				".notice.oldconfiginfo" => "The old configuration file can be found at config_old.yml",
 			self::ROOT .
-				".notice.noeconomyapi" => "EconomyAPI plugin is not installed or enabled, all tags will be free",
+				".notice.noeconomyapi" => "SimpleEconomy is not installed or enabled, all tags will be free",
 			self::ROOT .
 				"notice.pureperms" => "PurePerms plugin not installed or activated, some features will be disabled",
 			self::ROOT .
@@ -166,14 +168,16 @@ class TagsShop extends PluginBase implements Listener {
 		$this->initializeLangs();
 		HConfig::verifyConfigVersion($this->getConfig(), "1.8");
 
-		if (!class_exists(BedrockEconomy::class)) {
+		EcoAPI::init();
+		try {
+			$this->economyProvider = EcoAPI::getProvider("simpleeconomy");
+			$this->economyEnabled = true;
+		} catch (MissingProviderDependencyException) {
 			if ($this->config["notify-no-economyapi"] === true) {
 				$this->getLogger()->notice(
 					$this->messages["kygektagsshop.notice.noeconomyapi"],
 				);
 			}
-		} else {
-			$this->economyEnabled = true;
 		}
 
 		$purePerms = $this->getServer()->getPluginManager()->getPlugin("PurePerms");
@@ -221,6 +225,7 @@ class TagsShop extends PluginBase implements Listener {
 			$this->data,
 			$this->economyEnabled,
 			$this->purePermsEnabled,
+			$this->economyProvider,
 		);
 		Hydrogen::checkForUpdates($this);
 	}
