@@ -17,9 +17,9 @@ final class BedrockEconomyAPI {
 
 	public function getPlayerBalance(string $player, Closure $callback) : void {}
 
-	public function addToPlayerBalance(string $player, ?int $amount) : void {}
+	public function addToPlayerBalance(string $player, ?int $amount, ?Closure $callback = null) : void {}
 
-	public function subtractFromPlayerBalance(string $player, ?int $amount) : void {}
+	public function subtractFromPlayerBalance(string $player, ?int $amount, ?Closure $callback = null) : void {}
 }
 
 namespace cooldogedev\BedrockEconomy\api\legacy;

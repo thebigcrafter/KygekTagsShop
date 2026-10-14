@@ -135,6 +135,10 @@ class TagsShop extends PluginBase implements Listener {
 			$this->prefix .
 				self::WARNING .
 				"You need {price} more to buy this tag!",
+			self::ROOT . ".warning.transactionfailed" =>
+			$this->prefix .
+				self::WARNING .
+				"The transaction failed; your tag was not changed.",
 			self::ROOT . ".info.economybuytagsuccess" =>
 			$this->prefix .
 				self::INFO .
