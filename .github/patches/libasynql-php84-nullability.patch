@@ -1,0 +1,95 @@
+diff --git a/src/poggit/libasynql/DataConnector.php b/src/poggit/libasynql/DataConnector.php
+--- a/src/poggit/libasynql/DataConnector.php
++++ b/src/poggit/libasynql/DataConnector.php
+@@ -72,7 +72,7 @@ public function getLogger() : ?Logger;
+ 	 * @throws GenericStatementFileParseException if the file contains a syntax error or compile error
+ 	 * @throws InvalidArgumentException if the file introduces statements that duplicate the names of those previously loaded
+ 	 */
+-	public function loadQueryFile($fh, string $fileName = null) : void;
++	public function loadQueryFile($fh, ?string $fileName = null) : void;
+ 
+ 	/**
+ 	 * Loads a pre-formatted query.
+diff --git a/src/poggit/libasynql/SqlError.php b/src/poggit/libasynql/SqlError.php
+--- a/src/poggit/libasynql/SqlError.php
++++ b/src/poggit/libasynql/SqlError.php
+@@ -60,7 +60,7 @@ class SqlError extends RuntimeException{
+ 	private $query;
+ 	private $args;
+ 
+-	public function __construct(string $stage, string $errorMessage, string $query = null, array $args = null){
++	public function __construct(string $stage, string $errorMessage, ?string $query = null, ?array $args = null){
+ 		$this->stage = $stage;
+ 		$this->errorMessage = $errorMessage;
+ 		$this->query = $query;
+diff --git a/src/poggit/libasynql/base/DataConnectorImpl.php b/src/poggit/libasynql/base/DataConnectorImpl.php
+--- a/src/poggit/libasynql/base/DataConnectorImpl.php
++++ b/src/poggit/libasynql/base/DataConnectorImpl.php
+@@ -99,7 +99,7 @@ public function setLogger(?Logger $logger) : void{
+ 		$this->logger = $logger;
+ 	}
+ 
+-	public function loadQueryFile($fh, string $fileName = null) : void{
++	public function loadQueryFile($fh, ?string $fileName = null) : void{
+ 		if(!is_resource($fh)){
+ 			throw new TypeError("Missing $fileName in resources directory of plugin.");
+ 		}
+diff --git a/src/poggit/libasynql/base/SqlSlaveThread.php b/src/poggit/libasynql/base/SqlSlaveThread.php
+--- a/src/poggit/libasynql/base/SqlSlaveThread.php
++++ b/src/poggit/libasynql/base/SqlSlaveThread.php
+@@ -44,7 +44,7 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
+ 	protected $connError;
+ 	protected $busy = false;
+ 
+-	protected function __construct(SleeperHandlerEntry $entry, QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
++	protected function __construct(SleeperHandlerEntry $entry, ?QuerySendQueue $bufferSend = null, ?QueryRecvQueue $bufferRecv = null){
+ 		$this->sleeperEntry = $entry;
+ 
+ 		$this->slaveNumber = self::$nextSlaveNumber++;
+diff --git a/src/poggit/libasynql/generic/GenericStatementFileParseException.php b/src/poggit/libasynql/generic/GenericStatementFileParseException.php
+--- a/src/poggit/libasynql/generic/GenericStatementFileParseException.php
++++ b/src/poggit/libasynql/generic/GenericStatementFileParseException.php
+@@ -29,7 +29,7 @@ class GenericStatementFileParseException extends InvalidArgumentException{
+ 	private $lineNo;
+ 	private $queryFile;
+ 
+-	public function __construct(string $problem, int $lineNo, string $file = null){
++	public function __construct(string $problem, int $lineNo, ?string $file = null){
+ 		$this->problem = $problem;
+ 		$this->lineNo = $lineNo;
+ 		$this->queryFile = $file ?? "SQL file";
+diff --git a/src/poggit/libasynql/libasynql.php b/src/poggit/libasynql/libasynql.php
+--- a/src/poggit/libasynql/libasynql.php
++++ b/src/poggit/libasynql/libasynql.php
+@@ -73,7 +73,7 @@ private function __construct(){
+ 	 * @return DataConnector
+ 	 * @throws SqlError if the connection could not be created
+ 	 */
+-	public static function create(PluginBase $plugin, $configData, array $sqlMap, bool $logQueries = null) : DataConnector{
++	public static function create(PluginBase $plugin, $configData, array $sqlMap, ?bool $logQueries = null) : DataConnector{
+ 		libasynql::detectPackaged();
+ 
+ 		if(!is_array($configData)){
+diff --git a/src/poggit/libasynql/mysqli/MysqliThread.php b/src/poggit/libasynql/mysqli/MysqliThread.php
+--- a/src/poggit/libasynql/mysqli/MysqliThread.php
++++ b/src/poggit/libasynql/mysqli/MysqliThread.php
+@@ -69,6 +69,6 @@ public static function createFactory(MysqlCredentials $credentials, Attachable
+ 		};
+ 	}
+ 
+-	public function __construct(MysqlCredentials $credentials, SleeperHandlerEntry $entry, AttachableThreadSafeLogger $logger, QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
++	public function __construct(MysqlCredentials $credentials, SleeperHandlerEntry $entry, AttachableThreadSafeLogger $logger, ?QuerySendQueue $bufferSend = null, ?QueryRecvQueue $bufferRecv = null){
+ 		$this->credentials = serialize($credentials);
+ 		$this->logger = $logger;
+diff --git a/src/poggit/libasynql/sqlite3/Sqlite3Thread.php b/src/poggit/libasynql/sqlite3/Sqlite3Thread.php
+--- a/src/poggit/libasynql/sqlite3/Sqlite3Thread.php
++++ b/src/poggit/libasynql/sqlite3/Sqlite3Thread.php
+@@ -62,7 +62,7 @@ public static function createFactory(string $path) : Closure{
+ 		};
+ 	}
+ 
+-	public function __construct(string $path, SleeperHandlerEntry $entry, QuerySendQueue $send = null, QueryRecvQueue $recv = null){
++	public function __construct(string $path, SleeperHandlerEntry $entry, ?QuerySendQueue $send = null, ?QueryRecvQueue $recv = null){
+ 		$this->path = $path;
+ 		parent::__construct($entry, $send, $recv);
+ 	}

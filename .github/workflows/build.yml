@@ -13,6 +13,10 @@ jobs:
           php-version: "8.2"
       - name: Install locked Composer dependencies
         run: composer install --ignore-platform-reqs --no-interaction --no-progress --prefer-dist
+      - name: Patch libasynql for PHP 8.4 compatibility
+        run: |
+          git apply --check --directory=vendor/sof3/libasynql/libasynql .github/patches/libasynql-php84-nullability.patch
+          git apply --directory=vendor/sof3/libasynql/libasynql .github/patches/libasynql-php84-nullability.patch
       - name: Run API regression test
         run: composer run test:api
       - name: Run PHPStan at maximum level
