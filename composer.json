@@ -15,9 +15,15 @@
         {
             "type": "vcs",
             "url": "https://github.com/thebigcrafter/Hydrogen"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/NhanAZ-Libraries/EcoAPI",
+            "no-api": true
         }
     ],
     "require": {
+        "nhanaz/ecoapi": "dev-main#23d9d5e5e86c8461664b282d2241febb4b4d2c08",
         "vecnavium/formsui": "dev-master",
         "thebigcrafter/hydrogen": "^1.1.4",
         "sof3/libasynql": "^4.1.7"
@@ -32,11 +38,6 @@
     "autoload": {
         "psr-4": {
             "Kygekraqmak\\KygekTagsShop\\": "src/Kygekraqmak/KygekTagsShop/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "NhanAZ\\EcoAPI\\": "virions/EcoAPI/src/NhanAZ/EcoAPI/"
         }
     },
     "scripts": {

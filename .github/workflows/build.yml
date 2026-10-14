@@ -53,7 +53,7 @@ jobs:
     with:
       axolotl-ref: dfe0d07e48a9e8d5a4a242fa43ff1cd3b743a955
       prepare-dependencies: true
-      virions: virions
+      virions: .devtools-virions
       php-version: '8.2'
       pm-version-major: '5'
       phpstan: off

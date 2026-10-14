@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "57737c50fd12a18530f842aaf03caa85",
+    "content-hash": "04d58b494aa8d307af89bdfc8bde19ba",
     "packages": [
         {
             "name": "adhocore/json-comment",
@@ -460,6 +460,55 @@
                 "source": "https://github.com/cweiske/jsonmapper/tree/v6.0.0"
             },
             "time": "2026-06-29T16:03:16+00:00"
+        },
+        {
+            "name": "nhanaz/ecoapi",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NhanAZ-Libraries/EcoAPI",
+                "reference": "23d9d5e5e86c8461664b282d2241febb4b4d2c08"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NhanAZ-Libraries/EcoAPI/zipball/23d9d5e5e86c8461664b282d2241febb4b4d2c08",
+                "reference": "23d9d5e5e86c8461664b282d2241febb4b4d2c08",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1",
+                "pocketmine/pocketmine-mp": "^5.0.0"
+            },
+            "require-dev": {
+                "axolotl-pm/pocketmine-mp": "5.49.1",
+                "phpstan/phpstan": "^2.1"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "virion": {
+                    "spec": "3.0",
+                    "namespace-root": "NhanAZ\\EcoAPI"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "NhanAZ\\EcoAPI\\": "src/NhanAZ/EcoAPI/"
+                }
+            },
+            "scripts": {
+                "phpstan": [
+                    "@php vendor/bin/phpstan analyse --level=max --no-progress -c phpstan.neon.dist src example/src"
+                ],
+                "test": [
+                    "@php tests/provider-money.php"
+                ]
+            },
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "Simple and unified economy API library for PocketMine-MP plugins",
+            "time": "2026-10-14T05:55:11+00:00"
         },
         {
             "name": "pocketmine/binaryutils",
@@ -4031,6 +4080,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "nhanaz/ecoapi": 20,
         "vecnavium/formsui": 20
     },
     "prefer-stable": false,
