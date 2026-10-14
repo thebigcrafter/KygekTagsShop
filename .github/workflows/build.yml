@@ -1,43 +1,61 @@
 name: Build and validate KygekTagsShop plugin
 on:
   push:
+
+permissions:
+  contents: read
+
 jobs:
-  build-phar:
-    runs-on: ubuntu-22.04
+  api-test:
+    name: Run API regression test
+    runs-on: ubuntu-24.04
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
       - name: Set up PHP environment
         uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962
         with:
-          php-version: "8.2"
+          php-version: '8.2'
+
       - name: Install locked Composer dependencies
         run: composer install --ignore-platform-reqs --no-interaction --no-progress --prefer-dist
+
+      - name: Run API regression test
+        run: composer run test:api
+
+  static-analysis:
+    name: Analyze PHP code with PHPStan
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Set up PHP environment
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962
+        with:
+          php-version: '8.2'
+
+      - name: Install locked Composer dependencies
+        run: composer install --ignore-platform-reqs --no-interaction --no-progress --prefer-dist
+
       - name: Patch libasynql for PHP 8.4 compatibility
         run: |
           git apply --check --directory=vendor/sof3/libasynql/libasynql .github/patches/libasynql-php84-nullability.patch
           git apply --directory=vendor/sof3/libasynql/libasynql .github/patches/libasynql-php84-nullability.patch
-      - name: Run API regression test
-        run: composer run test:api
+
       - name: Run PHPStan at maximum level
         run: composer run analyse
-      - name: Expose Axolotl-PM metadata to Pharynx
-        run: |
-          mkdir -p vendor/pocketmine/pocketmine-mp
-          cp vendor/axolotl-pm/pocketmine-mp/composer.json vendor/pocketmine/pocketmine-mp/composer.json
-      - name: Build plugin PHAR with Pharynx
-        uses: SOF3/pharynx@a5170a09f36143b50c0dae8f1f83bf46425241d1
-        id: pharynx
-        with:
-          pharynx-version: 0.3.8
-          stage-poggit: false
-      - name: Upload plugin PHAR artifact
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
-        with:
-          name: KygekTagsShop.phar
-          path: ${{steps.pharynx.outputs.output-phar}}
-      - name: Upload build directory artifact
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
-        with:
-          name: KygekTagsShop
-          path: ${{steps.pharynx.outputs.output-dir}}
+
+  build-phar:
+    name: Build KygekTagsShop PHAR
+    uses: NhanAZ/DevTools/.github/workflows/build-plugin.yml@3dedda2a1f6e42885aa680aaadeebacbc0f62733
+    with:
+      axolotl-ref: dfe0d07e48a9e8d5a4a242fa43ff1cd3b743a955
+      prepare-dependencies: true
+      virions: .devtools-virions
+      php-version: '8.2'
+      pm-version-major: '5'
+      phpstan: off
+      artifact-name: KygekTagsShop-${{ github.sha }}
+      retention-days: 14
