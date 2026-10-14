@@ -13,6 +13,10 @@ jobs:
           php-version: "8.2"
       - name: Install locked Composer dependencies
         run: composer install --ignore-platform-reqs --no-interaction --no-progress --prefer-dist
+      - name: Run API regression test
+        run: composer run test:api
+      - name: Run PHPStan at maximum level
+        run: composer run analyse
       - name: Expose Axolotl-PM metadata to Pharynx
         run: |
           mkdir -p vendor/pocketmine/pocketmine-mp

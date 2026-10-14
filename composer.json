@@ -35,6 +35,7 @@
         }
     },
     "scripts": {
-        "analyse": "vendor/bin/phpstan analyse -c phpstan.neon.dist"
+        "analyse": "vendor/bin/phpstan analyse -c phpstan.neon.dist",
+        "test:api": "php tests/api-get-data-location.php"
     }
 }
