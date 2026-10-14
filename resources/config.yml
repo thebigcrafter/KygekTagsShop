@@ -129,6 +129,6 @@ database:
 
 ##### DANGER ZONE #####
 # Do not change this (Only for internal use)!
-config-version: "1.8"
+config-version: "1.1.6"
 #######################
 ...

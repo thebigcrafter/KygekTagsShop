@@ -166,7 +166,7 @@ class TagsShop extends PluginBase implements Listener {
 		];
 
 		$this->initializeLangs();
-		HConfig::verifyConfigVersion($this->getConfig(), "1.8");
+		HConfig::verifyConfigVersion($this->getConfig(), "1.1.6");
 
 		EcoAPI::init();
 		try {
