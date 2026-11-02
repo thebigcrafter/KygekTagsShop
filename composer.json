@@ -32,7 +32,7 @@
         "sof3/pharynx": "^0.2",
         "friendsofphp/php-cs-fixer": "^3.17",
         "phpstan/phpstan": "^2.1",
-        "axolotl-pm/pocketmine-mp": "5.49.1"
+        "axolotl-pm/pocketmine-mp": "5.51.1"
     },
     "license": "GPL-3.0-or-later",
     "autoload": {
