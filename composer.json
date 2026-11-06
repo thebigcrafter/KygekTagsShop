@@ -5,6 +5,11 @@
     "repositories": [
         {
             "type": "vcs",
+            "url": "https://github.com/AxolotlBucketLabs/await-generator",
+            "no-api": true
+        },
+        {
+            "type": "vcs",
             "url": "https://github.com/axolotl-pm/PocketMine-MP",
             "no-api": true
         },
@@ -23,6 +28,7 @@
         }
     ],
     "require": {
+        "sof3/await-generator": "dev-devtools-shading-compat as 3.6.1",
         "nhanaz/ecoapi": "dev-main#23d9d5e5e86c8461664b282d2241febb4b4d2c08",
         "vecnavium/formsui": "dev-master",
         "thebigcrafter/hydrogen": "^1.1.4",
