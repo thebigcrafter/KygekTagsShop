@@ -29,7 +29,7 @@ namespace Kygekraqmak\KygekTagsShop;
 use Closure;
 use Kygekraqmak\KygekTagsShop\event\TagBuyEvent;
 use Kygekraqmak\KygekTagsShop\event\TagSellEvent;
-use NhanAZ\EcoAPI\EconomyProvider;
+use AxolotlBucketLabs\EconomyProviderAPI\EconomyProvider;
 use pocketmine\player\Player;
 use poggit\libasynql\DataConnector;
 use function array_keys;

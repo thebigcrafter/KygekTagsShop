@@ -27,9 +27,9 @@ declare(strict_types=1);
 namespace Kygekraqmak\KygekTagsShop;
 
 use _64FF00\PurePerms\PurePerms;
-use NhanAZ\EcoAPI\EconomyProvider;
-use NhanAZ\EcoAPI\EcoAPI;
-use NhanAZ\EcoAPI\exception\MissingProviderDependencyException;
+use AxolotlBucketLabs\EconomyProviderAPI\EconomyProvider;
+use AxolotlBucketLabs\EconomyProviderAPI\EconomyProviderAPI;
+use AxolotlBucketLabs\EconomyProviderAPI\exception\MissingProviderDependencyException;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\plugin\Plugin;
@@ -168,9 +168,9 @@ class TagsShop extends PluginBase implements Listener {
 		$this->initializeLangs();
 		HConfig::verifyConfigVersion($this->getConfig(), "1.1.6");
 
-		EcoAPI::init();
+		EconomyProviderAPI::init();
 		try {
-			$this->economyProvider = EcoAPI::getProvider("simpleeconomy");
+			$this->economyProvider = EconomyProviderAPI::getProvider("simpleeconomy");
 			$this->economyEnabled = true;
 		} catch (MissingProviderDependencyException) {
 			if ($this->config["notify-no-economyapi"] === true) {

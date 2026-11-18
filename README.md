@@ -6,7 +6,7 @@ KygekTagsShop is an Axolotl-PM plugin that lets players buy, sell and display co
 
 - Buy and sell tags through an in-game form interface.
 - Configure tag prices, required permissions and display-name formatting.
-- Support optional SimpleEconomy balances through [EcoAPI](https://github.com/NhanAZ-Libraries/EcoAPI) and PurePerms tag permissions.
+- Support optional SimpleEconomy balances through [EconomyProviderAPI](https://github.com/AxolotlBucketLabs/EconomyProviderAPI) and PurePerms tag permissions.
 - Store tag ownership in SQLite or MySQL through libasynql.
 - Customize messages, language, command aliases and form text.
 - Provide an API and `TagBuyEvent`/`TagSellEvent` events for addons.
